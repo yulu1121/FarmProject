@@ -190,7 +190,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     @Override
     protected void onStop() {
         super.onStop();
-        if (mLocationClient.isStarted()){
+        if (mLocationClient!=null&&mLocationClient.isStarted()){
             mLocationClient.stop();
         }
     }
