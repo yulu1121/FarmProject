@@ -1,0 +1,25 @@
+[{
+    "featureType": "poilabel",
+    "elementType": "labels",
+    "stylers": {
+        "visibility": "off"
+    }
+}, {
+    "featureType": "poilabel",
+    "elementType": "labels.icon",
+    "stylers": {
+        "visibility": "off"
+    }
+}, {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": {
+        "visibility": "off"
+    }
+}, {
+    "featureType": "road",
+    "elementType": "labels",
+    "stylers": {
+        "visibility": "on"
+    }
+}]

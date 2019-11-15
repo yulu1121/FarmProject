@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">FarmProject</string>
+    <string name="deal_number">采伐序号</string>
+    <string name="deal_type">除治类型</string>
+    <string name="village">&#12288;&#12288;&#12288;村</string>
+    <string name="group">&#12288;&#12288;&#12288;组</string>
+    <string name="please_input_group_number">请输入组(数字即可)</string>
+    <string name="little_address">&#12288;小地名</string>
+    <string name="limi">厘米</string>
+    <string name="please_input_radius">请输入伐桩地径</string>
+    <string name="radius">伐桩地径</string>
+    <string name="around_photo">全景拍照</string>
+    <string name="number_photo">编号拍照</string>
+    <string name="deal_time">除治时间</string>
+    <string name="own_town">所属乡镇</string>
+    <string name="deal_worker">操作工人</string>
+    <string name="location">定位</string>
+    <string name="location_format">经度:%1s\n纬度:%2s</string>
+    <string name="time_format">开始时间:%1s\n结束时间:%2s</string>
+    <string name="data_not_upload">您有采伐数据还未联网上传</string>
+    <array name="typeList">
+       <item>枯死木</item>
+       <item>风倒木</item>
+       <item>电力采伐</item>
+       <item>自用材</item>
+       <item>其它</item>
+   </array>
+  <array name="village_list">
+      <item>张村</item>
+      <item>李村</item>
+      <item>王村</item>
+  </array>
+</resources>
