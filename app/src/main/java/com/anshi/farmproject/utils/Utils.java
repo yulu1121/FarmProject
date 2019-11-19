@@ -7,11 +7,17 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.util.Base64;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -25,6 +31,30 @@ public class Utils {
     public static int dpToPx(float dp, Resources resources){
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
         return (int) px;
+    }
+    public static boolean isGoodJson(String json) {
+
+        try {
+            new JsonParser().parse(json);
+            return true;
+        } catch (JsonParseException e) {
+            return false;
+        }
+    }
+
+    /**
+     * 文件转Base64.
+     * @param path
+     * @return
+     * @throws Exception
+     */
+    public static String fileToBase64(String path) throws Exception {
+        File file = new File(path);
+        FileInputStream inputFile = new FileInputStream(file);
+        byte[] buffer = new byte[(int) file.length()];
+        inputFile.read(buffer);
+        inputFile.close();
+        return new String(Base64.encode(buffer,Base64.NO_WRAP),"utf-8");
     }
 
     /**

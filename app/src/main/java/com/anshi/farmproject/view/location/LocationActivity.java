@@ -29,8 +29,13 @@ import android.widget.Toast;
 
 import com.anshi.farmproject.R;
 import com.anshi.farmproject.base.BaseApplication;
+import com.anshi.farmproject.entry.DealTypeEntry;
+import com.anshi.farmproject.entry.ImageEntry;
+import com.anshi.farmproject.entry.VillageEntry;
+import com.anshi.farmproject.entry.ZhiWuEntry;
 import com.anshi.farmproject.greendao.UploadLocationEntry;
 import com.anshi.farmproject.greendao.UploadLocationEntryDao;
+import com.anshi.farmproject.net.AppHttpService;
 import com.anshi.farmproject.utils.Constants;
 import com.anshi.farmproject.utils.DialogBuild;
 import com.anshi.farmproject.utils.SDCardUtil;
@@ -42,6 +47,7 @@ import com.anshi.farmproject.utils.check.SampleMultiplePermissionListener;
 import com.anshi.farmproject.utils.gpsutils.GPSUtils;
 import com.anshi.farmproject.utils.gpsutils.Gps;
 import com.anshi.farmproject.utils.gpsutils.PositionUtil;
+import com.anshi.farmproject.utils.pinyin.LanguageConvent;
 import com.anshi.farmproject.utils.watermask.WaterMaskUtil;
 import com.anshi.farmproject.view.image.ImageActivity;
 import com.baidu.location.BDLocation;
@@ -49,6 +55,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.NetworkUtil;
+import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
@@ -57,9 +64,22 @@ import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.app.TakePhotoActivity;
 import org.devio.takephoto.compress.CompressConfig;
 import org.devio.takephoto.model.TResult;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class LocationActivity extends TakePhotoActivity implements View.OnClickListener {
     private View mCommonLayout;
@@ -75,6 +95,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     private LocationClient mLocationClient;
     private Spinner mDealTypeSpinner;
     private Spinner mVillageSpinner;
+    private Spinner mZhiWuSpinner;
     private TextView mNumberTv,mTimeTv,mOwnTownTv,mWorkerTv;
     private EditText mNumberEt;
     private WeakHandler weakHandler = new WeakHandler(new Handler.Callback() {
@@ -90,6 +111,11 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         }
     });
     private TakePhoto takePhoto;
+    private AppHttpService mService;
+    private List<ZhiWuEntry.DataBean> zhiWuEntryData;
+    private List<DealTypeEntry.DataBean> dealTypeEntryData;
+    private List<VillageEntry.DataBean> villageEntryData;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +141,10 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 .check();
         takePhoto = getTakePhoto();
         addEventListener();
+        mService = BaseApplication.getInstances().getAppRetrofit().create(AppHttpService.class);
+        getZhiWuData();
+        getDealTypeList();
+        getVillageData();
 
     }
     private void location5seconds(){
@@ -134,7 +164,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     private String saveToSdCardOne;
     private String saveToSdCardTwo;
 
-    private void initSpinnerData(Spinner spinner, String[] strings) {
+    private void initSpinnerData(Spinner spinner, List<String> strings) {
         ArrayAdapter<String> adapterThree = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, strings);
         spinner.setAdapter(adapterThree);
     }
@@ -158,10 +188,12 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             mAroundIv.setVisibility(View.VISIBLE);
             saveToSdCardOne = SDCardUtil.saveToSdCard(waterMaskLeftBottom);
             mAroundIv.setImageBitmap(BitmapFactory.decodeFile(saveToSdCardOne));
+            uploadImage(saveToSdCardOne);
         }else {
             mNumberIv.setVisibility(View.VISIBLE);
             saveToSdCardTwo = SDCardUtil.saveToSdCard(waterMaskLeftBottom);
             mNumberIv.setImageBitmap(BitmapFactory.decodeFile(saveToSdCardTwo));
+            uploadImage(saveToSdCardTwo);
         }
     }
     private String mCurrentAddress ;
@@ -222,6 +254,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         mNumberTv = findViewById(R.id.number_tv);
         mNumberEt = findViewById(R.id.number_et);
         mRadiusEt = findViewById(R.id.radius_et);
+        mZhiWuSpinner = findViewById(R.id.zhiwu_spinner);
         int saveNumber = SharedPreferenceUtils.getInt(this, Constants.DEAL_NUMBER);
         mCurrentNumber = saveNumber+1;
         mNumberEt.setText(String.valueOf(mCurrentNumber));
@@ -242,35 +275,310 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         mTimeTv = findViewById(R.id.time_tv);
         mTimeTv.setText(Utils.getMintuteTime(new Date()));
         mOwnTownTv = findViewById(R.id.town_tv);
-        mOwnTownTv.setText("桥边镇");
+        mOwnTownTv.setText(SharedPreferenceUtils.getString(this,"townName"));
         mWorkerTv = findViewById(R.id.worker_tv);
-        mWorkerTv.setText("油锯1");
+        String userName = SharedPreferenceUtils.getString(this, "userName");
+        mWorkerTv.setText(userName);
         mAroundIv = findViewById(R.id.around_iv);
         mNumberIv = findViewById(R.id.number_iv);
         mAroundIv.setOnClickListener(this);
         mNumberIv.setOnClickListener(this);
         mDealTypeSpinner = findViewById(R.id.deal_spinner);
-        initSpinnerData(mDealTypeSpinner,getResources().getStringArray(R.array.typeList));
-        int position = SharedPreferenceUtils.getInt(this, Constants.DEAL_TYPE_POSITION);
-        mDealTypeSpinner.setSelection(position);
         mVillageSpinner = findViewById(R.id.village_spinner);
-        initSpinnerData(mVillageSpinner,getResources().getStringArray(R.array.village_list));
-        int villagePosition = SharedPreferenceUtils.getInt(this,Constants.SAVE_VILLAGE_POSITION);
-        mVillageSpinner.setSelection(villagePosition);
+    }
+    private String mCurrentZhiWuId;
+    private String mCurrentZhiWuName;
+    private String mDealTypeId;
+    private String mDealName;
+    private String mVillageId;
+    private String mVillageName;
+    private  boolean isNetSuccess;
+    private boolean isPhotoUploadSuccess;
+
+
+
+
+    /**
+     * 获取除治类型
+     */
+    private void getDealTypeList(){
+        mService.getMyCureList()
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        try {
+                            String string = responseBody.string();
+                            if (Utils.isGoodJson(string)){
+                                Gson gson = new Gson();
+                                DealTypeEntry dealTypeEntry = gson.fromJson(string, DealTypeEntry.class);
+                                if (dealTypeEntry.getCode()==Constants.SUCCESS_CODE){
+                                    if (dealTypeEntry.getData()!=null&&dealTypeEntry.getData().size()>0){
+                                        List<String> mList = new ArrayList<>();
+                                        dealTypeEntryData = dealTypeEntry.getData();
+                                        for (int i = 0; i <dealTypeEntryData.size() ; i++) {
+                                            mList.add(dealTypeEntryData.get(i).getCureName());
+                                        }
+                                        initSpinnerData(mDealTypeSpinner,mList);
+                                        mDealTypeSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_TYPE_POSITION));
+                                    }
+                                }else {
+                                    Toast.makeText(LocationActivity.this, dealTypeEntry.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.DEAL_TYPE_DATA);
+                        String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+                        List<String> mList = new ArrayList<>();
+                        mList.add(substring);
+                        initSpinnerData(mDealTypeSpinner,mList);
+                        mDealTypeId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+    /**
+     * 获取村
+     */
+    private void getVillageData(){
+        int townId = SharedPreferenceUtils.getInt(this, "townId");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("deptId",townId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        mService.getRelationDeptList(requestBody)
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        try {
+                            String string = responseBody.string();
+                            if (Utils.isGoodJson(string)){
+                                Gson gson = new Gson();
+                                VillageEntry villageEntry = gson.fromJson(string, VillageEntry.class);
+                                if (villageEntry.getCode()==Constants.SUCCESS_CODE){
+                                    if (villageEntry.getData()!=null&&villageEntry.getData().size()>0){
+                                        List<String> mList = new ArrayList<>();
+                                        villageEntryData = villageEntry.getData();
+                                        for (int i = 0; i <villageEntryData .size() ; i++) {
+                                            mList.add(villageEntryData.get(i).getDeptName());
+                                        }
+                                        initSpinnerData(mVillageSpinner,mList);
+                                        mVillageSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION));
+                                    }
+                                }else {
+                                    Toast.makeText(LocationActivity.this, villageEntry.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.VILLAGE_DATA);
+                        String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+                        List<String> mList = new ArrayList<>();
+                        mList.add(substring);
+                        initSpinnerData(mVillageSpinner,mList);
+                        mVillageId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+
+    private void uploadImage(String path){
+        final KProgressHUD commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(this,"正在上传");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            String fileToBase64 = Utils.fileToBase64(path);
+            jsonObject.put("imgData",fileToBase64);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        mService.uploadImg(requestBody)
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        try {
+                            String string = responseBody.string();
+                            if (Utils.isGoodJson(string)){
+                                Gson gson = new Gson();
+                                ImageEntry imageEntry = gson.fromJson(string,ImageEntry.class);
+                                if (imageEntry.getCode()==Constants.SUCCESS_CODE){
+                                    isPhotoUploadSuccess = true;
+                                    Toast.makeText(LocationActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+                                    if (which==1){
+
+                                        saveToSdCardOne = imageEntry.getData().getSavePath();
+                                        Log.e("xxx",saveToSdCardOne);
+                                    }else {
+                                        saveToSdCardTwo = imageEntry.getData().getSavePath();
+                                        Log.e("xxx",saveToSdCardTwo);
+                                    }
+                                }else {
+                                    isPhotoUploadSuccess =false;
+                                    Toast.makeText(LocationActivity.this, imageEntry.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        throwable.printStackTrace();
+                    }
+                });
 
     }
+
+
+    /**
+     * 获取植物类型
+     */
+    private void getZhiWuData(){
+        mService.getBotanyList()
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        try {
+                            String string = responseBody.string();
+                            if (Utils.isGoodJson(string)){
+                                Gson gson = new Gson();
+                                ZhiWuEntry zhiWuEntry = gson.fromJson(string, ZhiWuEntry.class);
+                                if (zhiWuEntry.getCode()==Constants.SUCCESS_CODE){
+                                    isNetSuccess = true;
+                                    if (zhiWuEntry.getData()!=null&&zhiWuEntry.getData().size()>0){
+                                        zhiWuEntryData = zhiWuEntry.getData();
+                                        List<String> mList = new ArrayList<>();
+                                        for (int i = 0; i <zhiWuEntryData.size(); i++) {
+                                            mList.add(zhiWuEntry.getData().get(i).getBotanyName());
+                                        }
+                                        initSpinnerData(mZhiWuSpinner,mList);
+                                        mZhiWuSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION));
+                                    }
+                                }else {
+                                    isNetSuccess = false;
+                                    Toast.makeText(LocationActivity.this, zhiWuEntry.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        isNetSuccess = false;
+                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.ZHI_WU_DATA);
+                        String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+                        List<String> mList = new ArrayList<>();
+                        mList.add(substring);
+                        initSpinnerData(mZhiWuSpinner,mList);
+
+                        mCurrentZhiWuId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
 
     @SuppressLint("SetTextI18n")
     private void formatNumber(){
         @SuppressLint("DefaultLocale") String format = String.format("%05d", mCurrentNumber );
-        mNumberTv.setText("XY-CC-AS-"+format);
+        String townName = SharedPreferenceUtils.getString(this, "townName");
+        String loginName = SharedPreferenceUtils.getString(this, "loginName");
+        String deptName = SharedPreferenceUtils.getString(this, "deptName");
+        StringBuilder pinYinTown = new StringBuilder();
+        StringBuilder pinYinLoginName = new StringBuilder();
+        StringBuilder pinYinDeptName = new StringBuilder();
+        for (int i = 0; i <townName.toCharArray().length ; i++) {
+            pinYinTown.append(LanguageConvent.getFirstChar(String.valueOf(townName.toCharArray()[i])));
+        }
+        for (int i = 0; i <loginName.toCharArray().length ; i++) {
+            pinYinLoginName.append(LanguageConvent.getFirstChar(String.valueOf(loginName.toCharArray()[i])));
+        }
+        for (int i = 0; i <deptName.toCharArray().length ; i++) {
+            pinYinDeptName.append(LanguageConvent.getFirstChar(String.valueOf(deptName.toCharArray()[i])));
+        }
+
+        mNumberTv.setText(pinYinTown.toString()+"-"+pinYinDeptName.toString()+"-"+pinYinLoginName.toString()+"-"+format);
     }
     private void addEventListener(){
         mDealTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferenceUtils.saveInt(LocationActivity.this, Constants.DEAL_TYPE_POSITION,position);
+                if (null!=dealTypeEntryData){
+                    DealTypeEntry.DataBean dataBean = dealTypeEntryData.get(position);
+                    mDealTypeId = String.valueOf(dataBean.getCureId());
+                    mDealName = dataBean.getCureName();
+                    SharedPreferenceUtils.saveString(LocationActivity.this,Constants.DEAL_TYPE_DATA,dataBean.getCureName()+","+dataBean.getCureId());
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mZhiWuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferenceUtils.saveInt(LocationActivity.this,Constants.ZHIWU_POSITION,position);
+                if (null!=zhiWuEntryData){
+                    ZhiWuEntry.DataBean dataBean = zhiWuEntryData.get(position);
+                    mCurrentZhiWuId = String.valueOf(dataBean.getBotanyId());
+                    mCurrentZhiWuName = dataBean.getBotanyName();
+                    SharedPreferenceUtils.saveString(LocationActivity.this,Constants.ZHI_WU_DATA,dataBean.getBotanyName()+","+dataBean.getBotanyId());
+                }
             }
 
             @Override
@@ -282,6 +590,12 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferenceUtils.saveInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION,position);
+                if (null!=villageEntryData){
+                    VillageEntry.DataBean dataBean = villageEntryData.get(position);
+                    mVillageId = String.valueOf(dataBean.getDeptId());
+                    mVillageName = dataBean.getDeptName();
+                    SharedPreferenceUtils.saveString(LocationActivity.this,Constants.VILLAGE_DATA,dataBean.getDeptName()+","+dataBean.getDeptId());
+                }
             }
 
             @Override
@@ -355,12 +669,14 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 break;
             case R.id.around_iv:
                 Intent intent = new Intent(this, ImageActivity.class);
+                intent.putExtra("isUpload",isPhotoUploadSuccess);
                 intent.putExtra("picPath",saveToSdCardOne);
                 startActivity(intent);
                 break;
             case R.id.number_iv:
                 Intent intent2 = new Intent(this, ImageActivity.class);
                 intent2.putExtra("picPath",saveToSdCardTwo);
+                intent2.putExtra("isUpload",isPhotoUploadSuccess);
                 startActivity(intent2);
                 break;
         }
@@ -396,15 +712,13 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         uploadLocationEntry.setAroundIvPath(saveToSdCardOne);//全景照片
         uploadLocationEntry.setNumberIvPath(saveToSdCardTwo);//编号照片
         uploadLocationEntry.setDealTime(mTimeTv.getText().toString());//时间
-        int dealPosition = SharedPreferenceUtils.getInt(this, Constants.DEAL_TYPE_POSITION);//处置位置
-        String dealType = getResources().getStringArray(R.array.typeList)[dealPosition];//type
-        uploadLocationEntry.setDealType(dealType);
-        uploadLocationEntry.setDealTypePosition(dealPosition);
-        int saveVillagePosition = SharedPreferenceUtils.getInt(this,Constants.SAVE_VILLAGE_POSITION);//村位置
-        String village = getResources().getStringArray(R.array.village_list)[saveVillagePosition];
-        uploadLocationEntry.setVillageName(village);
+        uploadLocationEntry.setDealType(mDealName);
+        uploadLocationEntry.setDealTypePosition(Integer.parseInt(mDealTypeId));
+        uploadLocationEntry.setVillageName(mVillageName);
+        uploadLocationEntry.setZhiwuName(mCurrentZhiWuName);
+        uploadLocationEntry.setZhiwuId(Integer.parseInt(mCurrentZhiWuId));
         uploadLocationEntry.setWokerName(mWorkerTv.getText().toString());
-        uploadLocationEntry.setVillagePosition(saveVillagePosition);
+        uploadLocationEntry.setVillagePosition(Integer.parseInt(mVillageId));//就是ID
         uploadLocationEntry.setGroupNumber(Integer.parseInt(mGroupEt.getText().toString()));//组
         uploadLocationEntry.setOwnTown(mOwnTownTv.getText().toString());//所属乡镇
         uploadLocationEntry.setLatitude(gps.getWgLat());//纬度

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.anshi.farmproject.R;
 import com.anshi.farmproject.base.BaseActivity;
 import com.anshi.farmproject.selfview.ZoomImageView;
+import com.anshi.farmproject.utils.Constants;
 import com.anshi.farmproject.utils.StatusBarUtils;
 import com.anshi.farmproject.utils.glide.GlideApp;
 
@@ -33,7 +34,11 @@ public class ImageActivity extends BaseActivity {
         titleTv.setText("图片预览");
         imageView = (ZoomImageView) findViewById(R.id.find_image);
         if (!TextUtils.isEmpty(picPath)){
-            GlideApp.with(this).load(picPath).centerInside().into(imageView);
+            if (getIntent().getBooleanExtra("isUpload",false)){
+                GlideApp.with(this).load(Constants.IMAGE_HEADER+picPath).centerInside().into(imageView);
+            }else {
+                GlideApp.with(this).load(picPath).centerInside().into(imageView);
+            }
         }else {
             Toast.makeText(this, "图片路径错误", Toast.LENGTH_SHORT).show();
         }

@@ -15,6 +15,8 @@ public class UploadLocationEntry  {
     private String villageName;
     private int dealTypePosition;
     private int villagePosition;
+    private String zhiwuName;
+    private int zhiwuId;
     private double radius;
     private String aroundIvPath;
     private String numberIvPath;
@@ -27,9 +29,9 @@ public class UploadLocationEntry  {
     @Generated(hash = 437880930)
     public UploadLocationEntry() {
     }
-    @Generated(hash = 1105178203)
-    public UploadLocationEntry(Long uploadNumber, String realNumber, String dealType, int groupNumber, String addressName, String villageName, int dealTypePosition, int villagePosition, double radius, String aroundIvPath, String numberIvPath, String dealTime, String ownTown,
-            String wokerName, double latitude, double longtitude, String detailAddress) {
+    @Generated(hash = 1799880829)
+    public UploadLocationEntry(Long uploadNumber, String realNumber, String dealType, int groupNumber, String addressName, String villageName, int dealTypePosition, int villagePosition, String zhiwuName, int zhiwuId, double radius, String aroundIvPath, String numberIvPath,
+            String dealTime, String ownTown, String wokerName, double latitude, double longtitude, String detailAddress) {
         this.uploadNumber = uploadNumber;
         this.realNumber = realNumber;
         this.dealType = dealType;
@@ -38,6 +40,8 @@ public class UploadLocationEntry  {
         this.villageName = villageName;
         this.dealTypePosition = dealTypePosition;
         this.villagePosition = villagePosition;
+        this.zhiwuName = zhiwuName;
+        this.zhiwuId = zhiwuId;
         this.radius = radius;
         this.aroundIvPath = aroundIvPath;
         this.numberIvPath = numberIvPath;
@@ -149,5 +153,17 @@ public class UploadLocationEntry  {
     }
     public void setDetailAddress(String detailAddress) {
         this.detailAddress = detailAddress;
+    }
+    public String getZhiwuName() {
+        return this.zhiwuName;
+    }
+    public void setZhiwuName(String zhiwuName) {
+        this.zhiwuName = zhiwuName;
+    }
+    public int getZhiwuId() {
+        return this.zhiwuId;
+    }
+    public void setZhiwuId(int zhiwuId) {
+        this.zhiwuId = zhiwuId;
     }
 }

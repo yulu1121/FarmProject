@@ -29,7 +29,6 @@ public class BaseActivity extends AppCompatActivity {
         registerReceiver(netWorkChangReceiver, filter);
         isRegistered = true;
         mService = BaseApplication.getInstances().getAppRetrofit().create(AppHttpService.class);
-
     }
 
 

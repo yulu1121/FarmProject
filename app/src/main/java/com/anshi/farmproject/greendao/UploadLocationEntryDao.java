@@ -30,15 +30,17 @@ public class UploadLocationEntryDao extends AbstractDao<UploadLocationEntry, Lon
         public final static Property VillageName = new Property(5, String.class, "villageName", false, "VILLAGE_NAME");
         public final static Property DealTypePosition = new Property(6, int.class, "dealTypePosition", false, "DEAL_TYPE_POSITION");
         public final static Property VillagePosition = new Property(7, int.class, "villagePosition", false, "VILLAGE_POSITION");
-        public final static Property Radius = new Property(8, double.class, "radius", false, "RADIUS");
-        public final static Property AroundIvPath = new Property(9, String.class, "aroundIvPath", false, "AROUND_IV_PATH");
-        public final static Property NumberIvPath = new Property(10, String.class, "numberIvPath", false, "NUMBER_IV_PATH");
-        public final static Property DealTime = new Property(11, String.class, "dealTime", false, "DEAL_TIME");
-        public final static Property OwnTown = new Property(12, String.class, "ownTown", false, "OWN_TOWN");
-        public final static Property WokerName = new Property(13, String.class, "wokerName", false, "WOKER_NAME");
-        public final static Property Latitude = new Property(14, double.class, "latitude", false, "LATITUDE");
-        public final static Property Longtitude = new Property(15, double.class, "longtitude", false, "LONGTITUDE");
-        public final static Property DetailAddress = new Property(16, String.class, "detailAddress", false, "DETAIL_ADDRESS");
+        public final static Property ZhiwuName = new Property(8, String.class, "zhiwuName", false, "ZHIWU_NAME");
+        public final static Property ZhiwuId = new Property(9, int.class, "zhiwuId", false, "ZHIWU_ID");
+        public final static Property Radius = new Property(10, double.class, "radius", false, "RADIUS");
+        public final static Property AroundIvPath = new Property(11, String.class, "aroundIvPath", false, "AROUND_IV_PATH");
+        public final static Property NumberIvPath = new Property(12, String.class, "numberIvPath", false, "NUMBER_IV_PATH");
+        public final static Property DealTime = new Property(13, String.class, "dealTime", false, "DEAL_TIME");
+        public final static Property OwnTown = new Property(14, String.class, "ownTown", false, "OWN_TOWN");
+        public final static Property WokerName = new Property(15, String.class, "wokerName", false, "WOKER_NAME");
+        public final static Property Latitude = new Property(16, double.class, "latitude", false, "LATITUDE");
+        public final static Property Longtitude = new Property(17, double.class, "longtitude", false, "LONGTITUDE");
+        public final static Property DetailAddress = new Property(18, String.class, "detailAddress", false, "DETAIL_ADDRESS");
     }
 
 
@@ -62,15 +64,17 @@ public class UploadLocationEntryDao extends AbstractDao<UploadLocationEntry, Lon
                 "\"VILLAGE_NAME\" TEXT," + // 5: villageName
                 "\"DEAL_TYPE_POSITION\" INTEGER NOT NULL ," + // 6: dealTypePosition
                 "\"VILLAGE_POSITION\" INTEGER NOT NULL ," + // 7: villagePosition
-                "\"RADIUS\" REAL NOT NULL ," + // 8: radius
-                "\"AROUND_IV_PATH\" TEXT," + // 9: aroundIvPath
-                "\"NUMBER_IV_PATH\" TEXT," + // 10: numberIvPath
-                "\"DEAL_TIME\" TEXT," + // 11: dealTime
-                "\"OWN_TOWN\" TEXT," + // 12: ownTown
-                "\"WOKER_NAME\" TEXT," + // 13: wokerName
-                "\"LATITUDE\" REAL NOT NULL ," + // 14: latitude
-                "\"LONGTITUDE\" REAL NOT NULL ," + // 15: longtitude
-                "\"DETAIL_ADDRESS\" TEXT);"); // 16: detailAddress
+                "\"ZHIWU_NAME\" TEXT," + // 8: zhiwuName
+                "\"ZHIWU_ID\" INTEGER NOT NULL ," + // 9: zhiwuId
+                "\"RADIUS\" REAL NOT NULL ," + // 10: radius
+                "\"AROUND_IV_PATH\" TEXT," + // 11: aroundIvPath
+                "\"NUMBER_IV_PATH\" TEXT," + // 12: numberIvPath
+                "\"DEAL_TIME\" TEXT," + // 13: dealTime
+                "\"OWN_TOWN\" TEXT," + // 14: ownTown
+                "\"WOKER_NAME\" TEXT," + // 15: wokerName
+                "\"LATITUDE\" REAL NOT NULL ," + // 16: latitude
+                "\"LONGTITUDE\" REAL NOT NULL ," + // 17: longtitude
+                "\"DETAIL_ADDRESS\" TEXT);"); // 18: detailAddress
     }
 
     /** Drops the underlying database table. */
@@ -110,38 +114,44 @@ public class UploadLocationEntryDao extends AbstractDao<UploadLocationEntry, Lon
         }
         stmt.bindLong(7, entity.getDealTypePosition());
         stmt.bindLong(8, entity.getVillagePosition());
-        stmt.bindDouble(9, entity.getRadius());
+ 
+        String zhiwuName = entity.getZhiwuName();
+        if (zhiwuName != null) {
+            stmt.bindString(9, zhiwuName);
+        }
+        stmt.bindLong(10, entity.getZhiwuId());
+        stmt.bindDouble(11, entity.getRadius());
  
         String aroundIvPath = entity.getAroundIvPath();
         if (aroundIvPath != null) {
-            stmt.bindString(10, aroundIvPath);
+            stmt.bindString(12, aroundIvPath);
         }
  
         String numberIvPath = entity.getNumberIvPath();
         if (numberIvPath != null) {
-            stmt.bindString(11, numberIvPath);
+            stmt.bindString(13, numberIvPath);
         }
  
         String dealTime = entity.getDealTime();
         if (dealTime != null) {
-            stmt.bindString(12, dealTime);
+            stmt.bindString(14, dealTime);
         }
  
         String ownTown = entity.getOwnTown();
         if (ownTown != null) {
-            stmt.bindString(13, ownTown);
+            stmt.bindString(15, ownTown);
         }
  
         String wokerName = entity.getWokerName();
         if (wokerName != null) {
-            stmt.bindString(14, wokerName);
+            stmt.bindString(16, wokerName);
         }
-        stmt.bindDouble(15, entity.getLatitude());
-        stmt.bindDouble(16, entity.getLongtitude());
+        stmt.bindDouble(17, entity.getLatitude());
+        stmt.bindDouble(18, entity.getLongtitude());
  
         String detailAddress = entity.getDetailAddress();
         if (detailAddress != null) {
-            stmt.bindString(17, detailAddress);
+            stmt.bindString(19, detailAddress);
         }
     }
 
@@ -176,38 +186,44 @@ public class UploadLocationEntryDao extends AbstractDao<UploadLocationEntry, Lon
         }
         stmt.bindLong(7, entity.getDealTypePosition());
         stmt.bindLong(8, entity.getVillagePosition());
-        stmt.bindDouble(9, entity.getRadius());
+ 
+        String zhiwuName = entity.getZhiwuName();
+        if (zhiwuName != null) {
+            stmt.bindString(9, zhiwuName);
+        }
+        stmt.bindLong(10, entity.getZhiwuId());
+        stmt.bindDouble(11, entity.getRadius());
  
         String aroundIvPath = entity.getAroundIvPath();
         if (aroundIvPath != null) {
-            stmt.bindString(10, aroundIvPath);
+            stmt.bindString(12, aroundIvPath);
         }
  
         String numberIvPath = entity.getNumberIvPath();
         if (numberIvPath != null) {
-            stmt.bindString(11, numberIvPath);
+            stmt.bindString(13, numberIvPath);
         }
  
         String dealTime = entity.getDealTime();
         if (dealTime != null) {
-            stmt.bindString(12, dealTime);
+            stmt.bindString(14, dealTime);
         }
  
         String ownTown = entity.getOwnTown();
         if (ownTown != null) {
-            stmt.bindString(13, ownTown);
+            stmt.bindString(15, ownTown);
         }
  
         String wokerName = entity.getWokerName();
         if (wokerName != null) {
-            stmt.bindString(14, wokerName);
+            stmt.bindString(16, wokerName);
         }
-        stmt.bindDouble(15, entity.getLatitude());
-        stmt.bindDouble(16, entity.getLongtitude());
+        stmt.bindDouble(17, entity.getLatitude());
+        stmt.bindDouble(18, entity.getLongtitude());
  
         String detailAddress = entity.getDetailAddress();
         if (detailAddress != null) {
-            stmt.bindString(17, detailAddress);
+            stmt.bindString(19, detailAddress);
         }
     }
 
@@ -227,15 +243,17 @@ public class UploadLocationEntryDao extends AbstractDao<UploadLocationEntry, Lon
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // villageName
             cursor.getInt(offset + 6), // dealTypePosition
             cursor.getInt(offset + 7), // villagePosition
-            cursor.getDouble(offset + 8), // radius
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // aroundIvPath
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // numberIvPath
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // dealTime
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // ownTown
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // wokerName
-            cursor.getDouble(offset + 14), // latitude
-            cursor.getDouble(offset + 15), // longtitude
-            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16) // detailAddress
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // zhiwuName
+            cursor.getInt(offset + 9), // zhiwuId
+            cursor.getDouble(offset + 10), // radius
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // aroundIvPath
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // numberIvPath
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // dealTime
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // ownTown
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // wokerName
+            cursor.getDouble(offset + 16), // latitude
+            cursor.getDouble(offset + 17), // longtitude
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18) // detailAddress
         );
         return entity;
     }
@@ -250,15 +268,17 @@ public class UploadLocationEntryDao extends AbstractDao<UploadLocationEntry, Lon
         entity.setVillageName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setDealTypePosition(cursor.getInt(offset + 6));
         entity.setVillagePosition(cursor.getInt(offset + 7));
-        entity.setRadius(cursor.getDouble(offset + 8));
-        entity.setAroundIvPath(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setNumberIvPath(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setDealTime(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setOwnTown(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setWokerName(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setLatitude(cursor.getDouble(offset + 14));
-        entity.setLongtitude(cursor.getDouble(offset + 15));
-        entity.setDetailAddress(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setZhiwuName(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setZhiwuId(cursor.getInt(offset + 9));
+        entity.setRadius(cursor.getDouble(offset + 10));
+        entity.setAroundIvPath(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setNumberIvPath(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setDealTime(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setOwnTown(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setWokerName(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setLatitude(cursor.getDouble(offset + 16));
+        entity.setLongtitude(cursor.getDouble(offset + 17));
+        entity.setDetailAddress(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
      }
     
     @Override
