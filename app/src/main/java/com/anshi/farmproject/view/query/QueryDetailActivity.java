@@ -4,20 +4,43 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anshi.farmproject.R;
 import com.anshi.farmproject.base.BaseActivity;
+import com.anshi.farmproject.base.BaseApplication;
 import com.anshi.farmproject.entry.CanLoadEntry;
+import com.anshi.farmproject.entry.ImageEntry;
 import com.anshi.farmproject.utils.Constants;
+import com.anshi.farmproject.utils.DialogBuild;
+import com.anshi.farmproject.utils.SharedPreferenceUtils;
 import com.anshi.farmproject.utils.StatusBarUtils;
+import com.anshi.farmproject.utils.Utils;
 import com.anshi.farmproject.utils.glide.GlideApp;
 import com.anshi.farmproject.view.image.ImageActivity;
 import com.baidu.mapapi.NetworkUtil;
+import com.google.gson.Gson;
+import com.kaopiz.kprogresshud.KProgressHUD;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class QueryDetailActivity extends BaseActivity implements View.OnClickListener {
     private CanLoadEntry uploadLocationEntry;
@@ -26,10 +49,14 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
     private ImageView mArroundIv,mMapIv;
     private ImageView mNumberIv;
     private TextView mLonTv,mLatTv,mRealGroupTv;
+    private String saveToSdCardOne;
+    private String saveToSdCardTwo;
+    private boolean hasData;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_query_detail);
+        hasData = getIntent().getBooleanExtra("hasData", false);
         uploadLocationEntry = (CanLoadEntry) getIntent().getSerializableExtra("data");
         initView();
         if (null!=uploadLocationEntry){
@@ -64,6 +91,11 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
         mRealGroupTv = findViewById(R.id.real_group_tv);
         mArroundIv.setOnClickListener(this);
         mNumberIv.setOnClickListener(this);
+        if (hasData){
+            findViewById(R.id.commit_btn).setVisibility(View.GONE);
+        }else {
+            findViewById(R.id.commit_btn).setVisibility(View.VISIBLE);
+        }
         if (NetworkUtil.isNetworkAvailable(this)){
             findViewById(R.id.map_layout).setVisibility(View.VISIBLE);
             findViewById(R.id.map_formation_layout).setVisibility(View.VISIBLE);
@@ -81,22 +113,28 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
 
     @SuppressLint("SetTextI18n")
     private void completeView(){
+
         mNumberTv.setText(uploadLocationEntry.getRealNumber());
         mTimeTv.setText(uploadLocationEntry.getDealTime());
-        mPersonTv.setText(uploadLocationEntry.getWokerName()==null?"":uploadLocationEntry.getWokerName());
-        mUnitTv.setText("林业局");
+        mPersonTv.setText(uploadLocationEntry.getChainName());
+        mUnitTv.setText(uploadLocationEntry.getTeaName());
         mTypeTv.setText(uploadLocationEntry.getDealType());
         mOwnTownTv.setText(uploadLocationEntry.getOwnTown());
         mVillageTv.setText(uploadLocationEntry.getVillageName());
-        mNameTv.setText("马尾松");
+        mNameTv.setText(uploadLocationEntry.getZhiwuName());
         mGroupTv.setText(String.valueOf(uploadLocationEntry.getGroupNumber()));
         mAddressTv.setText(uploadLocationEntry.getAddressName());
         mLatTv.setText(String.valueOf(uploadLocationEntry.getLatitude()));
         mLonTv.setText(String.valueOf(uploadLocationEntry.getLongtitude()));
         mRealGroupTv.setText(String.valueOf(uploadLocationEntry.getGroupNumber()));
         mRadiusTv.setText(String.valueOf(uploadLocationEntry.getRadius())+"(厘米)");
-        GlideApp.with(this).load(uploadLocationEntry.getAroundIvPath()).centerCrop().into(mArroundIv);
-        GlideApp.with(this).load(uploadLocationEntry.getNumberIvPath()).centerCrop().into(mNumberIv);
+        if (hasData){
+            GlideApp.with(this).load(Constants.IMAGE_HEADER+uploadLocationEntry.getAroundIvPath()).centerCrop().into(mArroundIv);
+            GlideApp.with(this).load(Constants.IMAGE_HEADER+uploadLocationEntry.getNumberIvPath()).centerCrop().into(mNumberIv);
+        }else {
+            GlideApp.with(this).load(uploadLocationEntry.getAroundIvPath()).centerCrop().into(mArroundIv);
+            GlideApp.with(this).load(uploadLocationEntry.getNumberIvPath()).centerCrop().into(mNumberIv);
+        }
 
     }
 
@@ -128,6 +166,9 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.around_iv:
                 if (uploadLocationEntry!=null){
                     Intent intent = new Intent(this, ImageActivity.class);
+                    if (hasData){
+                        intent.putExtra("isUpload",true);
+                    }
                     intent.putExtra("picPath",uploadLocationEntry.getAroundIvPath());
                     startActivity(intent);
                 }
@@ -135,6 +176,9 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.number_iv:
                 if (uploadLocationEntry!=null){
                     Intent intent = new Intent(this, ImageActivity.class);
+                    if (hasData){
+                        intent.putExtra("isUpload",true);
+                    }
                     intent.putExtra("picPath",uploadLocationEntry.getNumberIvPath());
                     startActivity(intent);
                 }
@@ -147,5 +191,198 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
         }
+    }
+
+    private void uploadOneIv(String path){
+        final KProgressHUD commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(this,"正在上传");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            String fileToBase64 = Utils.fileToBase64(path);
+            jsonObject.put("imgData",fileToBase64);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        mService.uploadImg(requestBody)
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        try {
+                            String string = responseBody.string();
+                            if (Utils.isGoodJson(string)){
+                                Gson gson = new Gson();
+                                ImageEntry imageEntry = gson.fromJson(string,ImageEntry.class);
+                                if (imageEntry.getCode()==Constants.SUCCESS_CODE){
+                                    saveToSdCardOne = imageEntry.getData().getSavePath();
+                                    uploadTwoIv(uploadLocationEntry.getNumberIvPath());
+                                }else {
+                                    Toast.makeText(mContext, imageEntry.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+    private void uploadTwoIv(String path){
+        final KProgressHUD commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(this,"正在上传");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            String fileToBase64 = Utils.fileToBase64(path);
+            jsonObject.put("imgData",fileToBase64);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        mService.uploadImg(requestBody)
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        try {
+                            String string = responseBody.string();
+                            if (Utils.isGoodJson(string)){
+                                Gson gson = new Gson();
+                                ImageEntry imageEntry = gson.fromJson(string,ImageEntry.class);
+                                if (imageEntry.getCode()==Constants.SUCCESS_CODE){
+                                   saveToSdCardTwo = imageEntry.getData().getSavePath();
+                                   uploadFormation();
+                                }else {
+                                    Toast.makeText(mContext, imageEntry.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+    private void uploadFormation(){
+
+        final KProgressHUD commonLoadDialog  = DialogBuild.getBuild().createCommonLoadDialog(this,"正在上传");
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("number",uploadLocationEntry.getUploadNumber());
+            jsonObject.put("orders",uploadLocationEntry.getRealNumber());
+            jsonObject.put("company",SharedPreferenceUtils.getString(this,"deptName"));
+            jsonObject.put("cureTime",uploadLocationEntry.getDealTime());
+            jsonObject.put("cureId",uploadLocationEntry.getDealTypePosition());
+            jsonObject.put("townId",SharedPreferenceUtils.getInt(this,"townId"));
+            jsonObject.put("villageId",uploadLocationEntry.getVillagePosition());
+            jsonObject.put("groups",uploadLocationEntry.getGroupNumber());
+            jsonObject.put("groundDiameter",uploadLocationEntry.getRadius());
+            jsonObject.put("placeName",uploadLocationEntry.getAddressName());
+            jsonObject.put("botanyId",uploadLocationEntry.getZhiwuId());
+            jsonObject.put("longitude",uploadLocationEntry.getLongtitude());
+            jsonObject.put("latitude",uploadLocationEntry.getLatitude());
+            jsonObject.put("chainsaw",SharedPreferenceUtils.getString(this,"userName"));
+            jsonObject.put("panoramaPath",saveToSdCardOne);
+            jsonObject.put("numberPath",saveToSdCardTwo);
+            jsonObject.put("teamId",SharedPreferenceUtils.getInt(this,"deptId"));
+            jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
+            jsonObject.put("userId",SharedPreferenceUtils.getInt(this,"userId"));
+            jsonObject.put("deptId",SharedPreferenceUtils.getInt(this,"deptId"));
+            jsonObject.put("createBy",SharedPreferenceUtils.getString(this,"loginName"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("xxx",jsonObject.toString());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        mService.insertFeling(requestBody)
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        try {
+                            String string = responseBody.string();
+                            Log.e("xxx",string);
+                            if (Utils.isGoodJson(string)){
+                                try {
+                                    JSONObject jsonObject1 = new JSONObject(string);
+                                    int code = jsonObject1.getInt("code");
+                                    String msg = jsonObject1.getString("msg");
+                                    if (code==Constants.SUCCESS_CODE){
+                                        Toast.makeText(mContext, "提交成功", Toast.LENGTH_SHORT).show();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                BaseApplication.getInstances().getDaoSession().getUploadLocationEntryDao().deleteByKey(uploadLocationEntry.getUploadNumber());
+                                                setResult(RESULT_OK);
+                                                finish();
+                                            }
+                                        },1000);
+                                    }else {
+                                        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        throwable.printStackTrace();
+                    }
+                });
+
+    }
+
+    public void commit(View view) {
+        uploadOneIv(uploadLocationEntry.getAroundIvPath());
     }
 }

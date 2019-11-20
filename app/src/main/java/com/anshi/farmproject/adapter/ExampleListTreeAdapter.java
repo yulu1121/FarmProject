@@ -26,10 +26,11 @@ public class ExampleListTreeAdapter extends
         //头像,用于设置给ImageView。
       //  private Bitmap bitmap;
         //标题
+
         private String title;
         //描述
         private String detail;
-
+        private int id;
         public ContactInfo( String title, String detail) {
             //this.bitmap = bitmap;
             this.title = title;
@@ -48,6 +49,13 @@ public class ExampleListTreeAdapter extends
             return detail;
         }
 
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
     }
     private Context mContext;
     //构造方法

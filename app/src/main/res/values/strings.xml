@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FarmProject</string>
+    <string name="app_name">除治管理</string>
     <string name="deal_number">采伐序号</string>
     <string name="deal_type">除治类型</string>
     <string name="village">&#12288;&#12288;&#12288;村</string>

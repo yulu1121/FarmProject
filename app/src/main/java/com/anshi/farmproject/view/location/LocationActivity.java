@@ -115,6 +115,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     private List<ZhiWuEntry.DataBean> zhiWuEntryData;
     private List<DealTypeEntry.DataBean> dealTypeEntryData;
     private List<VillageEntry.DataBean> villageEntryData;
+    private String secondTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -274,6 +275,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         mNumberTakePhotoLayout.setOnClickListener(this);
         mTimeTv = findViewById(R.id.time_tv);
         mTimeTv.setText(Utils.getMintuteTime(new Date()));
+        secondTime = Utils.getSecondTime(new Date());
         mOwnTownTv = findViewById(R.id.town_tv);
         mOwnTownTv.setText(SharedPreferenceUtils.getString(this,"townName"));
         mWorkerTv = findViewById(R.id.worker_tv);
@@ -292,10 +294,8 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     private String mDealName;
     private String mVillageId;
     private String mVillageName;
-    private  boolean isNetSuccess;
+
     private boolean isPhotoUploadSuccess;
-
-
 
 
     /**
@@ -444,7 +444,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                     isPhotoUploadSuccess = true;
                                     Toast.makeText(LocationActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
                                     if (which==1){
-
                                         saveToSdCardOne = imageEntry.getData().getSavePath();
                                         Log.e("xxx",saveToSdCardOne);
                                     }else {
@@ -494,7 +493,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                 Gson gson = new Gson();
                                 ZhiWuEntry zhiWuEntry = gson.fromJson(string, ZhiWuEntry.class);
                                 if (zhiWuEntry.getCode()==Constants.SUCCESS_CODE){
-                                    isNetSuccess = true;
                                     if (zhiWuEntry.getData()!=null&&zhiWuEntry.getData().size()>0){
                                         zhiWuEntryData = zhiWuEntry.getData();
                                         List<String> mList = new ArrayList<>();
@@ -505,7 +503,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                         mZhiWuSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION));
                                     }
                                 }else {
-                                    isNetSuccess = false;
                                     Toast.makeText(LocationActivity.this, zhiWuEntry.getMsg(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -516,7 +513,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        isNetSuccess = false;
                         String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.ZHI_WU_DATA);
                         String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
                         List<String> mList = new ArrayList<>();
@@ -528,6 +524,115 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     }
                 });
     }
+//    number	String	编号
+//    orders	Long	序号
+//    company	String	除治单位
+//    cureTime	Date	除治时间
+//    cureId	Long	除治类型id
+//    townId	Long	乡镇id
+//    villageId	Long	村庄id
+//    teamId	Long	除治队id
+//    branchId	Long	油锯id
+//    groups	Long	组
+//    groundDiameter	Double	伐桩地径
+//    placeName	String	小地名
+//    botanyId	Long	植物id
+//    dataSources	String	数据来源
+//    longitude	String	经度
+//    latitude	String	纬度
+//    chainsaw	String	责任油锯
+//    panoramaPath	String	全景拍照路径
+//    numberPath	String	编号拍照路径
+//    userId	Long	用户id
+//    deptId	Long	部门id
+//    createBy	String	用户账号
+    private void uploadFormation(){
+        if (!isFinishing()){
+            commonLoadDialog  = DialogBuild.getBuild().createCommonLoadDialog(this,"正在上传");
+        }
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("number",mNumberTv.getText().toString());
+            jsonObject.put("orders",mCurrentNumber);
+            jsonObject.put("company",SharedPreferenceUtils.getString(this,"deptName"));
+            jsonObject.put("cureTime",secondTime);
+            jsonObject.put("cureId",Long.parseLong(mDealTypeId));
+            jsonObject.put("townId",SharedPreferenceUtils.getInt(this,"townId"));
+            jsonObject.put("villageId",Long.parseLong(mVillageId));
+            jsonObject.put("groups",Long.parseLong(mGroupEt.getText().toString()));
+            jsonObject.put("groundDiameter",Double.parseDouble(mRadiusEt.getText().toString()));
+            jsonObject.put("placeName",mAddressEt.getText().toString());
+            jsonObject.put("botanyId",Long.parseLong(mCurrentZhiWuId));
+            jsonObject.put("longitude",String.valueOf(gps.getWgLon()));
+            jsonObject.put("latitude",String.valueOf(gps.getWgLat()));
+            jsonObject.put("chainsaw",SharedPreferenceUtils.getString(this,"userName"));
+            jsonObject.put("panoramaPath",saveToSdCardOne);
+            jsonObject.put("numberPath",saveToSdCardTwo);
+            jsonObject.put("teamId",SharedPreferenceUtils.getInt(this,"deptId"));
+            jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
+            jsonObject.put("userId",SharedPreferenceUtils.getInt(this,"userId"));
+            jsonObject.put("deptId",SharedPreferenceUtils.getInt(this,"deptId"));
+            jsonObject.put("createBy",SharedPreferenceUtils.getString(this,"loginName"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("xxx",jsonObject.toString());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        mService.insertFeling(requestBody)
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        try {
+                            String string = responseBody.string();
+                            Log.e("xxx",string);
+                            if (Utils.isGoodJson(string)){
+                                try {
+                                    JSONObject jsonObject1 = new JSONObject(string);
+                                    int code = jsonObject1.getInt("code");
+                                    String msg = jsonObject1.getString("msg");
+                                    if (code==Constants.SUCCESS_CODE){
+                                        SharedPreferenceUtils.saveInt(LocationActivity.this,Constants.DEAL_NUMBER,mCurrentNumber);
+                                        Toast.makeText(LocationActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                finish();
+                                            }
+                                        },1000);
+                                    }else {
+                                        Toast.makeText(LocationActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        saveLocal();
+                        throwable.printStackTrace();
+                    }
+                });
+
+    }
+
 
 
     @SuppressLint("SetTextI18n")
@@ -703,6 +808,12 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             Toast.makeText(this, "请输入伐桩地径", Toast.LENGTH_SHORT).show();
             return;
         }
+         uploadFormation();
+
+
+    }
+
+    private void saveLocal(){
         SharedPreferenceUtils.saveInt(this,Constants.DEAL_NUMBER,mCurrentNumber);
         UploadLocationEntryDao uploadLocationEntryDao = BaseApplication.getInstances().getDaoSession().getUploadLocationEntryDao();
         UploadLocationEntry uploadLocationEntry = new UploadLocationEntry();
@@ -711,7 +822,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         uploadLocationEntry.setAddressName(mAddressEt.getText().toString());//小地名
         uploadLocationEntry.setAroundIvPath(saveToSdCardOne);//全景照片
         uploadLocationEntry.setNumberIvPath(saveToSdCardTwo);//编号照片
-        uploadLocationEntry.setDealTime(mTimeTv.getText().toString());//时间
+        uploadLocationEntry.setDealTime(secondTime);//时间
         uploadLocationEntry.setDealType(mDealName);
         uploadLocationEntry.setDealTypePosition(Integer.parseInt(mDealTypeId));
         uploadLocationEntry.setVillageName(mVillageName);
@@ -728,8 +839,9 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             uploadLocationEntry.setDetailAddress(mCurrentAddress);//具体地名
         }
         uploadLocationEntryDao.insert(uploadLocationEntry);
-
+        Toast.makeText(this, "信息已保存本地", Toast.LENGTH_SHORT).show();
     }
+
 
     //自定义的定位监听
     private class MyLocationListener implements BDLocationListener {

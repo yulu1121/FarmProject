@@ -20,6 +20,25 @@ public class CanLoadEntry implements Serializable {
     private double latitude;
     private double longtitude;
     private String detailAddress;
+    private String zhiwuName;
+    private int zhiwuId;
+    private String teaName;
+    private String chainName;
+    public String getZhiwuName() {
+        return zhiwuName;
+    }
+
+    public void setZhiwuName(String zhiwuName) {
+        this.zhiwuName = zhiwuName;
+    }
+
+    public int getZhiwuId() {
+        return zhiwuId;
+    }
+
+    public void setZhiwuId(int zhiwuId) {
+        this.zhiwuId = zhiwuId;
+    }
 
     public CanLoadEntry() {
     }
@@ -158,5 +177,21 @@ public class CanLoadEntry implements Serializable {
 
     public void setDetailAddress(String detailAddress) {
         this.detailAddress = detailAddress;
+    }
+
+    public String getTeaName() {
+        return teaName;
+    }
+
+    public void setTeaName(String teaName) {
+        this.teaName = teaName;
+    }
+
+    public String getChainName() {
+        return chainName;
+    }
+
+    public void setChainName(String chainName) {
+        this.chainName = chainName;
     }
 }

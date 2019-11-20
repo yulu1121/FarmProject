@@ -26,12 +26,25 @@ import java.util.List;
 public class NotUploadActivity extends BaseActivity {
     private List<UploadLocationEntry> mList = new ArrayList<>();
     private CommonAdapter<UploadLocationEntry> commonAdapter;
+    public static final int UPLOAD_CODE = 321;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_not_upload);
         initView();
         loadDataFromSql();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==RESULT_OK){
+            switch (requestCode){
+                case UPLOAD_CODE:
+                    loadDataFromSql();
+                    break;
+            }
+        }
     }
 
     @Override
@@ -75,6 +88,8 @@ public class NotUploadActivity extends BaseActivity {
         canLoadEntry.setNumberIvPath(uploadLocationEntry.getNumberIvPath());//编号照片
         canLoadEntry.setDealTime(uploadLocationEntry.getDealTime());//时间
         canLoadEntry.setDealType(uploadLocationEntry.getDealType());
+        canLoadEntry.setZhiwuName(uploadLocationEntry.getZhiwuName());
+        canLoadEntry.setZhiwuId(uploadLocationEntry.getZhiwuId());
         canLoadEntry.setDealTypePosition(uploadLocationEntry.getDealTypePosition());
         canLoadEntry.setVillageName(uploadLocationEntry.getVillageName());
         canLoadEntry.setWokerName(uploadLocationEntry.getWokerName());
@@ -89,7 +104,7 @@ public class NotUploadActivity extends BaseActivity {
         }
         Intent intent = new Intent(mContext,QueryDetailActivity.class);
         intent.putExtra("data",canLoadEntry);
-        startActivity(intent);
+        startActivityForResult(intent,UPLOAD_CODE);
     }
 
     private void loadDataFromSql(){
@@ -98,4 +113,6 @@ public class NotUploadActivity extends BaseActivity {
         mList.addAll(uploadLocationEntries);
         commonAdapter.notifyDataSetChanged();
     }
+
+
 }

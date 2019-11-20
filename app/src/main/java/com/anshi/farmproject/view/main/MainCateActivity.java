@@ -1,6 +1,8 @@
 package com.anshi.farmproject.view.main;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +15,7 @@ import com.anshi.farmproject.base.BaseApplication;
 import com.anshi.farmproject.greendao.UploadLocationEntry;
 import com.anshi.farmproject.utils.Constants;
 import com.anshi.farmproject.utils.DialogBuild;
+import com.anshi.farmproject.utils.SharedPreferenceUtils;
 import com.anshi.farmproject.utils.StatusBarUtils;
 import com.anshi.farmproject.utils.check.SampleMultiplePermissionListener;
 import com.anshi.farmproject.utils.notifylistener.INotifyListener;
@@ -40,6 +43,13 @@ public class MainCateActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
+        TextView titleTv = findViewById(R.id.title_tv);
+        findViewById(R.id.back_layout).setVisibility(View.GONE);
+        titleTv.setText("除治管理");
+        TextView outLoginTv = findViewById(R.id.publish_tv);
+        outLoginTv.setText("退出登录");
+        outLoginTv.setOnClickListener(this);
+        outLoginTv.setVisibility(View.VISIBLE);
         mNotUploadTv = findViewById(R.id.data_upload);
         mNotUploadTv.setOnClickListener(this);
     }
@@ -83,6 +93,34 @@ public class MainCateActivity extends BaseActivity implements View.OnClickListen
                     Intent intent = new Intent(this, NotUploadActivity.class);
                     startActivity(intent);
                 break;
+            case R.id.publish_tv:
+                createOutLogin();
+                break;
+        }
+    }
+    private void createOutLogin(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("提醒")
+                .setMessage("退出登录")
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        SharedPreferenceUtils.clear(mContext);
+                        Intent intent = new Intent(mContext,LocationActivity.class);
+                        startActivity(intent);
+                        finishAffinity();
+                    }
+                })
+                .create();
+        if (!isFinishing()){
+            alertDialog.show();
         }
     }
 
