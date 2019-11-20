@@ -1,15 +1,21 @@
 package com.anshi.farmproject.view.map;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anshi.farmproject.R;
 import com.anshi.farmproject.base.BaseActivity;
+import com.anshi.farmproject.entry.DetailQueryEntry;
+import com.anshi.farmproject.utils.Constants;
+import com.anshi.farmproject.utils.DialogBuild;
+import com.anshi.farmproject.utils.SharedPreferenceUtils;
 import com.anshi.farmproject.utils.StatusBarUtils;
 import com.anshi.farmproject.utils.Utils;
 import com.baidu.location.BDLocation;
@@ -17,30 +23,55 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.borax12.materialdaterangepicker.date.DatePickerDialog;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
+import com.google.gson.Gson;
+import com.kaopiz.kprogresshud.KProgressHUD;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
-public class MapActivity extends BaseActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+
+public class MapActivity extends BaseActivity implements View.OnClickListener {
     private MapView mMapView;
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
-    private String mCostStartTime;
-    private DatePickerDialog dpd;
     private TextView mCostTimeTv;
-    private String mCostEndTime;
+
     // 声明json文件变量
     private static final String CUSTOM_FILE_NAME_GRAY = "custom_map_config.json";
+    //创建OverlayOptions的集合
+    List<OverlayOptions> options = new ArrayList<OverlayOptions>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,21 +79,85 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, D
         initView();
         initLocation();
     }
+    private KProgressHUD progressHUD;
+    private void getListTreeInMap(String time){
+        if (!isFinishing()){
+            progressHUD = DialogBuild.getBuild().createCommonLoadDialog(this,"正在加载");
+        }
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("cureTime",time);
+            jsonObject.put("deptId", SharedPreferenceUtils.getInt(this,"deptId"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        mService.getFelingList(requestBody)
+                .map(new Func1<ResponseBody,ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        if (null!=progressHUD){
+                            progressHUD.dismiss();
+                        }
+                        try {
+                            String string = responseBody.string();
+                            if (Utils.isGoodJson(string)){
+                                Gson gson = new Gson();
+                                DetailQueryEntry detailQueryEntry = gson.fromJson(string, DetailQueryEntry.class);
+                                if (detailQueryEntry.getCode()== Constants.SUCCESS_CODE){
+                                    if (detailQueryEntry.getData()!=null&&detailQueryEntry.getData().size()>0){
+                                        mBaiduMap.clear();
+
+                                        //构建Marker图标
+                                        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                                                .fromResource(R.drawable.pg_tree);
+                                        for (int i = 0; i <detailQueryEntry.getData().size(); i++) {
+                                            DetailQueryEntry.DataBean dataBean = detailQueryEntry.getData().get(i);
+                                            LatLng point1 = new LatLng(Double.parseDouble(detailQueryEntry.getData().get(i).getLatitude()), Double.parseDouble(detailQueryEntry.getData().get(i).getLongitude()));
+                                            //创建OverlayOptions属性
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("address",dataBean.getTeamName()+"\n"+dataBean.getPlaceName());
+                                            OverlayOptions option1 =  new MarkerOptions()
+                                                    .position(point1)
+                                                    .extraInfo(bundle)
+                                                    .icon(bitmap);
+                                            options.add(option1);
+                                        }
+                                        mBaiduMap.addOverlays(options);
+                                    }
+                                }else {
+                                    Toast.makeText(mContext, detailQueryEntry.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (null!=progressHUD){
+                            progressHUD.dismiss();
+                        }
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+
 
     private void initView() {
         TextView title = findViewById(R.id.title_tv);
         title.setText("除治信息统计");
         mCostTimeTv = findViewById(R.id.cost_time_tv);
         findViewById(R.id.cost_time_iv).setOnClickListener(this);
-        Calendar c = Calendar.getInstance();
-        dpd = DatePickerDialog.newInstance(this,
-                c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH),
-                c.get(Calendar.DAY_OF_MONTH)
-        );
-        dpd.setAutoHighlight(true);
-        dpd.setStartTitle("开始时间");
-        dpd.setEndTitle("结束时间");
 
         mMapView = findViewById(R.id.mapview);
         // 不显示百度地图Logo
@@ -77,6 +172,18 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, D
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         mBaiduMap.setMyLocationEnabled(true);
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(final Marker marker) {
+                Button btn = new Button(MapActivity.this);
+                btn.setBackgroundColor(Color.WHITE);
+                String address = marker.getExtraInfo().getString("address");
+                btn.setText(address);
+                InfoWindow window = new InfoWindow(btn,marker.getPosition(),-40);
+                marker.showInfoWindow(window);
+                return true;
+            }
+        });
     }
 
 
@@ -106,31 +213,25 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, D
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mBaiduMap.clear();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
 
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-        String startTime = year+"-"+(monthOfYear+1)+"-"+dayOfMonth;
-        String realStartTime = Utils.chageAppSignTime(startTime);
-        String endTime = yearEnd+"-"+(monthOfYearEnd+1)+"-"+dayOfMonthEnd;
-        String realEndTime= Utils.chageAppSignTime(endTime);
-        if (Utils.isDateOneBigger(startTime,endTime)){
-            Toast.makeText(mContext, "开始日期不能大于结束日期", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String textString = String.format(getString(R.string.time_format),realStartTime,realEndTime);
-        mCostStartTime = realStartTime;
-        mCostEndTime = realEndTime;
-        mCostTimeTv.setText(textString);
-    }
-    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.cost_time_iv:
-                dpd.show(getFragmentManager(), "cost");
+                TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        String time = Utils.getTime(date);
+                        mCostTimeTv.setText(time);
+                        getListTreeInMap(Utils.getSecondTime(date));
+                    }
+                }).build();
+                pvTime.show();
                 break;
         }
     }
@@ -153,6 +254,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener, D
             LatLng ll = new LatLng(location.getLatitude(),location.getLongitude());
             MapStatusUpdate status = MapStatusUpdateFactory.newLatLng(ll);
             mBaiduMap.setMapStatus(status);//直接到中间
+            getListTreeInMap(Utils.getSecondTime(new Date()));
 
         }
     }

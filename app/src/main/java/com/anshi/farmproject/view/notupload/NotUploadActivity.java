@@ -15,6 +15,7 @@ import com.anshi.farmproject.base.BaseActivity;
 import com.anshi.farmproject.base.BaseApplication;
 import com.anshi.farmproject.entry.CanLoadEntry;
 import com.anshi.farmproject.greendao.UploadLocationEntry;
+import com.anshi.farmproject.utils.SharedPreferenceUtils;
 import com.anshi.farmproject.utils.StatusBarUtils;
 import com.anshi.farmproject.view.query.QueryDetailActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -88,6 +89,8 @@ public class NotUploadActivity extends BaseActivity {
         canLoadEntry.setNumberIvPath(uploadLocationEntry.getNumberIvPath());//编号照片
         canLoadEntry.setDealTime(uploadLocationEntry.getDealTime());//时间
         canLoadEntry.setDealType(uploadLocationEntry.getDealType());
+        canLoadEntry.setTeaName(SharedPreferenceUtils.getString(this,"deptName"));
+        canLoadEntry.setChainName(SharedPreferenceUtils.getString(this,"userName"));
         canLoadEntry.setZhiwuName(uploadLocationEntry.getZhiwuName());
         canLoadEntry.setZhiwuId(uploadLocationEntry.getZhiwuId());
         canLoadEntry.setDealTypePosition(uploadLocationEntry.getDealTypePosition());
