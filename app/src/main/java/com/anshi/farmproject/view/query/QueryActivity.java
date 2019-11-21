@@ -152,8 +152,17 @@ public class QueryActivity extends BaseActivity {
                                             if (dataBean.getChildDepts()!=null&&dataBean.getChildDepts().size()>0){
                                                 for (int j = 0; j <dataBean.getChildDepts().size() ; j++) {
                                                     TreeCountEntry.DataBean.ChildDeptsBeanXXX childDeptsBean = dataBean.getChildDepts().get(j);
-                                                    ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getDeptName(),"数量:"+childDeptsBean.getAmount());
-                                                    ListTree.TreeNode groupNodeOne = tree.addNode(groupNode, contactTwo, R.layout.contacts_group_item);
+                                                    ListTree.TreeNode groupNodeOne;
+                                                    if (childDeptsBean.getChainsaw()!=null){
+                                                        ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getChainsaw(),"数量:"+childDeptsBean.getAmounts());
+                                                        contactTwo.setId(childDeptsBean.getBranchId());
+                                                        groupNodeOne = tree.addNode(groupNode, contactTwo, R.layout.contacts_group_item);
+                                                        groupNodeOne.setShowExpandIcon(false);
+                                                        continue;
+                                                    }else {
+                                                        ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getChainsaw(),"数量:"+childDeptsBean.getAmounts());
+                                                        groupNodeOne = tree.addNode(groupNode, contactTwo, R.layout.contacts_group_item);
+                                                    }
                                                     if (childDeptsBean.getChildDepts()!=null&&childDeptsBean.getChildDepts().size()>0){
                                                         for (int k = 0; k <childDeptsBean.getChildDepts().size() ; k++) {
                                                             TreeCountEntry.DataBean.ChildDeptsBeanXXX.ChildDeptsBeanXX childDeptsBeanX = childDeptsBean.getChildDepts().get(k);

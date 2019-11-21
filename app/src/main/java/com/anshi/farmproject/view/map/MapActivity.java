@@ -67,7 +67,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
     private TextView mCostTimeTv;
-
+    private String selectTime;
+    private boolean firstLoad;
     // 声明json文件变量
     private static final String CUSTOM_FILE_NAME_GRAY = "custom_map_config.json";
     //创建OverlayOptions的集合
@@ -87,10 +88,12 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("cureTime",time);
+           // jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
             jsonObject.put("deptId", SharedPreferenceUtils.getInt(this,"deptId"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.e("xxx",jsonObject.toString());
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
         mService.getFelingList(requestBody)
                 .map(new Func1<ResponseBody,ResponseBody>() {
@@ -108,6 +111,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                         }
                         try {
                             String string = responseBody.string();
+                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 DetailQueryEntry detailQueryEntry = gson.fromJson(string, DetailQueryEntry.class);
@@ -123,7 +127,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                                             LatLng point1 = new LatLng(Double.parseDouble(detailQueryEntry.getData().get(i).getLatitude()), Double.parseDouble(detailQueryEntry.getData().get(i).getLongitude()));
                                             //创建OverlayOptions属性
                                             Bundle bundle = new Bundle();
-                                            bundle.putString("address",dataBean.getTeamName()+"\n"+dataBean.getPlaceName());
+                                            bundle.putString("address","油锯:"+dataBean.getChainsaw()+"\n"+"小地名:"+dataBean.getPlaceName());
                                             OverlayOptions option1 =  new MarkerOptions()
                                                     .position(point1)
                                                     .extraInfo(bundle)
@@ -156,9 +160,9 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         TextView title = findViewById(R.id.title_tv);
         title.setText("除治信息统计");
-        mCostTimeTv = findViewById(R.id.cost_time_tv);
+        mCostTimeTv = findViewById(R.id.cost_money_history);
         findViewById(R.id.cost_time_iv).setOnClickListener(this);
-
+        mCostTimeTv.setText(Utils.getTime(new Date()));
         mMapView = findViewById(R.id.mapview);
         // 不显示百度地图Logo
         mMapView.removeViewAt(1);
@@ -228,7 +232,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
                     public void onTimeSelect(Date date, View v) {
                         String time = Utils.getTime(date);
                         mCostTimeTv.setText(time);
-                        getListTreeInMap(Utils.getSecondTime(date));
+                        selectTime = Utils.getSecondTime(date);
+                        getListTreeInMap(selectTime);
                     }
                 }).build();
                 pvTime.show();
@@ -254,8 +259,11 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
             LatLng ll = new LatLng(location.getLatitude(),location.getLongitude());
             MapStatusUpdate status = MapStatusUpdateFactory.newLatLng(ll);
             mBaiduMap.setMapStatus(status);//直接到中间
-            getListTreeInMap(Utils.getSecondTime(new Date()));
-
+            if (!firstLoad){
+                selectTime = Utils.getSecondTime(new Date());
+                getListTreeInMap(selectTime);
+                firstLoad =true;
+            }
         }
     }
     /**

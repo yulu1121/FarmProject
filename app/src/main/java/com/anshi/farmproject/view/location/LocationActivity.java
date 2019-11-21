@@ -717,16 +717,8 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s)){
-                    String number = s.toString();
-                    if (Integer.parseInt(number)<SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_NUMBER)){
-                        Toast.makeText(LocationActivity.this, "请输入大于当前编号的数字", Toast.LENGTH_SHORT).show();
-                        mNumberEt.setText(String.valueOf(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_NUMBER)+1));
-                        return;
-                    }
-                    mCurrentNumber = Integer.parseInt(number);
+                    mCurrentNumber = Integer.parseInt(s.toString());
                     formatNumber();
-                }else {
-                    mNumberEt.setText(String.valueOf(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_NUMBER)+1));
                 }
 
             }
@@ -792,6 +784,10 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             Toast.makeText(this, "请输入组", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (TextUtils.isEmpty(mNumberEt.getText())){
+            Toast.makeText(this, "请输入序号", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (TextUtils.isEmpty(mAddressEt.getText())){
             Toast.makeText(this, "请输入小地名", Toast.LENGTH_SHORT).show();
             return;
@@ -806,6 +802,10 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         }
         if (TextUtils.isEmpty(mRadiusEt.getText())){
             Toast.makeText(this, "请输入伐桩地径", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (Integer.parseInt(mNumberEt.getText().toString())<SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_NUMBER)){
+            Toast.makeText(LocationActivity.this, "请输入大于当前编号的数字", Toast.LENGTH_SHORT).show();
             return;
         }
          uploadFormation();

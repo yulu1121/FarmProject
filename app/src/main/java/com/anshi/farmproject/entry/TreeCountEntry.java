@@ -323,9 +323,9 @@ public class TreeCountEntry {
             private String delFlag;
             private Object parentName;
             private int amount;
-            private Object amounts;
-            private Object branchId;
-            private Object chainsaw;
+            private int amounts;
+            private int branchId;
+            private String chainsaw;
             private List<ChildDeptsBeanXX> childDepts;
 
             public Object getSearchValue() {
@@ -480,27 +480,27 @@ public class TreeCountEntry {
                 this.amount = amount;
             }
 
-            public Object getAmounts() {
+            public int getAmounts() {
                 return amounts;
             }
 
-            public void setAmounts(Object amounts) {
+            public void setAmounts(int amounts) {
                 this.amounts = amounts;
             }
 
-            public Object getBranchId() {
+            public int getBranchId() {
                 return branchId;
             }
 
-            public void setBranchId(Object branchId) {
+            public void setBranchId(int branchId) {
                 this.branchId = branchId;
             }
 
-            public Object getChainsaw() {
+            public String getChainsaw() {
                 return chainsaw;
             }
 
-            public void setChainsaw(Object chainsaw) {
+            public void setChainsaw(String chainsaw) {
                 this.chainsaw = chainsaw;
             }
 
