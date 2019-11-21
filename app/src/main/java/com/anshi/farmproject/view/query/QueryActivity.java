@@ -160,7 +160,7 @@ public class QueryActivity extends BaseActivity {
                                                         groupNodeOne.setShowExpandIcon(false);
                                                         continue;
                                                     }else {
-                                                        ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getChainsaw(),"数量:"+childDeptsBean.getAmounts());
+                                                        ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getDeptName(),"数量:"+childDeptsBean.getAmount());
                                                         groupNodeOne = tree.addNode(groupNode, contactTwo, R.layout.contacts_group_item);
                                                     }
                                                     if (childDeptsBean.getChildDepts()!=null&&childDeptsBean.getChildDepts().size()>0){
