@@ -21,6 +21,7 @@ import com.anshi.farmproject.utils.check.SampleMultiplePermissionListener;
 import com.anshi.farmproject.utils.notifylistener.INotifyListener;
 import com.anshi.farmproject.utils.notifylistener.NotifyListenerMangager;
 import com.anshi.farmproject.view.location.LocationActivity;
+import com.anshi.farmproject.view.login.LoginActivity;
 import com.anshi.farmproject.view.map.MapActivity;
 import com.anshi.farmproject.view.notupload.NotUploadActivity;
 import com.anshi.farmproject.view.query.QueryActivity;
@@ -113,7 +114,7 @@ public class MainCateActivity extends BaseActivity implements View.OnClickListen
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         SharedPreferenceUtils.clear(mContext);
-                        Intent intent = new Intent(mContext,LocationActivity.class);
+                        Intent intent = new Intent(mContext,LoginActivity.class);
                         startActivity(intent);
                         finishAffinity();
                     }
