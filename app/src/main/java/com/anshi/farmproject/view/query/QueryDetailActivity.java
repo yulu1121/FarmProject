@@ -24,6 +24,7 @@ import com.anshi.farmproject.utils.SharedPreferenceUtils;
 import com.anshi.farmproject.utils.StatusBarUtils;
 import com.anshi.farmproject.utils.Utils;
 import com.anshi.farmproject.utils.glide.GlideApp;
+import com.anshi.farmproject.utils.notifylistener.NotifyListenerMangager;
 import com.anshi.farmproject.view.image.ImageActivity;
 import com.baidu.mapapi.NetworkUtil;
 import com.google.gson.Gson;
@@ -354,6 +355,7 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
                                             @Override
                                             public void run() {
                                                 BaseApplication.getInstances().getDaoSession().getUploadLocationEntryDao().deleteByKey(uploadLocationEntry.getUploadNumber());
+                                                NotifyListenerMangager.getInstance().nofityContext("成功",Constants.NET_STATE);
                                                 setResult(RESULT_OK);
                                                 finish();
                                             }
