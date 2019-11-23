@@ -88,8 +88,8 @@ public class MapActivity extends BaseActivity implements View.OnClickListener {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("cureTime",time);
-           // jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
-            jsonObject.put("deptId", SharedPreferenceUtils.getInt(this,"deptId"));
+            jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
+           // jsonObject.put("deptId", SharedPreferenceUtils.getInt(this,"deptId"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
