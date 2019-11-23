@@ -60,7 +60,6 @@
             />
         <activity android:name=".view.query.QueryDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
             />
         <activity android:name=".view.notupload.NotUploadActivity"

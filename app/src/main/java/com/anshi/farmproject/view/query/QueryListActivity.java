@@ -79,24 +79,7 @@ public class QueryListActivity extends BaseActivity {
         mRecyclerView = findViewById(R.id.detail_recycler);
         queryAdapter = new QueryAdapter(this,title,hashMap);
         mRecyclerView.setAdapter(queryAdapter);
-//        commonAdapter = new CommonAdapter<DetailQueryEntry.DataBean>(this,R.layout.item_detail_query,mList) {
-//            @Override
-//            protected void convert(ViewHolder holder, final DetailQueryEntry.DataBean detailQueryEntry, int position) {
-//                    TextView time = holder.getView(R.id.time_tv);
-//                    TextView company = holder.getView(R.id.company_tv);
-//                    TextView number = holder.getView(R.id.number_tv);
-//                    time.setText(detailQueryEntry.getCureTime());
-//                    company.setText(detailQueryEntry.getCompany());
-//                    number.setText(detailQueryEntry.getNumber());
-//                    holder.getConvertView().setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            toNotDetail(detailQueryEntry);
-//                        }
-//                    });
-//            }
-//        };
-        //mRecyclerView.setAdapter(commonAdapter);
+
     }
 
     private String  getYearMonth(String time){
@@ -105,7 +88,7 @@ public class QueryListActivity extends BaseActivity {
             Date date = format.parse(time);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            return calendar.get(Calendar.YEAR)+"."+calendar.get(Calendar.MONTH)+1;
+            return calendar.get(Calendar.YEAR)+"."+(calendar.get(Calendar.MONTH)+1);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -191,6 +174,9 @@ public class QueryListActivity extends BaseActivity {
                                             }
                                         }
                                         queryAdapter.notifyDataSetChanged();
+                                        for(int i = 0; i < queryAdapter.getGroupCount(); i++){
+                                            mRecyclerView.expandGroup(i);
+                                        }
                                     }
                                 }else{
                                     Toast.makeText(mContext, detailQueryEntry.getMsg(), Toast.LENGTH_SHORT).show();

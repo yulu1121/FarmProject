@@ -50,6 +50,24 @@ public class LoginEntry {
         private String townName;
         private int townId;
 
+        public String getVillageName() {
+            return villageName;
+        }
+
+        public void setVillageName(String villageName) {
+            this.villageName = villageName;
+        }
+
+        public int getVillageId() {
+            return villageId;
+        }
+
+        public void setVillageId(int villageId) {
+            this.villageId = villageId;
+        }
+
+        private String villageName;
+        private int villageId;
         public String getTownName() {
             return townName;
         }

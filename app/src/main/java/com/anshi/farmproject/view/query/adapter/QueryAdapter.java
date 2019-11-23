@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.anshi.farmproject.R;
@@ -85,6 +86,12 @@ public class QueryAdapter extends BaseExpandableListAdapter {
         Object[] objects = hashMap.keySet().toArray();
 
         TextView tvGroup = convertView.findViewById(R.id.chainw_tv);
+        ImageView iv = convertView.findViewById(R.id.icon_iv);
+        if (isExpanded){
+            iv.setImageResource(R.drawable.pg_expand);
+        }else {
+            iv.setImageResource(R.drawable.pg_collapse);
+        }
         TextView timeTv = convertView.findViewById(R.id.time_tv);
         TextView totalTv = convertView.findViewById(R.id.total_tv);
         tvGroup.setText(title);

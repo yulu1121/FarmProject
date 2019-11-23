@@ -366,7 +366,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("deptId",townId);
-            jsonObject.put("type",SharedPreferenceUtils.getString(this,"type"));
+            jsonObject.put("type","3");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -649,7 +649,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         @SuppressLint("DefaultLocale") String format = String.format("%04d", mCurrentNumber );
         String townName = SharedPreferenceUtils.getString(this, "townName");
         String loginName = SharedPreferenceUtils.getString(this, "userName");
-        String deptName = SharedPreferenceUtils.getString(this, "deptName");
+        String deptName = SharedPreferenceUtils.getString(this, "villageName");
         StringBuilder pinYinTown = new StringBuilder();
         StringBuilder pinYinLoginName = new StringBuilder();
         StringBuilder pinYinDeptName = new StringBuilder();

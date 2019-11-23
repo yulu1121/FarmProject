@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anshi.farmproject.R;
 import com.anshi.farmproject.base.BaseActivity;
@@ -66,6 +67,10 @@ public class MainCateActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void toLocation(View view) {
+        if (!SharedPreferenceUtils.getString(this,"type").equals("4")){
+            Toast.makeText(mContext, "只有公司层级才能添加采伐数据", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, LocationActivity.class);
         startActivity(intent);
     }

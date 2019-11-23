@@ -69,7 +69,7 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
         TextView titleTv = findViewById(R.id.title_tv);
         titleTv.setText("除治详情");
         mChangeTv = findViewById(R.id.publish_tv);
-        mChangeTv.setVisibility(View.VISIBLE);
+        mChangeTv.setVisibility(View.GONE);
         mChangeTv.setText("切换横屏");
         mChangeTv.setOnClickListener(this);
         mNumberTv = findViewById(R.id.number_tv);
