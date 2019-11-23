@@ -118,7 +118,7 @@ public class MainCateActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        SharedPreferenceUtils.clear(mContext);
+                        SharedPreferenceUtils.saveBoolean(mContext,"autoLogin",false);
                         Intent intent = new Intent(mContext,LoginActivity.class);
                         startActivity(intent);
                         finishAffinity();

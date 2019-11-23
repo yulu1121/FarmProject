@@ -117,7 +117,7 @@ public class QueryAdapter extends BaseExpandableListAdapter {
                     TextView company = holder.getView(R.id.company_tv);
                     TextView number = holder.getView(R.id.number_tv);
                     time.setText(detailQueryEntry.getCureTime());
-                    company.setText(detailQueryEntry.getCompany());
+                    company.setText(String.valueOf(detailQueryEntry.getOrders()));
                     number.setText(detailQueryEntry.getNumber());
                     holder.getConvertView().setOnClickListener(new View.OnClickListener() {
                         @Override

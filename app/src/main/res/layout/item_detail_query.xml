@@ -38,8 +38,8 @@
         android:id="@+id/number_tv"
         android:layout_toStartOf="@id/arrow_iv"
         android:ellipsize="end"
-        android:textSize="@dimen/large_txt"
-        android:text="XY-SA-SD-0002"
+        android:textSize="@dimen/medium_txt"
+
         />
     <ImageView
         android:layout_width="20dp"

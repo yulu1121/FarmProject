@@ -47,6 +47,7 @@ import com.anshi.farmproject.utils.check.SampleMultiplePermissionListener;
 import com.anshi.farmproject.utils.gpsutils.GPSUtils;
 import com.anshi.farmproject.utils.gpsutils.Gps;
 import com.anshi.farmproject.utils.gpsutils.PositionUtil;
+import com.anshi.farmproject.utils.notifylistener.NotifyListenerMangager;
 import com.anshi.farmproject.utils.pinyin.LanguageConvent;
 import com.anshi.farmproject.utils.watermask.WaterMaskUtil;
 import com.anshi.farmproject.view.image.ImageActivity;
@@ -352,6 +353,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                         List<String> mList = new ArrayList<>();
                         mList.add(substring);
                         initSpinnerData(mDealTypeSpinner,mList);
+                        mDealName = substring;
                         mDealTypeId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
                         throwable.printStackTrace();
                     }
@@ -413,6 +415,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                         List<String> mList = new ArrayList<>();
                         mList.add(substring);
                         initSpinnerData(mVillageSpinner,mList);
+                        mVillageName = substring;
                         mVillageId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
                         throwable.printStackTrace();
                     }
@@ -527,7 +530,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                         List<String> mList = new ArrayList<>();
                         mList.add(substring);
                         initSpinnerData(mZhiWuSpinner,mList);
-
+                        mCurrentZhiWuName = substring;
                         mCurrentZhiWuId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
                         throwable.printStackTrace();
                     }
@@ -855,6 +858,13 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         }
         uploadLocationEntryDao.insert(uploadLocationEntry);
         Toast.makeText(this, "信息已保存本地", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                NotifyListenerMangager.getInstance().nofityContext("本地",Constants.NET_STATE);
+                finish();
+            }
+        },1000);
     }
 
 

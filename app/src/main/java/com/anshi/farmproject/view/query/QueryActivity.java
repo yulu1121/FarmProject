@@ -122,7 +122,6 @@ public class QueryActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("xxx",jsonObject.toString());
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
         mService.getTreeDeptCount(requestBody)
                 .map(new Func1<ResponseBody, ResponseBody>() {
@@ -141,7 +140,6 @@ public class QueryActivity extends BaseActivity {
                         }
                         try {
                             String string = responseBody.string();
-                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 TreeCountEntry treeCountEntry = gson.fromJson(string, TreeCountEntry.class);

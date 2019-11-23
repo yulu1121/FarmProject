@@ -126,7 +126,7 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
         mAddressTv.setText(uploadLocationEntry.getAddressName());
         mLatTv.setText(String.valueOf(uploadLocationEntry.getLatitude()));
         mLonTv.setText(String.valueOf(uploadLocationEntry.getLongtitude()));
-        mRealGroupTv.setText(uploadLocationEntry.getRealNumber());
+        mRealGroupTv.setText(String.valueOf(uploadLocationEntry.getUploadNumber()));
         mRadiusTv.setText(String.valueOf(uploadLocationEntry.getRadius())+"(厘米)");
         if (hasData){
             GlideApp.with(this).load(Constants.IMAGE_HEADER+uploadLocationEntry.getAroundIvPath()).centerCrop().into(mArroundIv);
@@ -301,8 +301,8 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("number",uploadLocationEntry.getUploadNumber());
-            jsonObject.put("orders",uploadLocationEntry.getRealNumber());
+            jsonObject.put("number",uploadLocationEntry.getRealNumber());
+            jsonObject.put("orders",uploadLocationEntry.getUploadNumber());
             jsonObject.put("company",SharedPreferenceUtils.getString(this,"deptName"));
             jsonObject.put("cureTime",uploadLocationEntry.getDealTime());
             jsonObject.put("cureId",uploadLocationEntry.getDealTypePosition());
@@ -325,7 +325,6 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("xxx",jsonObject.toString());
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
         mService.insertFeling(requestBody)
                 .map(new Func1<ResponseBody, ResponseBody>() {
