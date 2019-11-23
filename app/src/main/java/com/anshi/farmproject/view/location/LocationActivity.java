@@ -255,6 +255,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         mNumberTv = findViewById(R.id.number_tv);
         mNumberEt = findViewById(R.id.number_et);
         mRadiusEt = findViewById(R.id.radius_et);
+        mRadiusEt.setText(SharedPreferenceUtils.getFloat(this,Constants.RADIUS_DATA)==0?"":String.valueOf(SharedPreferenceUtils.getFloat(this,Constants.RADIUS_DATA)));
         mZhiWuSpinner = findViewById(R.id.zhiwu_spinner);
         int saveNumber = SharedPreferenceUtils.getInt(this, Constants.DEAL_NUMBER);
         mCurrentNumber = saveNumber+1;
@@ -267,7 +268,14 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         mCollapseIv.setOnClickListener(this);
         mCommonLayout = findViewById(R.id.common_normal_layout);
         mAddressEt= findViewById(R.id.address_et);//具体位置
+        if (!TextUtils.isEmpty(SharedPreferenceUtils.getString(this,Constants.PLACE_DATA))){
+            mAddressEt.setText(SharedPreferenceUtils.getString(this,Constants.PLACE_DATA));
+        }
         mGroupEt = findViewById(R.id.group_et);
+        if (SharedPreferenceUtils.getInt(this,Constants.GROUP_DATA)>0){
+            mGroupEt.setText(String.valueOf(SharedPreferenceUtils.getInt(this,Constants.GROUP_DATA)));
+        }
+
         mLocationTv = findViewById(R.id.location_tv);//经纬度
         mAroundTakePhotoLayout = findViewById(R.id.around_layout);
         mNumberTakePhotoLayout = findViewById(R.id.number_layout);
@@ -358,6 +366,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("deptId",townId);
+            jsonObject.put("type",SharedPreferenceUtils.getString(this,"type"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -637,9 +646,9 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
 
     @SuppressLint("SetTextI18n")
     private void formatNumber(){
-        @SuppressLint("DefaultLocale") String format = String.format("%05d", mCurrentNumber );
+        @SuppressLint("DefaultLocale") String format = String.format("%04d", mCurrentNumber );
         String townName = SharedPreferenceUtils.getString(this, "townName");
-        String loginName = SharedPreferenceUtils.getString(this, "loginName");
+        String loginName = SharedPreferenceUtils.getString(this, "userName");
         String deptName = SharedPreferenceUtils.getString(this, "deptName");
         StringBuilder pinYinTown = new StringBuilder();
         StringBuilder pinYinLoginName = new StringBuilder();
@@ -653,8 +662,11 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         for (int i = 0; i <deptName.toCharArray().length ; i++) {
             pinYinDeptName.append(LanguageConvent.getFirstChar(String.valueOf(deptName.toCharArray()[i])));
         }
-
-        mNumberTv.setText(pinYinTown.toString()+"-"+pinYinDeptName.toString()+"-"+pinYinLoginName.toString()+"-"+format);
+        if (!TextUtils.isEmpty(pinYinTown.toString())){
+            mNumberTv.setText(pinYinTown.toString()+"-"+pinYinDeptName.toString()+"-"+pinYinLoginName.toString()+"-"+format);
+        }else {
+            mNumberTv.setText(pinYinDeptName.toString()+"-"+pinYinLoginName.toString()+"-"+format);
+        }
     }
     private void addEventListener(){
         mDealTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -808,7 +820,10 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             Toast.makeText(LocationActivity.this, "请输入大于当前编号的数字", Toast.LENGTH_SHORT).show();
             return;
         }
-         uploadFormation();
+        SharedPreferenceUtils.saveString(this,Constants.PLACE_DATA,mAddressEt.getText().toString());
+        SharedPreferenceUtils.saveInt(this,Constants.GROUP_DATA,Integer.parseInt(mGroupEt.getText().toString()));
+        SharedPreferenceUtils.saveFloat(this,Constants.RADIUS_DATA,Float.parseFloat(mRadiusEt.getText().toString()));
+        uploadFormation();
 
 
     }

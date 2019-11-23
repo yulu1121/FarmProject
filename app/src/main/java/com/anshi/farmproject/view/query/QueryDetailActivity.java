@@ -126,7 +126,7 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
         mAddressTv.setText(uploadLocationEntry.getAddressName());
         mLatTv.setText(String.valueOf(uploadLocationEntry.getLatitude()));
         mLonTv.setText(String.valueOf(uploadLocationEntry.getLongtitude()));
-        mRealGroupTv.setText(String.valueOf(uploadLocationEntry.getGroupNumber()));
+        mRealGroupTv.setText(uploadLocationEntry.getRealNumber());
         mRadiusTv.setText(String.valueOf(uploadLocationEntry.getRadius())+"(厘米)");
         if (hasData){
             GlideApp.with(this).load(Constants.IMAGE_HEADER+uploadLocationEntry.getAroundIvPath()).centerCrop().into(mArroundIv);

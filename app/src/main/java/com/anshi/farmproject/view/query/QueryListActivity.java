@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,10 +15,12 @@ import com.anshi.farmproject.R;
 import com.anshi.farmproject.base.BaseActivity;
 import com.anshi.farmproject.entry.CanLoadEntry;
 import com.anshi.farmproject.entry.DetailQueryEntry;
+import com.anshi.farmproject.entry.QueryGroupEntry;
 import com.anshi.farmproject.utils.Constants;
 import com.anshi.farmproject.utils.DialogBuild;
 import com.anshi.farmproject.utils.StatusBarUtils;
 import com.anshi.farmproject.utils.Utils;
+import com.anshi.farmproject.view.query.adapter.QueryAdapter;
 import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -27,8 +30,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -39,16 +48,20 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class QueryListActivity extends BaseActivity {
-    private RecyclerView mRecyclerView;
-    private List<DetailQueryEntry.DataBean> mList = new ArrayList<>();
-    private CommonAdapter<DetailQueryEntry.DataBean> commonAdapter;
+    private ExpandableListView mRecyclerView;
+    private LinkedHashMap<String,List<DetailQueryEntry.DataBean>> hashMap = new LinkedHashMap<>();
+    //private CommonAdapter<DetailQueryEntry.DataBean> commonAdapter;
     private int id;
+
+    private QueryAdapter queryAdapter;
+    private String title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_query_list);
         id = getIntent().getIntExtra("id", 0);
+        title = getIntent().getStringExtra("title");
         initView();
         initData();
     }
@@ -64,27 +77,41 @@ public class QueryListActivity extends BaseActivity {
         TextView titleTv = findViewById(R.id.title_tv);
         titleTv.setText("油锯除治详情");
         mRecyclerView = findViewById(R.id.detail_recycler);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        commonAdapter = new CommonAdapter<DetailQueryEntry.DataBean>(this,R.layout.item_detail_query,mList) {
-            @Override
-            protected void convert(ViewHolder holder, final DetailQueryEntry.DataBean detailQueryEntry, int position) {
-                    TextView time = holder.getView(R.id.time_tv);
-                    TextView company = holder.getView(R.id.company_tv);
-                    TextView number = holder.getView(R.id.number_tv);
-                    time.setText(detailQueryEntry.getCureTime());
-                    company.setText(detailQueryEntry.getCompany());
-                    number.setText(detailQueryEntry.getNumber());
-                    holder.getConvertView().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            toNotDetail(detailQueryEntry);
-                        }
-                    });
-            }
-        };
-        mRecyclerView.setAdapter(commonAdapter);
+        queryAdapter = new QueryAdapter(this,title,hashMap);
+        mRecyclerView.setAdapter(queryAdapter);
+//        commonAdapter = new CommonAdapter<DetailQueryEntry.DataBean>(this,R.layout.item_detail_query,mList) {
+//            @Override
+//            protected void convert(ViewHolder holder, final DetailQueryEntry.DataBean detailQueryEntry, int position) {
+//                    TextView time = holder.getView(R.id.time_tv);
+//                    TextView company = holder.getView(R.id.company_tv);
+//                    TextView number = holder.getView(R.id.number_tv);
+//                    time.setText(detailQueryEntry.getCureTime());
+//                    company.setText(detailQueryEntry.getCompany());
+//                    number.setText(detailQueryEntry.getNumber());
+//                    holder.getConvertView().setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            toNotDetail(detailQueryEntry);
+//                        }
+//                    });
+//            }
+//        };
+        //mRecyclerView.setAdapter(commonAdapter);
     }
+
+    private String  getYearMonth(String time){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        try {
+            Date date = format.parse(time);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            return calendar.get(Calendar.YEAR)+"."+calendar.get(Calendar.MONTH)+1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     private void toNotDetail(DetailQueryEntry.DataBean uploadLocationEntry){
         CanLoadEntry canLoadEntry = new CanLoadEntry();
@@ -152,9 +179,18 @@ public class QueryListActivity extends BaseActivity {
                                 DetailQueryEntry detailQueryEntry = gson.fromJson(string, DetailQueryEntry.class);
                                 if (detailQueryEntry.getCode()== Constants.SUCCESS_CODE){
                                     if (detailQueryEntry.getData()!=null&&detailQueryEntry.getData().size()>0){
-                                        mList.clear();
-                                        mList.addAll(detailQueryEntry.getData());
-                                        commonAdapter.notifyDataSetChanged();
+                                        for (int i = 0; i <detailQueryEntry.getData().size(); i++) {
+                                            DetailQueryEntry.DataBean dataBean = detailQueryEntry.getData().get(i);
+                                            if (hashMap.containsKey(getYearMonth(dataBean.getCureTime()))){
+                                                List<DetailQueryEntry.DataBean> dataBeans = hashMap.get(getYearMonth(dataBean.getCureTime()));
+                                                dataBeans.add(dataBean);
+                                            }else {
+                                                List<DetailQueryEntry.DataBean> dataBeanList = new ArrayList<>();
+                                                dataBeanList.add(dataBean);
+                                                hashMap.put(getYearMonth(dataBean.getCureTime()),dataBeanList);
+                                            }
+                                        }
+                                        queryAdapter.notifyDataSetChanged();
                                     }
                                 }else{
                                     Toast.makeText(mContext, detailQueryEntry.getMsg(), Toast.LENGTH_SHORT).show();

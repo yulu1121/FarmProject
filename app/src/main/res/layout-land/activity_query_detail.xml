@@ -78,32 +78,33 @@
                         android:gravity="center"
                         />
                 </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="除治时间"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/large_txt"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="除治时间"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_txt"
 
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bottom_line"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="@dimen/large_txt"
-                    android:id="@+id/time_tv"
-                    android:gravity="center"
-                    />
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bottom_line"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/large_txt"
+                        android:id="@+id/time_tv"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -137,33 +138,34 @@
                         android:gravity="center"
                         />
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="除治单位"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/large_txt"
-                    android:id="@+id/tv_two"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bottom_line"
-                    android:textColor="@color/colorPrimary"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="@dimen/large_txt"
-                    android:id="@+id/unit_tv"
-                    android:gravity="center"
-                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="除治单位"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_txt"
+                        android:id="@+id/tv_two"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bottom_line"
+                        android:textColor="@color/colorPrimary"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/large_txt"
+                        android:id="@+id/unit_tv"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -196,31 +198,32 @@
                         android:gravity="center"
                         />
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="除治类型"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/large_txt"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bottom_line"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="@dimen/large_txt"
-                    android:id="@+id/type_tv"
-                    android:gravity="center"
-                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="除治类型"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_txt"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bottom_line"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/large_txt"
+                        android:id="@+id/type_tv"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -254,32 +257,33 @@
                         android:gravity="center"
                         />
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="村&#12288;&#12288;&#12288;"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/large_txt"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bottom_line"
-                    android:textColor="@color/colorPrimary"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="@dimen/large_txt"
-                    android:id="@+id/village_tv"
-                    android:gravity="center"
-                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="村&#12288;&#12288;&#12288;"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_txt"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bottom_line"
+                        android:textColor="@color/colorPrimary"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/large_txt"
+                        android:id="@+id/village_tv"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -312,31 +316,32 @@
                         android:gravity="center"
                         />
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="小地名&#12288;"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/large_txt"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bottom_line"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="@dimen/large_txt"
-                    android:id="@+id/address_tv"
-                    android:gravity="center"
-                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="小地名&#12288;"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_txt"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bottom_line"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/large_txt"
+                        android:id="@+id/address_tv"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -369,32 +374,33 @@
                         android:gravity="center"
                         />
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:orientation="horizontal"
-                android:layout_marginStart="10dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="数据来源"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/large_txt"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bottom_line"
-                    android:text="自动生成"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textSize="@dimen/large_txt"
-                    android:id="@+id/origin_tv"
-                    android:gravity="center"
-                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="数据来源"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_txt"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bottom_line"
+                        android:text="自动生成"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/large_txt"
+                        android:id="@+id/origin_tv"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -424,30 +430,30 @@
                 android:layout_marginEnd="10dp"
                 android:orientation="horizontal"
                 android:baselineAligned="false">
-              <LinearLayout
-                  android:layout_width="0dp"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
-                  android:layout_weight="2"
-                  android:background="@drawable/image_back"
-                  >
-                  <TextView
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/grey"
-                      android:text="全景拍照"
-                      android:gravity="center"
-                      android:textColor="@color/black"
-                      />
-                  <ImageView
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:scaleType="centerCrop"
-                      android:id="@+id/around_iv"
-                      android:layout_margin="5dp"
-                      android:contentDescription="@null"
-                      />
-              </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="2"
+                    android:background="@drawable/image_back"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/grey"
+                        android:text="全景拍照"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/around_iv"
+                        android:layout_margin="5dp"
+                        android:contentDescription="@null"
+                        />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -607,58 +613,58 @@
                     android:paddingEnd="0dp"
                     />
             </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/map_formation_layout"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="2"
-                android:background="@drawable/image_back"
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/grey"
-                    android:text="静态地图"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    tools:ignore="TooManyViews" />
-                <ImageView
-                    android:layout_width="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/map_formation_layout"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/map_iv"
-                    android:layout_margin="5dp"
-                    android:contentDescription="@null"
-                    />
+                    android:orientation="vertical"
+                    android:layout_weight="2"
+                    android:background="@drawable/image_back"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/grey"
+                        android:text="静态地图"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        tools:ignore="TooManyViews" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/map_iv"
+                        android:layout_margin="5dp"
+                        android:contentDescription="@null"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+
+                    >
+
+                </View>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+
+                </View>
+
             </LinearLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1"
-
-                >
-
-            </View>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                >
-
-            </View>
-
-        </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

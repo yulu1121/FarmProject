@@ -19,4 +19,8 @@ public class Constants {
     public static final String DEAL_TYPE_DATA ="deal_type_data";
     public static final String VILLAGE_DATA = "village_data";
     public static final String ZHI_WU_DATA = "zhi_wu_data";
+    public static final String PLACE_DATA = "place_name";
+    public static final String GROUP_DATA = "group_data";
+    public static final String RADIUS_DATA = "radius_data";
+
 }

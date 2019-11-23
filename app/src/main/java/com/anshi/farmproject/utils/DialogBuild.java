@@ -119,7 +119,7 @@ public class DialogBuild {
                 .withTitle(title)
                 .withMessage(message)
                 .withButtonText(android.R.string.ok)
-                .withIcon(R.mipmap.ic_launcher)
+                .withIcon(R.mipmap.pg_logo)
                 .build();
     }
 

@@ -144,6 +144,7 @@ public class LoginEntry {
             private Object parentName;
             private Object amount;
             private Object childDepts;
+            private String type;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -303,6 +304,14 @@ public class LoginEntry {
 
             public void setChildDepts(Object childDepts) {
                 this.childDepts = childDepts;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
             }
 
             public static class ParamsBean {

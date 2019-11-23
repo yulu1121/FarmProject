@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -99,6 +100,7 @@ public class LoginActivity extends BaseActivity {
                         }
                         try {
                             String string = responseBody.string();
+                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 LoginEntry loginEntry = gson.fromJson(string, LoginEntry.class);
@@ -111,6 +113,7 @@ public class LoginActivity extends BaseActivity {
                                     SharedPreferenceUtils.saveString(mContext,"loginName" ,loginEntry.getData().getLoginName());
                                     SharedPreferenceUtils.saveString(mContext,"deptName",loginEntry.getData().getDept().getDeptName());
                                     SharedPreferenceUtils.saveString(mContext,"townName",loginEntry.getData().getTownName());
+                                    SharedPreferenceUtils.saveString(mContext,"type",loginEntry.getData().getDept().getType());
                                     SharedPreferenceUtils.saveInt(mContext,"townId",loginEntry.getData().getTownId());
                                     new Handler().postDelayed(new Runnable() {
                                         @Override

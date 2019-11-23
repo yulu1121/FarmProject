@@ -39,7 +39,7 @@ public class LanguageConvent {
             if (Pattern.compile("[a-zA-Z]").matcher(firstChar).matches()) {//是字符
                 return firstChar + "";
             } else {
-                return "其他";
+                return firstChar;
             }
         } else {
             return " ";
