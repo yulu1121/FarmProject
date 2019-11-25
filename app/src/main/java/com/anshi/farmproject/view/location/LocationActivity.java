@@ -119,7 +119,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     private AppHttpService mService;
     private List<ZhiWuEntry.DataBean> zhiWuEntryData;
     private List<DealTypeEntry.DataBean> dealTypeEntryData;
-    private List<VillageEntry.DataBean> villageEntryData;
+    private List<VillageEntry.DataBean> villageEntryData = new ArrayList<>();
     private String secondTime;
 
     @Override
@@ -372,7 +372,8 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
      * 获取村
      */
     private void getVillageData(){
-        int townId = SharedPreferenceUtils.getInt(this, "townId");
+        final int townId = SharedPreferenceUtils.getInt(this, "townId");
+        Log.e("xxx","xx"+townId);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("deptId",townId);
@@ -394,15 +395,19 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     public void call(ResponseBody responseBody) {
                         try {
                             String string = responseBody.string();
+                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 VillageEntry villageEntry = gson.fromJson(string, VillageEntry.class);
                                 if (villageEntry.getCode()==Constants.SUCCESS_CODE){
                                     if (villageEntry.getData()!=null&&villageEntry.getData().size()>0){
                                         List<String> mList = new ArrayList<>();
-                                        villageEntryData = villageEntry.getData();
-                                        for (int i = 0; i <villageEntryData .size() ; i++) {
-                                            mList.add(villageEntryData.get(i).getDeptName());
+                                        villageEntryData.clear();
+                                        for (int i = 0; i <villageEntry.getData() .size() ; i++) {
+                                            if (villageEntry.getData().get(i).getParentId()==townId){
+                                                mList.add(villageEntry.getData().get(i).getDeptName());
+                                                villageEntryData.add(villageEntry.getData().get(i));
+                                            }
                                         }
                                         initSpinnerData(mVillageSpinner,mList);
                                         mVillageSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION));
