@@ -28,6 +28,7 @@ import com.anshi.farmproject.view.notupload.NotUploadActivity;
 import com.anshi.farmproject.view.query.QueryActivity;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener;
+import com.tencent.bugly.beta.Beta;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class MainCateActivity extends BaseActivity implements View.OnClickListen
         Dexter.withActivity(this).withPermissions(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION).withListener(new CompositeMultiplePermissionsListener(multiplePermissionListener, DialogBuild.getBuild().createPermissionDialog(this,"权限提醒","请给予拍照和定位的权限")))
                 .check();
         setContentView(R.layout.activity_main_cate);
+        Beta.checkUpgrade(false,false);
         NotifyListenerMangager.getInstance().registerListener(this, Constants.NET_STATE);
         initView();
     }
