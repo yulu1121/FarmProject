@@ -47,7 +47,7 @@ public class MainCateActivity extends BaseActivity implements View.OnClickListen
     private void initView() {
         TextView titleTv = findViewById(R.id.title_tv);
         findViewById(R.id.back_layout).setVisibility(View.GONE);
-        titleTv.setText("除治管理");
+        titleTv.setText("");
         TextView outLoginTv = findViewById(R.id.publish_tv);
         outLoginTv.setText("退出登录");
         outLoginTv.setOnClickListener(this);

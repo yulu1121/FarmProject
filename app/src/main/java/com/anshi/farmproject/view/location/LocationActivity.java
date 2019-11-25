@@ -36,6 +36,7 @@ import com.anshi.farmproject.entry.ZhiWuEntry;
 import com.anshi.farmproject.greendao.UploadLocationEntry;
 import com.anshi.farmproject.greendao.UploadLocationEntryDao;
 import com.anshi.farmproject.net.AppHttpService;
+import com.anshi.farmproject.utils.BitmapUtils;
 import com.anshi.farmproject.utils.Constants;
 import com.anshi.farmproject.utils.DialogBuild;
 import com.anshi.farmproject.utils.SDCardUtil;
@@ -73,6 +74,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -173,7 +175,8 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
 
     @Override
     public void takeSuccess(TResult result) {
-        addWaterMask(BitmapFactory.decodeFile(result.getImage().getCompressPath()),which);
+        //int bitmapDegree = BitmapUtils.getBitmapDegree(result.getImage().getCompressPath());
+        addWaterMask(BitmapUtils.amendRotatePhoto(result.getImage().getCompressPath()),which);
     }
 
     private void addWaterMask(Bitmap sourceBitmap,int which){
@@ -252,7 +255,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     private  int mCurrentNumber;
     private void initView() {
         TextView titleTv= findViewById(R.id.title_tv);
-        titleTv.setText("提交除治信息");
+//        titleTv.setText("提交除治信息");
         mNumberTv = findViewById(R.id.number_tv);
         mNumberEt = findViewById(R.id.number_et);
         mRadiusEt = findViewById(R.id.radius_et);
@@ -573,7 +576,9 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             jsonObject.put("villageId",Long.parseLong(mVillageId));
             jsonObject.put("groups",Long.parseLong(mGroupEt.getText().toString()));
             jsonObject.put("groundDiameter",Double.parseDouble(mRadiusEt.getText().toString()));
-            jsonObject.put("placeName",mAddressEt.getText().toString());
+            if (!TextUtils.isEmpty(mAddressEt.getText())){
+                jsonObject.put("placeName",mAddressEt.getText().toString());
+            }
             jsonObject.put("botanyId",Long.parseLong(mCurrentZhiWuId));
             jsonObject.put("longitude",String.valueOf(gps.getWgLon()));
             jsonObject.put("latitude",String.valueOf(gps.getWgLat()));
@@ -650,25 +655,29 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     @SuppressLint("SetTextI18n")
     private void formatNumber(){
         @SuppressLint("DefaultLocale") String format = String.format("%04d", mCurrentNumber );
+        String orderNum = SharedPreferenceUtils.getString(this, "orderNum");
+        @SuppressLint("DefaultLocale") String orderFormat = String.format("%02d",Integer.parseInt(orderNum));
         String townName = SharedPreferenceUtils.getString(this, "townName");
-        String loginName = SharedPreferenceUtils.getString(this, "userName");
-        String deptName = SharedPreferenceUtils.getString(this, "villageName");
+        String loginName = SharedPreferenceUtils.getString(this, "loginName");
+        //String deptName = SharedPreferenceUtils.getString(this, "villageName");
         StringBuilder pinYinTown = new StringBuilder();
-        StringBuilder pinYinLoginName = new StringBuilder();
-        StringBuilder pinYinDeptName = new StringBuilder();
+        String lastChar = loginName.substring(loginName.length() - 1, loginName.length());
+
+        //StringBuilder pinYinLoginName = new StringBuilder();
+       // StringBuilder pinYinDeptName = new StringBuilder();
         for (int i = 0; i <townName.toCharArray().length ; i++) {
             pinYinTown.append(LanguageConvent.getFirstChar(String.valueOf(townName.toCharArray()[i])));
         }
-        for (int i = 0; i <loginName.toCharArray().length ; i++) {
-            pinYinLoginName.append(LanguageConvent.getFirstChar(String.valueOf(loginName.toCharArray()[i])));
-        }
-        for (int i = 0; i <deptName.toCharArray().length ; i++) {
-            pinYinDeptName.append(LanguageConvent.getFirstChar(String.valueOf(deptName.toCharArray()[i])));
-        }
+//        for (int i = 0; i <loginName.toCharArray().length ; i++) {
+//            pinYinLoginName.append(LanguageConvent.getFirstChar(String.valueOf(loginName.toCharArray()[i])));
+//        }
+//        for (int i = 0; i <deptName.toCharArray().length ; i++) {
+//            pinYinDeptName.append(LanguageConvent.getFirstChar(String.valueOf(deptName.toCharArray()[i])));
+//        }
         if (!TextUtils.isEmpty(pinYinTown.toString())){
-            mNumberTv.setText(pinYinTown.toString()+"-"+pinYinDeptName.toString()+"-"+pinYinLoginName.toString()+"-"+format);
+            mNumberTv.setText(pinYinTown.toString()+"-"+orderFormat+"-"+lastChar.toUpperCase()+format);
         }else {
-            mNumberTv.setText(pinYinDeptName.toString()+"-"+pinYinLoginName.toString()+"-"+format);
+            mNumberTv.setText(orderFormat+"-"+format);
         }
     }
     private void addEventListener(){
@@ -803,10 +812,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             Toast.makeText(this, "请输入序号", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (TextUtils.isEmpty(mAddressEt.getText())){
-            Toast.makeText(this, "请输入小地名", Toast.LENGTH_SHORT).show();
-            return;
-        }
         if (TextUtils.isEmpty(saveToSdCardOne)){
             Toast.makeText(this, "请选择全景照片", Toast.LENGTH_SHORT).show();
             return;
@@ -837,7 +842,9 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         UploadLocationEntry uploadLocationEntry = new UploadLocationEntry();
         uploadLocationEntry.setRealNumber(mNumberTv.getText().toString());//编号
         uploadLocationEntry.setUploadNumber((long) mCurrentNumber);//采伐序号
-        uploadLocationEntry.setAddressName(mAddressEt.getText().toString());//小地名
+        if (!TextUtils.isEmpty(mAddressEt.getText())){
+            uploadLocationEntry.setAddressName(mAddressEt.getText().toString());//小地名
+        }
         uploadLocationEntry.setAroundIvPath(saveToSdCardOne);//全景照片
         uploadLocationEntry.setNumberIvPath(saveToSdCardTwo);//编号照片
         uploadLocationEntry.setDealTime(secondTime);//时间

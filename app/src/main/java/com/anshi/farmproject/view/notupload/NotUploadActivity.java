@@ -84,7 +84,9 @@ public class NotUploadActivity extends BaseActivity {
         CanLoadEntry canLoadEntry = new CanLoadEntry();
         canLoadEntry.setRealNumber(uploadLocationEntry.getRealNumber());//编号
         canLoadEntry.setUploadNumber(uploadLocationEntry.getUploadNumber());//采伐序号
-        canLoadEntry.setAddressName(uploadLocationEntry.getAddressName());//小地名
+        if (!TextUtils.isEmpty(uploadLocationEntry.getAddressName())){
+            canLoadEntry.setAddressName(uploadLocationEntry.getAddressName());//小地名
+        }
         canLoadEntry.setAroundIvPath(uploadLocationEntry.getAroundIvPath());//全景照片
         canLoadEntry.setNumberIvPath(uploadLocationEntry.getNumberIvPath());//编号照片
         canLoadEntry.setDealTime(uploadLocationEntry.getDealTime());//时间

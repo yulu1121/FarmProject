@@ -99,6 +99,28 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@drawable/bottom_line"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorTextDeep"
+            android:text="植物名称"
+            android:textSize="@dimen/large_txt"
+            android:id="@+id/number_tv_eleven"
+            android:layout_marginStart="10dp"
+            tools:ignore="RelativeOverlap" />
+        <Spinner
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical|end"
+            android:id="@+id/zhiwu_spinner"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/bottom_line"
         tools:ignore="UselessParent">

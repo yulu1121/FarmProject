@@ -124,7 +124,9 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
         mVillageTv.setText(uploadLocationEntry.getVillageName());
         mNameTv.setText(uploadLocationEntry.getZhiwuName());
         mGroupTv.setText(String.valueOf(uploadLocationEntry.getGroupNumber()));
-        mAddressTv.setText(uploadLocationEntry.getAddressName());
+        if (!TextUtils.isEmpty(uploadLocationEntry.getAddressName())){
+            mAddressTv.setText(uploadLocationEntry.getAddressName());
+        }
         mLatTv.setText(String.valueOf(uploadLocationEntry.getLatitude()));
         mLonTv.setText(String.valueOf(uploadLocationEntry.getLongtitude()));
         mRealGroupTv.setText(String.valueOf(uploadLocationEntry.getUploadNumber()));

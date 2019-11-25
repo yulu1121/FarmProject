@@ -5,7 +5,7 @@
     <string name="village">&#12288;&#12288;&#12288;村</string>
     <string name="group">&#12288;&#12288;&#12288;组</string>
     <string name="please_input_group_number">请输入组(数字即可)</string>
-    <string name="little_address">&#12288;小地名</string>
+    <string name="little_address">小&#160;&#160;&#160;&#160;地&#160;&#160;&#160;&#160;名</string>
     <string name="limi">厘米</string>
     <string name="please_input_radius">请输入伐桩地径</string>
     <string name="radius">伐桩地径</string>
