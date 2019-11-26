@@ -169,9 +169,9 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     }
     private String saveToSdCardOne;
     private String saveToSdCardTwo;
-
     private void initSpinnerData(Spinner spinner, List<String> strings) {
-        ArrayAdapter<String> adapterThree = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, strings);
+
+        ArrayAdapter<String> adapterThree = new ArrayAdapter<String>(this,R.layout.item_spinner, strings);
         spinner.setAdapter(adapterThree);
     }
 
@@ -262,7 +262,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         mNumberEt = findViewById(R.id.number_et);
         mRadiusEt = findViewById(R.id.radius_et);
         TextView placeTv = findViewById(R.id.number_tv_five);
-        SpannableStringBuilder spannableStringBuilder = AlignedTextUtils.justifyString(placeTv.getText().toString(), 5);
+        SpannableStringBuilder spannableStringBuilder = AlignedTextUtils.justifyString(placeTv.getText().toString(), 4);
         placeTv.setText(spannableStringBuilder);
         mRadiusEt.setText(SharedPreferenceUtils.getFloat(this,Constants.RADIUS_DATA)==0?"":String.valueOf(SharedPreferenceUtils.getFloat(this,Constants.RADIUS_DATA)));
         mZhiWuSpinner = findViewById(R.id.zhiwu_spinner);
@@ -732,7 +732,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferenceUtils.saveInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION,position);
-                if (null!=villageEntryData){
+                if (null!=villageEntryData&&villageEntryData.size()>0){
                     VillageEntry.DataBean dataBean = villageEntryData.get(position);
                     mVillageId = String.valueOf(dataBean.getDeptId());
                     mVillageName = dataBean.getDeptName();
