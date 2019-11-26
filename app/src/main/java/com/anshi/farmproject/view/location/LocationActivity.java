@@ -373,7 +373,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
      */
     private void getVillageData(){
         final int townId = SharedPreferenceUtils.getInt(this, "townId");
-        Log.e("xxx","xx"+townId);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("deptId",townId);
@@ -381,6 +380,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.e("xxx",jsonObject.toString());
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
         mService.getRelationDeptList(requestBody)
                 .map(new Func1<ResponseBody, ResponseBody>() {

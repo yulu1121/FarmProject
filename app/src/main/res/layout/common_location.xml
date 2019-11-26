@@ -107,7 +107,7 @@
             android:id="@+id/number_tv_three"
             tools:ignore="RelativeOverlap" />
         <Spinner
-            android:layout_width="130dp"
+            android:layout_width="140dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:gravity="center_vertical|end"

@@ -116,6 +116,7 @@ public class LoginActivity extends BaseActivity {
                                     SharedPreferenceUtils.saveString(mContext,"type",loginEntry.getData().getDept().getType());
                                     SharedPreferenceUtils.saveString(mContext,"orderNum",loginEntry.getData().getDept().getOrderNum());
                                     SharedPreferenceUtils.saveInt(mContext,"townId",loginEntry.getData().getTownId());
+                                    SharedPreferenceUtils.saveInt(mContext,"villageId",loginEntry.getData().getVillageId());
                                     SharedPreferenceUtils.saveString(mContext,"villageName",loginEntry.getData().getVillageName());
                                     new Handler().postDelayed(new Runnable() {
                                         @Override

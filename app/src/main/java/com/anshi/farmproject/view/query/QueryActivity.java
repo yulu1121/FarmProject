@@ -117,11 +117,12 @@ public class QueryActivity extends BaseActivity {
         }
         JSONObject jsonObject = new JSONObject();
         try {
-//            jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
+           // jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
             jsonObject.put("deptId",deptId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.e("xxx",jsonObject.toString());
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
         mService.getTreeDeptCount(requestBody)
                 .map(new Func1<ResponseBody, ResponseBody>() {
@@ -129,7 +130,7 @@ public class QueryActivity extends BaseActivity {
                     public ResponseBody call(ResponseBody responseBody) {
                         return responseBody;
                     }
-                }).subscribeOn(Schedulers.io())
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<ResponseBody>() {
@@ -140,6 +141,7 @@ public class QueryActivity extends BaseActivity {
                         }
                         try {
                             String string = responseBody.string();
+                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 TreeCountEntry treeCountEntry = gson.fromJson(string, TreeCountEntry.class);
