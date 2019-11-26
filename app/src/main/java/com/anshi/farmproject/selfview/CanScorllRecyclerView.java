@@ -27,7 +27,6 @@ public class CanScorllRecyclerView extends RecyclerView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        requestDisallowInterceptTouchEvent(true);
         return super.onInterceptTouchEvent(ev);
     }
 
