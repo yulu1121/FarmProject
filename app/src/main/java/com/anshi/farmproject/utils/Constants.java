@@ -2,8 +2,8 @@ package com.anshi.farmproject.utils;
 
 public class Constants {
     public static final String NET_STATE = "net_state";
-    public static final String COMMON_URL_HEADER="http://do.anssy.com:8099/treeCheck/app/";
-    public static final String IMAGE_HEADER = "http://do.anssy.com:8099/treeCheck";
+    public static final String COMMON_URL_HEADER="http://119.96.208.213:8099/treeCheck/app/";
+    public static final String IMAGE_HEADER = "http://119.96.208.213:8099/treeCheck";
     public static final String LONGTITUDE = "longtitude";
     public static final String LATITUDE = "latitude";
     public static final String ADDRESS = "address";

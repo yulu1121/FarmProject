@@ -525,6 +525,9 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                             mList.add(zhiWuEntry.getData().get(i).getBotanyName());
                                         }
                                         initSpinnerData(mZhiWuSpinner,mList);
+                                        ZhiWuEntry.DataBean dataBean = zhiWuEntryData.get(SharedPreferenceUtils.getInt(LocationActivity.this, Constants.ZHIWU_POSITION));
+                                        mCurrentZhiWuId =String.valueOf(dataBean.getBotanyId());
+                                        mCurrentZhiWuName = dataBean.getBotanyName();
                                         mZhiWuSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION));
                                     }
                                 }else {
