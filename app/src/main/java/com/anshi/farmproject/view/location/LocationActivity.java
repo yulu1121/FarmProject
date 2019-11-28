@@ -76,7 +76,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -357,12 +356,14 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     @Override
                     public void call(Throwable throwable) {
                         String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.DEAL_TYPE_DATA);
-                        String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
-                        List<String> mList = new ArrayList<>();
-                        mList.add(substring);
-                        initSpinnerData(mDealTypeSpinner,mList);
-                        mDealName = substring;
-                        mDealTypeId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
+                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+                            List<String> mList = new ArrayList<>();
+                            mList.add(substring);
+                            initSpinnerData(mDealTypeSpinner,mList);
+                            mDealName = substring;
+                            mDealTypeId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        }
                         throwable.printStackTrace();
                     }
                 });
@@ -424,12 +425,14 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     @Override
                     public void call(Throwable throwable) {
                         String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.VILLAGE_DATA);
-                        String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
-                        List<String> mList = new ArrayList<>();
-                        mList.add(substring);
-                        initSpinnerData(mVillageSpinner,mList);
-                        mVillageName = substring;
-                        mVillageId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
+                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+                            List<String> mList = new ArrayList<>();
+                            mList.add(substring);
+                            initSpinnerData(mVillageSpinner,mList);
+                            mVillageName = substring;
+                            mVillageId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        }
                         throwable.printStackTrace();
                     }
                 });
@@ -514,6 +517,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     public void call(ResponseBody responseBody) {
                         try {
                             String string = responseBody.string();
+                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 ZhiWuEntry zhiWuEntry = gson.fromJson(string, ZhiWuEntry.class);
@@ -528,6 +532,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                         ZhiWuEntry.DataBean dataBean = zhiWuEntryData.get(SharedPreferenceUtils.getInt(LocationActivity.this, Constants.ZHIWU_POSITION));
                                         mCurrentZhiWuId =String.valueOf(dataBean.getBotanyId());
                                         mCurrentZhiWuName = dataBean.getBotanyName();
+                                        SharedPreferenceUtils.saveString(LocationActivity.this,Constants.ZHI_WU_DATA,dataBean.getBotanyName()+","+dataBean.getBotanyId());
                                         mZhiWuSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION));
                                     }
                                 }else {
@@ -542,12 +547,14 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     @Override
                     public void call(Throwable throwable) {
                         String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.ZHI_WU_DATA);
-                        String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
-                        List<String> mList = new ArrayList<>();
-                        mList.add(substring);
-                        initSpinnerData(mZhiWuSpinner,mList);
-                        mCurrentZhiWuName = substring;
-                        mCurrentZhiWuId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
+                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+                            List<String> mList = new ArrayList<>();
+                            mList.add(substring);
+                            initSpinnerData(mZhiWuSpinner,mList);
+                            mCurrentZhiWuName = substring;
+                            mCurrentZhiWuId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                        }
                         throwable.printStackTrace();
                     }
                 });
