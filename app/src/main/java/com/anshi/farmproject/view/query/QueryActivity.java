@@ -106,19 +106,22 @@ public class QueryActivity extends BaseActivity {
                 mContext.startActivity(intent);
             }
         });
-
         mListView.setAdapter(adapter);
     }
     private KProgressHUD commonLoadDialog;
     private void getTreeCount(){
         int deptId = SharedPreferenceUtils.getInt(this, "deptId");
+       // String type = SharedPreferenceUtils.getString(this, "type");
         if (!isFinishing()){
             commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(this,"正在加载");
         }
         JSONObject jsonObject = new JSONObject();
         try {
-           // jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
-            jsonObject.put("deptId",deptId);
+//            if (type.equals("4")){
+//                jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
+//            }else {
+                jsonObject.put("deptId",deptId);
+          //  }
         } catch (JSONException e) {
             e.printStackTrace();
         }
