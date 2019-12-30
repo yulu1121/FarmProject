@@ -15,16 +15,12 @@ import android.widget.TextView;
 import com.anshi.farmproject.R;
 import com.anshi.farmproject.entry.CanLoadEntry;
 import com.anshi.farmproject.entry.DetailQueryEntry;
-import com.anshi.farmproject.entry.QueryGroupEntry;
 import com.anshi.farmproject.view.query.QueryDetailActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -35,14 +31,16 @@ public class QueryAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private String title;
-    private LinkedHashMap<String,List<DetailQueryEntry.DataBean>> hashMap;
+    private LinkedHashMap<String,List<DetailQueryEntry.DataBean.FellingListBean>> hashMap;
     private final LayoutInflater mInflater;
-    public QueryAdapter(Context context,String title,LinkedHashMap<String,List<DetailQueryEntry.DataBean>> hashMap ){
+    public QueryAdapter(Context context,String title,LinkedHashMap<String,List<DetailQueryEntry.DataBean.FellingListBean>> hashMap){
         this.context = context;
         this.hashMap = hashMap;
         this.title = title;
         mInflater = LayoutInflater.from(context);
     }
+
+
     @Override
     public int getGroupCount() {
         return  hashMap.keySet().toArray().length;
@@ -84,7 +82,6 @@ public class QueryAdapter extends BaseExpandableListAdapter {
             convertView = mInflater.inflate(R.layout.item_date,parent,false);
         }
         Object[] objects = hashMap.keySet().toArray();
-
         TextView tvGroup = convertView.findViewById(R.id.chainw_tv);
         ImageView iv = convertView.findViewById(R.id.icon_iv);
         if (isExpanded){
@@ -94,25 +91,27 @@ public class QueryAdapter extends BaseExpandableListAdapter {
         }
         TextView timeTv = convertView.findViewById(R.id.time_tv);
         TextView totalTv = convertView.findViewById(R.id.total_tv);
+        totalTv.setText(String.valueOf(hashMap.get(objects[groupPosition].toString()).get(0).getAmount()));
         tvGroup.setText(title);
         timeTv.setText(objects[groupPosition].toString());
-        totalTv.setText(String.valueOf(hashMap.get(objects[groupPosition].toString()).size()));
+
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Object[] objects = hashMap.keySet().toArray();
-        List<DetailQueryEntry.DataBean> dataBeanList = hashMap.get(objects[groupPosition].toString());
+        List<DetailQueryEntry.DataBean.FellingListBean> dataBeanList = hashMap.get(objects[groupPosition].toString());
         if (convertView == null){
             convertView = mInflater.inflate(R.layout.item_child,parent,false);
         }
         RecyclerView recyclerView = convertView.findViewById(R.id.child_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
-        CommonAdapter<DetailQueryEntry.DataBean> commonAdapter = new CommonAdapter<DetailQueryEntry.DataBean>(context,R.layout.item_detail_query,dataBeanList) {
+        recyclerView.setNestedScrollingEnabled(false);
+        CommonAdapter<DetailQueryEntry.DataBean.FellingListBean> commonAdapter = new CommonAdapter<DetailQueryEntry.DataBean.FellingListBean>(context,R.layout.item_detail_query,dataBeanList) {
             @Override
-            protected void convert(ViewHolder holder, final DetailQueryEntry.DataBean detailQueryEntry, int position) {
+            protected void convert(ViewHolder holder, final DetailQueryEntry.DataBean.FellingListBean detailQueryEntry, int position) {
                     TextView time = holder.getView(R.id.time_tv);
                     TextView company = holder.getView(R.id.company_tv);
                     TextView number = holder.getView(R.id.number_tv);
@@ -136,7 +135,7 @@ public class QueryAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    private void toNotDetail(DetailQueryEntry.DataBean uploadLocationEntry){
+    private void toNotDetail(DetailQueryEntry.DataBean.FellingListBean uploadLocationEntry){
         CanLoadEntry canLoadEntry = new CanLoadEntry();
         canLoadEntry.setRealNumber(uploadLocationEntry.getNumber());//编号
         canLoadEntry.setUploadNumber((long) uploadLocationEntry.getOrders());//采伐序号

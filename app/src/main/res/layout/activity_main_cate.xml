@@ -67,9 +67,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:onClick="toQuery"
+            android:onClick="toTotal"
             android:contentDescription="@null"
-            android:src="@drawable/pg_query"
+            android:src="@drawable/pg_main_total"
             />
     </RelativeLayout>
     <RelativeLayout
@@ -81,9 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:onClick="toTotal"
+            android:onClick="toQuery"
             android:contentDescription="@null"
-            android:src="@drawable/pg_main_total"
+            android:src="@drawable/pg_query"
             />
     </RelativeLayout>
+
 </LinearLayout>

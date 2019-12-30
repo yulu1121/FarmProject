@@ -2,6 +2,8 @@ package com.anshi.farmproject.view.location;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -49,16 +52,17 @@ import com.anshi.farmproject.utils.WeakHandler;
 import com.anshi.farmproject.utils.check.SampleMultiplePermissionListener;
 import com.anshi.farmproject.utils.gpsutils.GPSUtils;
 import com.anshi.farmproject.utils.gpsutils.Gps;
-import com.anshi.farmproject.utils.gpsutils.PositionUtil;
 import com.anshi.farmproject.utils.notifylistener.NotifyListenerMangager;
 import com.anshi.farmproject.utils.pinyin.LanguageConvent;
 import com.anshi.farmproject.utils.watermask.WaterMaskUtil;
 import com.anshi.farmproject.view.image.ImageActivity;
+import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.NetworkUtil;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.karumi.dexter.Dexter;
@@ -120,12 +124,11 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     private List<DealTypeEntry.DataBean> dealTypeEntryData;
     private List<VillageEntry.DataBean> villageEntryData = new ArrayList<>();
     private String secondTime;
-
+    private Button mUploadBtn;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-        commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(LocationActivity.this, "定位中..");
         initView();
         SampleMultiplePermissionListener multiplePermissionListener = new SampleMultiplePermissionListener(this, new SampleMultiplePermissionListener.PermissionsChecked() {
             @Override
@@ -133,7 +136,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 if (check){
                     if (NetworkUtil.isNetworkAvailable(LocationActivity.this)){
                          initLocation();
-                    }else {
+                    }else{
                         new GPSUtils(LocationActivity.this);
                         location5seconds();
                     }
@@ -141,7 +144,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 }
             }
         });
-
         Dexter.withActivity(this).withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION).withListener(new CompositeMultiplePermissionsListener(multiplePermissionListener, DialogBuild.getBuild().createPermissionDialog(this,"权限提醒","请给予定位的权限")))
                 .check();
         takePhoto = getTakePhoto();
@@ -168,6 +170,8 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     }
     private String saveToSdCardOne;
     private String saveToSdCardTwo;
+    private String localSavePathOne;
+    private String localSavePathTwo;
     private void initSpinnerData(Spinner spinner, List<String> strings) {
 
         ArrayAdapter<String> adapterThree = new ArrayAdapter<String>(this,R.layout.item_spinner, strings);
@@ -176,14 +180,17 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
 
     @Override
     public void takeSuccess(TResult result) {
-        //int bitmapDegree = BitmapUtils.getBitmapDegree(result.getImage().getCompressPath());
         addWaterMask(BitmapUtils.amendRotatePhoto(result.getImage().getCompressPath()),which);
     }
 
+
+
     private void addWaterMask(Bitmap sourceBitmap,int which){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("经度:").append(gps.getWgLon()).append("\n");
-        stringBuilder.append("纬度:").append(gps.getWgLat()).append("\n");
+        if (null!=gps){
+            stringBuilder.append("经度:").append(gps.getWgLon()).append("\n");
+            stringBuilder.append("纬度:").append(gps.getWgLat()).append("\n");
+        }
         if (!TextUtils.isEmpty(mCurrentAddress)){
             stringBuilder.append("地址:").append(mCurrentAddress).append("\n");
         }
@@ -193,11 +200,13 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         if (which==1){
             mAroundIv.setVisibility(View.VISIBLE);
             saveToSdCardOne = SDCardUtil.saveToSdCard(waterMaskLeftBottom);
+            localSavePathOne = saveToSdCardOne;
             mAroundIv.setImageBitmap(BitmapFactory.decodeFile(saveToSdCardOne));
             uploadImage(saveToSdCardOne);
         }else {
             mNumberIv.setVisibility(View.VISIBLE);
             saveToSdCardTwo = SDCardUtil.saveToSdCard(waterMaskLeftBottom);
+            localSavePathTwo = saveToSdCardTwo;
             mNumberIv.setImageBitmap(BitmapFactory.decodeFile(saveToSdCardTwo));
             uploadImage(saveToSdCardTwo);
         }
@@ -210,19 +219,57 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
 
     private Gps gps;
     private void getLocation(){
+        if(null!=commonLoadDialog){
+           if (!isFinishing()){
+               commonLoadDialog.show();
+           }
+        }else{
+            if (!isFinishing()){
+                commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(LocationActivity.this, "定位中..");
+            }
+        }
         Location location = GPSUtils.getLocation();
         if (null!=location){
-            commonLoadDialog.dismiss();
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
-            Gps gps84_to_gcj02 = PositionUtil.gps84_To_Gcj02(latitude, longitude);
-            if (null!=gps84_to_gcj02){
-                gps = PositionUtil.gcj02_To_Bd09(gps84_to_gcj02.getWgLat(), gps84_to_gcj02.getWgLon());
-            }
-            mLocationTv.setText(String.format(getString(R.string.location_format),String.valueOf(gps.getWgLon()),String.valueOf(gps.getWgLat())));
-            weakHandler.removeCallbacksAndMessages(null);
+           // mGpsTv.setText("Gps:"+String.format(getString(R.string.location_format),String.valueOf(longitude),String.valueOf(latitude)));
+            //初始化坐标转换工具类，指定源坐标类型和坐标数据
+// sourceLatLng待转换坐标
+            LatLng sourceLatLng = new LatLng(latitude,longitude);
+            CoordinateConverter converter  = new CoordinateConverter()
+                    .from(CoordinateConverter.CoordType.GPS)
+                    .coord(sourceLatLng);
+
+//desLatLng 转换后的坐标
+            LatLng desLatLng = converter.convert();
+           // Gps gps84_to_gcj02 = PositionUtil.gps84_To_Gcj02(latitude, longitude);
+            gps = new Gps(desLatLng.latitude,desLatLng.longitude);
+            getDetailAddress();
         }
 
+    }
+
+    private void getDetailAddress(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mCurrentAddress = GPSUtils.getAddressStr();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        if (!TextUtils.isEmpty(mCurrentAddress)){
+                            mLocationTv.setText(mCurrentAddress);
+                        }else {
+                            mLocationTv.setText(String.format(getString(R.string.location_format),String.valueOf(gps.getWgLon()),String.valueOf(gps.getWgLat())));
+                        }
+                        weakHandler.removeCallbacksAndMessages(null);
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -254,9 +301,14 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         }
     }
     private  int mCurrentNumber;
+    //private TextView mGpsTv;
     private void initView() {
         TextView titleTv= findViewById(R.id.title_tv);
 //        titleTv.setText("提交除治信息");
+        TextView locationRefreshTv = findViewById(R.id.publish_tv);
+        locationRefreshTv.setVisibility(View.VISIBLE);
+        locationRefreshTv.setText("刷新定位");
+        locationRefreshTv.setOnClickListener(this);
         mNumberTv = findViewById(R.id.number_tv);
         mNumberEt = findViewById(R.id.number_et);
         mRadiusEt = findViewById(R.id.radius_et);
@@ -283,7 +335,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         if (SharedPreferenceUtils.getInt(this,Constants.GROUP_DATA)>0){
             mGroupEt.setText(String.valueOf(SharedPreferenceUtils.getInt(this,Constants.GROUP_DATA)));
         }
-
         mLocationTv = findViewById(R.id.location_tv);//经纬度
         mAroundTakePhotoLayout = findViewById(R.id.around_layout);
         mNumberTakePhotoLayout = findViewById(R.id.number_layout);
@@ -301,6 +352,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         mNumberIv = findViewById(R.id.number_iv);
         mAroundIv.setOnClickListener(this);
         mNumberIv.setOnClickListener(this);
+        mUploadBtn = findViewById(R.id.upload_btn);
         mDealTypeSpinner = findViewById(R.id.deal_spinner);
         mVillageSpinner = findViewById(R.id.village_spinner);
     }
@@ -311,8 +363,8 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
     private String mVillageId;
     private String mVillageName;
 
-    private boolean isPhotoUploadSuccess;
-
+    private boolean isPhotoUploadOneSuccess;
+    private boolean isPhotoUploadTwoSuccess;
 
     /**
      * 获取除治类型
@@ -341,8 +393,13 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                         for (int i = 0; i <dealTypeEntryData.size() ; i++) {
                                             mList.add(dealTypeEntryData.get(i).getCureName());
                                         }
+                                        SharedPreferenceUtils.putList(LocationActivity.this,Constants.DEAL_TYPE_DATA,dealTypeEntryData);
                                         initSpinnerData(mDealTypeSpinner,mList);
-                                        mDealTypeSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_TYPE_POSITION));
+                                        if (mList.size()>SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_TYPE_POSITION)){
+                                            mDealTypeSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_TYPE_POSITION));
+                                        }else {
+                                            mDealTypeSpinner.setSelection(0);
+                                        }
                                     }
                                 }else {
                                     Toast.makeText(LocationActivity.this, dealTypeEntry.getMsg(), Toast.LENGTH_SHORT).show();
@@ -355,14 +412,27 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.DEAL_TYPE_DATA);
-                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
-                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
-                            List<String> mList = new ArrayList<>();
-                            mList.add(substring);
+//                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.DEAL_TYPE_DATA);
+//                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
+//                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+//                            List<String> mList = new ArrayList<>();
+//                            mList.add(substring);
+//                            initSpinnerData(mDealTypeSpinner,mList);
+//                            mDealName = substring;
+//                            mDealTypeId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+//                        }
+                        List<String> mList = new ArrayList<>();
+                        dealTypeEntryData = SharedPreferenceUtils.getList(LocationActivity.this,Constants.DEAL_TYPE_DATA);
+                        if (null!=dealTypeEntryData&&dealTypeEntryData.size()>0){
+                            for (int i = 0; i <dealTypeEntryData.size() ; i++) {
+                                mList.add(dealTypeEntryData.get(i).getCureName());
+                            }
                             initSpinnerData(mDealTypeSpinner,mList);
-                            mDealName = substring;
-                            mDealTypeId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                            if (mList.size()>SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_TYPE_POSITION)){
+                                mDealTypeSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_TYPE_POSITION));
+                            }else {
+                                mDealTypeSpinner.setSelection(0);
+                            }
                         }
                         throwable.printStackTrace();
                     }
@@ -377,11 +447,11 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("deptId",townId);
+            jsonObject.put("userId",SharedPreferenceUtils.getInt(this,"userId"));
             jsonObject.put("type","3");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("xxx",jsonObject.toString());
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
         mService.getRelationDeptList(requestBody)
                 .map(new Func1<ResponseBody, ResponseBody>() {
@@ -396,7 +466,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     public void call(ResponseBody responseBody) {
                         try {
                             String string = responseBody.string();
-                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 VillageEntry villageEntry = gson.fromJson(string, VillageEntry.class);
@@ -410,8 +479,13 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                                 villageEntryData.add(villageEntry.getData().get(i));
                                             }
                                         }
+                                        SharedPreferenceUtils.putList(LocationActivity.this,Constants.VILLAGE_DATA,villageEntryData);
                                         initSpinnerData(mVillageSpinner,mList);
-                                        mVillageSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION));
+                                        if (mList.size()>SharedPreferenceUtils.getInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION)){
+                                            mVillageSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION));
+                                        }else {
+                                            mVillageSpinner.setSelection(0);
+                                        }
                                     }
                                 }else {
                                     Toast.makeText(LocationActivity.this, villageEntry.getMsg(), Toast.LENGTH_SHORT).show();
@@ -424,14 +498,27 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.VILLAGE_DATA);
-                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
-                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
-                            List<String> mList = new ArrayList<>();
-                            mList.add(substring);
+                        villageEntryData = SharedPreferenceUtils.getList(LocationActivity.this,Constants.VILLAGE_DATA);
+                        List<String> mList = new ArrayList<>();
+                        if (null!=villageEntryData&&villageEntryData.size()>0){
+                            for (int i = 0; i <villageEntryData .size() ; i++) {
+                                mList.add(villageEntryData.get(i).getDeptName());
+                            }
                             initSpinnerData(mVillageSpinner,mList);
-                            mVillageName = substring;
-                            mVillageId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                            if (mList.size()>SharedPreferenceUtils.getInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION)){
+                                mVillageSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.SAVE_VILLAGE_POSITION));
+                            }else {
+                                mVillageSpinner.setSelection(0);
+                            }
+//                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.VILLAGE_DATA);
+//                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
+//                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+//                            List<String> mList = new ArrayList<>();
+//                            mList.add(substring);
+//                            initSpinnerData(mVillageSpinner,mList);
+//                            mVillageName = substring;
+//                            mVillageId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+//                        }
                         }
                         throwable.printStackTrace();
                     }
@@ -469,17 +556,17 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                 Gson gson = new Gson();
                                 ImageEntry imageEntry = gson.fromJson(string,ImageEntry.class);
                                 if (imageEntry.getCode()==Constants.SUCCESS_CODE){
-                                    isPhotoUploadSuccess = true;
                                     Toast.makeText(LocationActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
                                     if (which==1){
+                                        isPhotoUploadOneSuccess= true;
                                         saveToSdCardOne = imageEntry.getData().getSavePath();
                                         Log.e("xxx",saveToSdCardOne);
                                     }else {
+                                        isPhotoUploadTwoSuccess = true;
                                         saveToSdCardTwo = imageEntry.getData().getSavePath();
                                         Log.e("xxx",saveToSdCardTwo);
                                     }
                                 }else {
-                                    isPhotoUploadSuccess =false;
                                     Toast.makeText(LocationActivity.this, imageEntry.getMsg(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -492,6 +579,11 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     public void call(Throwable throwable) {
                         if (null!=commonLoadDialog){
                             commonLoadDialog.dismiss();
+                        }
+                        if(which==1){
+                            isPhotoUploadOneSuccess = false;
+                        }else {
+                            isPhotoUploadTwoSuccess = false;
                         }
                         throwable.printStackTrace();
                     }
@@ -517,7 +609,6 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     public void call(ResponseBody responseBody) {
                         try {
                             String string = responseBody.string();
-                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 ZhiWuEntry zhiWuEntry = gson.fromJson(string, ZhiWuEntry.class);
@@ -529,11 +620,18 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                                             mList.add(zhiWuEntry.getData().get(i).getBotanyName());
                                         }
                                         initSpinnerData(mZhiWuSpinner,mList);
-                                        ZhiWuEntry.DataBean dataBean = zhiWuEntryData.get(SharedPreferenceUtils.getInt(LocationActivity.this, Constants.ZHIWU_POSITION));
-                                        mCurrentZhiWuId =String.valueOf(dataBean.getBotanyId());
-                                        mCurrentZhiWuName = dataBean.getBotanyName();
-                                        SharedPreferenceUtils.saveString(LocationActivity.this,Constants.ZHI_WU_DATA,dataBean.getBotanyName()+","+dataBean.getBotanyId());
-                                        mZhiWuSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION));
+                                        SharedPreferenceUtils.putList(LocationActivity.this,Constants.ZHI_WU_DATA,zhiWuEntryData);
+                                        if (mList.size()>SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION)){
+                                            ZhiWuEntry.DataBean dataBean = zhiWuEntryData.get(SharedPreferenceUtils.getInt(LocationActivity.this, Constants.ZHIWU_POSITION));
+                                            mCurrentZhiWuId =String.valueOf(dataBean.getBotanyId());
+                                            mCurrentZhiWuName = dataBean.getBotanyName();
+                                            mZhiWuSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION));
+                                        }else {
+                                            ZhiWuEntry.DataBean dataBean = zhiWuEntryData.get(0);
+                                            mCurrentZhiWuId =String.valueOf(dataBean.getBotanyId());
+                                            mCurrentZhiWuName = dataBean.getBotanyName();
+                                            mZhiWuSpinner.setSelection(0);
+                                        }
                                     }
                                 }else {
                                     Toast.makeText(LocationActivity.this, zhiWuEntry.getMsg(), Toast.LENGTH_SHORT).show();
@@ -546,127 +644,124 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.ZHI_WU_DATA);
-                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
-                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
-                            List<String> mList = new ArrayList<>();
-                            mList.add(substring);
+                        List<String> mList = new ArrayList<>();
+                        zhiWuEntryData = SharedPreferenceUtils.getList(LocationActivity.this, Constants.ZHI_WU_DATA);
+                        if (null!=zhiWuEntryData&&zhiWuEntryData.size()>0){
+                            for (int i = 0; i <zhiWuEntryData.size() ; i++) {
+                                mList.add(zhiWuEntryData.get(i).getBotanyName());
+                            }
+
                             initSpinnerData(mZhiWuSpinner,mList);
-                            mCurrentZhiWuName = substring;
-                            mCurrentZhiWuId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+                            if (mList.size()>SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION)){
+                                mCurrentZhiWuId =String.valueOf(zhiWuEntryData.get(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION)).getBotanyId());
+                                mCurrentZhiWuName = zhiWuEntryData.get(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION)).getBotanyName();
+                                mZhiWuSpinner.setSelection(SharedPreferenceUtils.getInt(LocationActivity.this,Constants.ZHIWU_POSITION));
+                            }else {
+                                mCurrentZhiWuId =String.valueOf(zhiWuEntryData.get(0).getBotanyId());
+                                mCurrentZhiWuName = zhiWuEntryData.get(0).getBotanyName();
+                                mZhiWuSpinner.setSelection(0);
+                            }
                         }
+//                        String zhiwuData = SharedPreferenceUtils.getString(LocationActivity.this, Constants.ZHI_WU_DATA);
+//                        if (!TextUtils.isEmpty(zhiwuData)&&zhiwuData.length()>0){
+//                            String substring = zhiwuData.substring(0, zhiwuData.lastIndexOf(","));
+//                            List<String> mList = new ArrayList<>();
+//                            mList.add(substring);
+//                            initSpinnerData(mZhiWuSpinner,mList);
+//                            mCurrentZhiWuName = substring;
+//                            mCurrentZhiWuId = zhiwuData.substring(zhiwuData.lastIndexOf(",") + 1, zhiwuData.length());
+//                        }
                         throwable.printStackTrace();
                     }
                 });
     }
-//    number	String	编号
-//    orders	Long	序号
-//    company	String	除治单位
-//    cureTime	Date	除治时间
-//    cureId	Long	除治类型id
-//    townId	Long	乡镇id
-//    villageId	Long	村庄id
-//    teamId	Long	除治队id
-//    branchId	Long	油锯id
-//    groups	Long	组
-//    groundDiameter	Double	伐桩地径
-//    placeName	String	小地名
-//    botanyId	Long	植物id
-//    dataSources	String	数据来源
-//    longitude	String	经度
-//    latitude	String	纬度
-//    chainsaw	String	责任油锯
-//    panoramaPath	String	全景拍照路径
-//    numberPath	String	编号拍照路径
-//    userId	Long	用户id
-//    deptId	Long	部门id
-//    createBy	String	用户账号
+
+
     private void uploadFormation(){
-        if (!isFinishing()){
-            commonLoadDialog  = DialogBuild.getBuild().createCommonLoadDialog(this,"正在上传");
-        }
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("number",mNumberTv.getText().toString());
-            jsonObject.put("orders",mCurrentNumber);
-            jsonObject.put("company",SharedPreferenceUtils.getString(this,"deptName"));
-            jsonObject.put("cureTime",secondTime);
-            jsonObject.put("cureId",Long.parseLong(mDealTypeId));
-            jsonObject.put("townId",SharedPreferenceUtils.getInt(this,"townId"));
-            jsonObject.put("villageId",Long.parseLong(mVillageId));
-            jsonObject.put("groups",Long.parseLong(mGroupEt.getText().toString()));
-            jsonObject.put("groundDiameter",Double.parseDouble(mRadiusEt.getText().toString()));
-            if (!TextUtils.isEmpty(mAddressEt.getText())){
-                jsonObject.put("placeName",mAddressEt.getText().toString());
+        mUploadBtn.setClickable(false);
+        mUploadBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+        if (saveToSdCardOne.contains("农场伐木")||saveToSdCardTwo.contains("农场伐木")){
+            saveLocal();
+        }else {
+            if (!isFinishing()){
+                commonLoadDialog  = DialogBuild.getBuild().createCommonLoadDialog(this,"正在上传");
             }
-            jsonObject.put("botanyId",Long.parseLong(mCurrentZhiWuId));
-            jsonObject.put("longitude",String.valueOf(gps.getWgLon()));
-            jsonObject.put("latitude",String.valueOf(gps.getWgLat()));
-            jsonObject.put("chainsaw",SharedPreferenceUtils.getString(this,"userName"));
-            jsonObject.put("panoramaPath",saveToSdCardOne);
-            jsonObject.put("numberPath",saveToSdCardTwo);
-            jsonObject.put("teamId",SharedPreferenceUtils.getInt(this,"deptId"));
-            jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
-            jsonObject.put("userId",SharedPreferenceUtils.getInt(this,"userId"));
-            jsonObject.put("deptId",SharedPreferenceUtils.getInt(this,"deptId"));
-            jsonObject.put("createBy",SharedPreferenceUtils.getString(this,"loginName"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.e("xxx",jsonObject.toString());
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
-        mService.insertFeling(requestBody)
-                .map(new Func1<ResponseBody, ResponseBody>() {
-                    @Override
-                    public ResponseBody call(ResponseBody responseBody) {
-                        return responseBody;
-                    }
-                }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResponseBody>() {
-                    @Override
-                    public void call(ResponseBody responseBody) {
-                        if (null!=commonLoadDialog){
-                            commonLoadDialog.dismiss();
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("number",mNumberTv.getText().toString());
+                jsonObject.put("orders",mCurrentNumber);
+                jsonObject.put("company",SharedPreferenceUtils.getString(this,"deptName"));
+                jsonObject.put("cureTime",secondTime);
+                jsonObject.put("cureId",Long.parseLong(mDealTypeId));
+                jsonObject.put("townId",SharedPreferenceUtils.getInt(this,"townId"));
+                jsonObject.put("villageId",Long.parseLong(mVillageId));
+                jsonObject.put("groups",Long.parseLong(mGroupEt.getText().toString()));
+                jsonObject.put("groundDiameter",Double.parseDouble(mRadiusEt.getText().toString()));
+                if (!TextUtils.isEmpty(mAddressEt.getText())){
+                    jsonObject.put("placeName",mAddressEt.getText().toString());
+                }
+                jsonObject.put("botanyId",Long.parseLong(mCurrentZhiWuId));
+                jsonObject.put("longitude",String.valueOf(gps.getWgLon()));
+                jsonObject.put("latitude",String.valueOf(gps.getWgLat()));
+                jsonObject.put("chainsaw",SharedPreferenceUtils.getString(this,"userName"));
+                jsonObject.put("panoramaPath",saveToSdCardOne);
+                jsonObject.put("numberPath",saveToSdCardTwo);
+                jsonObject.put("teamId",SharedPreferenceUtils.getInt(this,"deptId"));
+                jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
+                jsonObject.put("userId",SharedPreferenceUtils.getInt(this,"userId"));
+                jsonObject.put("deptId",SharedPreferenceUtils.getInt(this,"deptId"));
+                jsonObject.put("createBy",SharedPreferenceUtils.getString(this,"loginName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+            mService.insertFeling(requestBody)
+                    .map(new Func1<ResponseBody, ResponseBody>() {
+                        @Override
+                        public ResponseBody call(ResponseBody responseBody) {
+                            return responseBody;
                         }
-                        try {
-                            String string = responseBody.string();
-                            Log.e("xxx",string);
-                            if (Utils.isGoodJson(string)){
-                                try {
-                                    JSONObject jsonObject1 = new JSONObject(string);
-                                    int code = jsonObject1.getInt("code");
-                                    String msg = jsonObject1.getString("msg");
-                                    if (code==Constants.SUCCESS_CODE){
-                                        SharedPreferenceUtils.saveInt(LocationActivity.this,Constants.DEAL_NUMBER,mCurrentNumber);
-                                        Toast.makeText(LocationActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                finish();
-                                            }
-                                        },1000);
-                                    }else {
-                                        Toast.makeText(LocationActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                    }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<ResponseBody>() {
+                        @Override
+                        public void call(ResponseBody responseBody) {
+                            if (null!=commonLoadDialog){
+                                commonLoadDialog.dismiss();
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            try {
+                                String string = responseBody.string();
+                                if (Utils.isGoodJson(string)){
+                                    try {
+                                        JSONObject jsonObject1 = new JSONObject(string);
+                                        int code = jsonObject1.getInt("code");
+                                        String msg = jsonObject1.getString("msg");
+                                        if (code==Constants.SUCCESS_CODE){
+                                            SharedPreferenceUtils.saveInt(LocationActivity.this,Constants.DEAL_NUMBER,mCurrentNumber);
+                                            Toast.makeText(LocationActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }else {
+                                            Toast.makeText(LocationActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        if (null!=commonLoadDialog){
-                            commonLoadDialog.dismiss();
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            if (null!=commonLoadDialog){
+                                commonLoadDialog.dismiss();
+                            }
+                            saveLocal();
+                            throwable.printStackTrace();
                         }
-                        saveLocal();
-                        throwable.printStackTrace();
-                    }
-                });
+                    });
+        }
 
     }
 
@@ -709,7 +804,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     DealTypeEntry.DataBean dataBean = dealTypeEntryData.get(position);
                     mDealTypeId = String.valueOf(dataBean.getCureId());
                     mDealName = dataBean.getCureName();
-                    SharedPreferenceUtils.saveString(LocationActivity.this,Constants.DEAL_TYPE_DATA,dataBean.getCureName()+","+dataBean.getCureId());
+                    //SharedPreferenceUtils.saveString(LocationActivity.this,Constants.DEAL_TYPE_DATA,dataBean.getCureName()+","+dataBean.getCureId());
                 }
             }
 
@@ -726,7 +821,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     ZhiWuEntry.DataBean dataBean = zhiWuEntryData.get(position);
                     mCurrentZhiWuId = String.valueOf(dataBean.getBotanyId());
                     mCurrentZhiWuName = dataBean.getBotanyName();
-                    SharedPreferenceUtils.saveString(LocationActivity.this,Constants.ZHI_WU_DATA,dataBean.getBotanyName()+","+dataBean.getBotanyId());
+                    //SharedPreferenceUtils.saveString(LocationActivity.this,Constants.ZHI_WU_DATA,dataBean.getBotanyName()+","+dataBean.getBotanyId());
                 }
             }
 
@@ -743,7 +838,7 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                     VillageEntry.DataBean dataBean = villageEntryData.get(position);
                     mVillageId = String.valueOf(dataBean.getDeptId());
                     mVillageName = dataBean.getDeptName();
-                    SharedPreferenceUtils.saveString(LocationActivity.this,Constants.VILLAGE_DATA,dataBean.getDeptName()+","+dataBean.getDeptId());
+                   // SharedPreferenceUtils.saveString(LocationActivity.this,Constants.VILLAGE_DATA,dataBean.getDeptName()+","+dataBean.getDeptId());
                 }
             }
 
@@ -810,20 +905,35 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
                 break;
             case R.id.around_iv:
                 Intent intent = new Intent(this, ImageActivity.class);
-                intent.putExtra("isUpload",isPhotoUploadSuccess);
+                intent.putExtra("isUpload",isPhotoUploadOneSuccess);
                 intent.putExtra("picPath",saveToSdCardOne);
                 startActivity(intent);
                 break;
             case R.id.number_iv:
                 Intent intent2 = new Intent(this, ImageActivity.class);
                 intent2.putExtra("picPath",saveToSdCardTwo);
-                intent2.putExtra("isUpload",isPhotoUploadSuccess);
+                intent2.putExtra("isUpload",isPhotoUploadTwoSuccess);
                 startActivity(intent2);
+                break;
+            case R.id.publish_tv:
+                if (NetworkUtil.isNetworkAvailable(this)){
+                    initLocation();
+                }else {
+                    new GPSUtils(this);
+                    location5seconds();
+                }
                 break;
         }
     }
 
+    private int uploadIndex = 0;
+
     public void upLoadFormation(View view) {
+        if(null==gps){
+            Toast.makeText(this, "请给予定位权限", Toast.LENGTH_SHORT).show();
+            Utils.toSelfSetting(this);
+            return;
+        }
         if (TextUtils.isEmpty(mGroupEt.getText())){
             Toast.makeText(this, "请输入组", Toast.LENGTH_SHORT).show();
             return;
@@ -844,14 +954,17 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
             Toast.makeText(this, "请输入伐桩地径", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (Integer.parseInt(mNumberEt.getText().toString())<SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_NUMBER)){
+        if (Integer.parseInt(mNumberEt.getText().toString())<=SharedPreferenceUtils.getInt(LocationActivity.this,Constants.DEAL_NUMBER)){
             Toast.makeText(LocationActivity.this, "请输入大于当前编号的数字", Toast.LENGTH_SHORT).show();
             return;
         }
         SharedPreferenceUtils.saveString(this,Constants.PLACE_DATA,mAddressEt.getText().toString());
         SharedPreferenceUtils.saveInt(this,Constants.GROUP_DATA,Integer.parseInt(mGroupEt.getText().toString()));
         SharedPreferenceUtils.saveFloat(this,Constants.RADIUS_DATA,Float.parseFloat(mRadiusEt.getText().toString()));
-        uploadFormation();
+        uploadIndex++;
+        if (uploadIndex==1){
+            uploadFormation();
+        }
 
 
     }
@@ -865,8 +978,8 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         if (!TextUtils.isEmpty(mAddressEt.getText())){
             uploadLocationEntry.setAddressName(mAddressEt.getText().toString());//小地名
         }
-        uploadLocationEntry.setAroundIvPath(saveToSdCardOne);//全景照片
-        uploadLocationEntry.setNumberIvPath(saveToSdCardTwo);//编号照片
+        uploadLocationEntry.setAroundIvPath(localSavePathOne);//全景照片
+        uploadLocationEntry.setNumberIvPath(localSavePathTwo);//编号照片
         uploadLocationEntry.setDealTime(secondTime);//时间
         uploadLocationEntry.setDealType(mDealName);
         uploadLocationEntry.setDealTypePosition(Integer.parseInt(mDealTypeId));
@@ -885,37 +998,64 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         }
         uploadLocationEntryDao.insert(uploadLocationEntry);
         Toast.makeText(this, "信息已保存本地", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                NotifyListenerMangager.getInstance().nofityContext("本地",Constants.NET_STATE);
-                finish();
-            }
-        },1000);
+        NotifyListenerMangager.getInstance().nofityContext("本地",Constants.NET_STATE);
+        finish();
+
     }
 
 
     //自定义的定位监听
-    private class MyLocationListener implements BDLocationListener {
+    private class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
             //将获取的location信息给百度map
-            commonLoadDialog.dismiss();
+            if (null!=commonLoadDialog){
+                commonLoadDialog.dismiss();
+            }
             if (location == null){
                 return;
             }
+            if (String.valueOf(location.getLatitude()).contains("E")){
+                notifyNoLocation();
+                return;
+            }
+            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
             gps = new Gps(location.getLatitude(),location.getLongitude());
-            mCurrentAddress = location.getAddrStr();
-            mLocationTv.setText(mCurrentAddress);
+            if (!TextUtils.isEmpty(location.getAddrStr())){
+                mCurrentAddress = location.getAddrStr();
+                mLocationTv.setText(mCurrentAddress);
+            }else {
+                mLocationTv.setText(String.format(getString(R.string.location_format),String.valueOf(gps.getWgLon()),String.valueOf(gps.getWgLat())));
+            }
 
         }
     }
+    private void notifyNoLocation(){
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("提醒")
+                .setMessage("定位未能成功,请重新进入或关闭网络使用GPS定位")
+                .setCancelable(false)
+                .setNeutralButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .create();
+        alertDialog.show();
+    }
 
+    private MyLocationListener myLocationListener;
     private void initLocation() {
         //定位客户端的设置
         //定位初始化
-        mLocationClient = new LocationClient(this);
-
+        if (!isFinishing()){
+            commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(LocationActivity.this, "定位中..");
+        }
+        if (null==mLocationClient){
+            mLocationClient = new LocationClient(this);
+        }
 //通过LocationClientOption设置LocationClient相关参数
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
@@ -927,9 +1067,14 @@ public class LocationActivity extends TakePhotoActivity implements View.OnClickL
         mLocationClient.setLocOption(option);
 
 //注册LocationListener监听器
-        MyLocationListener myLocationListener = new MyLocationListener();
+        if (null==myLocationListener){
+            myLocationListener = new MyLocationListener();
+        }
         mLocationClient.registerLocationListener(myLocationListener);
 //开启地图定位图层
+        if (mLocationClient.isStarted()){
+            mLocationClient.stop();
+        }
         mLocationClient.start();
     }
 

@@ -1,8 +1,9 @@
 package com.anshi.farmproject.entry;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class VillageEntry {
+public class VillageEntry implements Serializable{
 
     /**
      * msg : 操作成功
@@ -38,7 +39,7 @@ public class VillageEntry {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * searchValue : null
          * createBy : admin
@@ -243,7 +244,7 @@ public class VillageEntry {
             this.childDepts = childDepts;
         }
 
-        public static class ParamsBean {
+        public static class ParamsBean implements Serializable {
         }
     }
 }

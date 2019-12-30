@@ -8,7 +8,7 @@ public class TreeCountEntry {
     /**
      * msg : 操作成功
      * code : 0
-     * data : [{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":100,"parentId":0,"ancestors":"0","deptName":"林水局","orderNum":"0","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":null,"parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-15 13:46:12","remark":null,"params":{},"deptId":101,"parentId":100,"ancestors":"0,100","deptName":"龙王镇","orderNum":"1","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:51:00","remark":null,"params":{},"deptId":105,"parentId":101,"ancestors":"0,100,101","deptName":"白集村","orderNum":"3","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-14 14:51:16","updateBy":"","updateTime":null,"remark":null,"params":{},"deptId":116,"parentId":105,"ancestors":"0,100,101,105","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"amount":null,"childDepts":null,"amounts":6,"branchId":2,"chainsaw":"若依"}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2019-11-13 10:52:24","updateBy":"admin","updateTime":"2019-11-15 13:46:12","remark":null,"params":{},"deptId":112,"parentId":101,"ancestors":"0,100,101","deptName":"赵集村","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-13 10:53:47","updateBy":"admin","updateTime":"2019-11-15 13:46:12","remark":null,"params":{},"deptId":113,"parentId":112,"ancestors":"0,100,101,112","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:50:28","remark":null,"params":{},"deptId":102,"parentId":100,"ancestors":"0,100","deptName":"黄龙镇","orderNum":"2","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:50:19","remark":null,"params":{},"deptId":108,"parentId":102,"ancestors":"0,100,102","deptName":"天云村","orderNum":"1","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-14 14:51:45","updateBy":"","updateTime":null,"remark":null,"params":{},"deptId":119,"parentId":108,"ancestors":"0,100,102,108","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:50:28","remark":null,"params":{},"deptId":109,"parentId":102,"ancestors":"0,100,102","deptName":"休闲村","orderNum":"2","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-14 14:52:08","updateBy":"","updateTime":null,"remark":null,"params":{},"deptId":122,"parentId":109,"ancestors":"0,100,102,109","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}]
+     * data : [{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":100,"parentId":0,"ancestors":"0","deptName":"除治管理","orderNum":"0","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":null,"amount":1,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":102,"parentId":100,"ancestors":"0,100","deptName":"猇亭农业农村局","orderNum":"2","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"1","amount":1,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":109,"parentId":102,"ancestors":"0,100,102","deptName":"云池街办","orderNum":"2","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"2","amount":1,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:11:19","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":159,"parentId":109,"ancestors":"0,100,102,109","deptName":"黄龙寺居委会","orderNum":"2","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":1,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:38","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":183,"parentId":159,"ancestors":"0,100,102,109,159","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":1,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"type":null,"amount":null,"childDepts":null,"amounts":1,"branchId":418,"chainsaw":"佳美达油锯A"}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-22 14:12:22","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":128,"parentId":109,"ancestors":"0,100,102,109","deptName":"福善场村委会","orderNum":"1","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:13","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":182,"parentId":128,"ancestors":"0,100,102,109,128","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:11:42","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":160,"parentId":109,"ancestors":"0,100,102,109","deptName":"石板冲居委会","orderNum":"3","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:03","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":184,"parentId":160,"ancestors":"0,100,102,109,160","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:12:04","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":161,"parentId":109,"ancestors":"0,100,102,109","deptName":"下马槽居委会","orderNum":"4","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":185,"parentId":161,"ancestors":"0,100,102,109,161","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":108,"parentId":102,"ancestors":"0,100,102","deptName":"虎牙街办","orderNum":"3","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"2","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-22 14:12:41","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":129,"parentId":108,"ancestors":"0,100,102,108","deptName":"高湖村委会","orderNum":"1","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:59","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":186,"parentId":129,"ancestors":"0,100,102,108,129","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:14:21","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":162,"parentId":108,"ancestors":"0,100,102,108","deptName":"高家店村委会","orderNum":"2","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:23:43","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":187,"parentId":162,"ancestors":"0,100,102,108,162","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:14:40","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":163,"parentId":108,"ancestors":"0,100,102,108","deptName":"虎牙居委会","orderNum":"3","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:24:16","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":188,"parentId":163,"ancestors":"0,100,102,108,163","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":164,"parentId":108,"ancestors":"0,100,102,108","deptName":"鸡山居委会","orderNum":"4","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:28:13","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":189,"parentId":164,"ancestors":"0,100,102,108,164","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:23","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":165,"parentId":108,"ancestors":"0,100,102,108","deptName":"六眼冲居委会","orderNum":"5","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:29:18","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":190,"parentId":165,"ancestors":"0,100,102,108,165","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:40","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":166,"parentId":108,"ancestors":"0,100,102,108","deptName":"磨盘居委会","orderNum":"6","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:29:42","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":191,"parentId":166,"ancestors":"0,100,102,108,166","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}]
      */
 
     private String msg;
@@ -42,8 +42,8 @@ public class TreeCountEntry {
     public static class DataBean {
         /**
          * searchValue : null
-         * createBy : null
-         * createTime : null
+         * createBy : admin
+         * createTime : 2018-03-16 11:33:00
          * updateBy : null
          * updateTime : null
          * remark : null
@@ -51,24 +51,25 @@ public class TreeCountEntry {
          * deptId : 100
          * parentId : 0
          * ancestors : 0
-         * deptName : 林水局
+         * deptName : 除治管理
          * orderNum : 0
-         * leader : 若依
-         * phone : 15888888888
-         * email : ry@qq.com
+         * leader :
+         * phone :
+         * email :
          * status : 0
-         * delFlag : null
+         * delFlag : 0
          * parentName : null
-         * amount : 6
-         * childDepts : [{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-15 13:46:12","remark":null,"params":{},"deptId":101,"parentId":100,"ancestors":"0,100","deptName":"龙王镇","orderNum":"1","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:51:00","remark":null,"params":{},"deptId":105,"parentId":101,"ancestors":"0,100,101","deptName":"白集村","orderNum":"3","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-14 14:51:16","updateBy":"","updateTime":null,"remark":null,"params":{},"deptId":116,"parentId":105,"ancestors":"0,100,101,105","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"amount":null,"childDepts":null,"amounts":6,"branchId":2,"chainsaw":"若依"}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2019-11-13 10:52:24","updateBy":"admin","updateTime":"2019-11-15 13:46:12","remark":null,"params":{},"deptId":112,"parentId":101,"ancestors":"0,100,101","deptName":"赵集村","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-13 10:53:47","updateBy":"admin","updateTime":"2019-11-15 13:46:12","remark":null,"params":{},"deptId":113,"parentId":112,"ancestors":"0,100,101,112","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:50:28","remark":null,"params":{},"deptId":102,"parentId":100,"ancestors":"0,100","deptName":"黄龙镇","orderNum":"2","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:50:19","remark":null,"params":{},"deptId":108,"parentId":102,"ancestors":"0,100,102","deptName":"天云村","orderNum":"1","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-14 14:51:45","updateBy":"","updateTime":null,"remark":null,"params":{},"deptId":119,"parentId":108,"ancestors":"0,100,102,108","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:50:28","remark":null,"params":{},"deptId":109,"parentId":102,"ancestors":"0,100,102","deptName":"休闲村","orderNum":"2","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-14 14:52:08","updateBy":"","updateTime":null,"remark":null,"params":{},"deptId":122,"parentId":109,"ancestors":"0,100,102,109","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}]
+         * type : null
+         * amount : 1
+         * childDepts : [{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":102,"parentId":100,"ancestors":"0,100","deptName":"猇亭农业农村局","orderNum":"2","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"1","amount":1,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":109,"parentId":102,"ancestors":"0,100,102","deptName":"云池街办","orderNum":"2","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"2","amount":1,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:11:19","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":159,"parentId":109,"ancestors":"0,100,102,109","deptName":"黄龙寺居委会","orderNum":"2","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":1,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:38","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":183,"parentId":159,"ancestors":"0,100,102,109,159","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":1,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"type":null,"amount":null,"childDepts":null,"amounts":1,"branchId":418,"chainsaw":"佳美达油锯A"}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-22 14:12:22","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":128,"parentId":109,"ancestors":"0,100,102,109","deptName":"福善场村委会","orderNum":"1","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:13","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":182,"parentId":128,"ancestors":"0,100,102,109,128","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:11:42","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":160,"parentId":109,"ancestors":"0,100,102,109","deptName":"石板冲居委会","orderNum":"3","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:03","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":184,"parentId":160,"ancestors":"0,100,102,109,160","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:12:04","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":161,"parentId":109,"ancestors":"0,100,102,109","deptName":"下马槽居委会","orderNum":"4","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":185,"parentId":161,"ancestors":"0,100,102,109,161","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":108,"parentId":102,"ancestors":"0,100,102","deptName":"虎牙街办","orderNum":"3","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"2","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-22 14:12:41","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":129,"parentId":108,"ancestors":"0,100,102,108","deptName":"高湖村委会","orderNum":"1","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:59","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":186,"parentId":129,"ancestors":"0,100,102,108,129","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:14:21","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":162,"parentId":108,"ancestors":"0,100,102,108","deptName":"高家店村委会","orderNum":"2","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:23:43","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":187,"parentId":162,"ancestors":"0,100,102,108,162","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:14:40","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":163,"parentId":108,"ancestors":"0,100,102,108","deptName":"虎牙居委会","orderNum":"3","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:24:16","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":188,"parentId":163,"ancestors":"0,100,102,108,163","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":164,"parentId":108,"ancestors":"0,100,102,108","deptName":"鸡山居委会","orderNum":"4","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:28:13","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":189,"parentId":164,"ancestors":"0,100,102,108,164","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:23","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":165,"parentId":108,"ancestors":"0,100,102,108","deptName":"六眼冲居委会","orderNum":"5","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:29:18","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":190,"parentId":165,"ancestors":"0,100,102,108,165","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:40","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":166,"parentId":108,"ancestors":"0,100,102,108","deptName":"磨盘居委会","orderNum":"6","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:29:42","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":191,"parentId":166,"ancestors":"0,100,102,108,166","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}]
          * amounts : null
          * branchId : null
          * chainsaw : null
          */
 
         private Object searchValue;
-        private Object createBy;
-        private Object createTime;
+        private String createBy;
+        private String createTime;
         private Object updateBy;
         private Object updateTime;
         private Object remark;
@@ -82,13 +83,14 @@ public class TreeCountEntry {
         private String phone;
         private String email;
         private String status;
-        private Object delFlag;
+        private String delFlag;
         private Object parentName;
+        private Object type;
         private int amount;
-        private Object amounts;
-        private Object branchId;
-        private Object chainsaw;
-        private List<ChildDeptsBeanXXX> childDepts;
+        private int amounts;
+        private int branchId;
+        private String chainsaw;
+        private List<ChildDeptsBeanXXXX> childDepts;
 
         public Object getSearchValue() {
             return searchValue;
@@ -98,19 +100,19 @@ public class TreeCountEntry {
             this.searchValue = searchValue;
         }
 
-        public Object getCreateBy() {
+        public String getCreateBy() {
             return createBy;
         }
 
-        public void setCreateBy(Object createBy) {
+        public void setCreateBy(String createBy) {
             this.createBy = createBy;
         }
 
-        public Object getCreateTime() {
+        public String getCreateTime() {
             return createTime;
         }
 
-        public void setCreateTime(Object createTime) {
+        public void setCreateTime(String createTime) {
             this.createTime = createTime;
         }
 
@@ -218,11 +220,11 @@ public class TreeCountEntry {
             this.status = status;
         }
 
-        public Object getDelFlag() {
+        public String getDelFlag() {
             return delFlag;
         }
 
-        public void setDelFlag(Object delFlag) {
+        public void setDelFlag(String delFlag) {
             this.delFlag = delFlag;
         }
 
@@ -234,6 +236,14 @@ public class TreeCountEntry {
             this.parentName = parentName;
         }
 
+        public Object getType() {
+            return type;
+        }
+
+        public void setType(Object type) {
+            this.type = type;
+        }
+
         public int getAmount() {
             return amount;
         }
@@ -242,63 +252,64 @@ public class TreeCountEntry {
             this.amount = amount;
         }
 
-        public Object getAmounts() {
+        public int getAmounts() {
             return amounts;
         }
 
-        public void setAmounts(Object amounts) {
+        public void setAmounts(int amounts) {
             this.amounts = amounts;
         }
 
-        public Object getBranchId() {
+        public int getBranchId() {
             return branchId;
         }
 
-        public void setBranchId(Object branchId) {
+        public void setBranchId(int branchId) {
             this.branchId = branchId;
         }
 
-        public Object getChainsaw() {
+        public String getChainsaw() {
             return chainsaw;
         }
 
-        public void setChainsaw(Object chainsaw) {
+        public void setChainsaw(String chainsaw) {
             this.chainsaw = chainsaw;
         }
 
-        public List<ChildDeptsBeanXXX> getChildDepts() {
+        public List<ChildDeptsBeanXXXX> getChildDepts() {
             return childDepts;
         }
 
-        public void setChildDepts(List<ChildDeptsBeanXXX> childDepts) {
+        public void setChildDepts(List<ChildDeptsBeanXXXX> childDepts) {
             this.childDepts = childDepts;
         }
 
         public static class ParamsBean {
         }
 
-        public static class ChildDeptsBeanXXX {
+        public static class ChildDeptsBeanXXXX {
             /**
              * searchValue : null
              * createBy : admin
              * createTime : 2018-03-16 11:33:00
-             * updateBy : admin
-             * updateTime : 2019-11-15 13:46:12
+             * updateBy : null
+             * updateTime : null
              * remark : null
              * params : {}
-             * deptId : 101
+             * deptId : 102
              * parentId : 100
              * ancestors : 0,100
-             * deptName : 龙王镇
-             * orderNum : 1
-             * leader : 若依
-             * phone : 15888888888
-             * email : ry@qq.com
+             * deptName : 猇亭农业农村局
+             * orderNum : 2
+             * leader :
+             * phone :
+             * email :
              * status : 0
              * delFlag : 0
              * parentName : null
-             * amount : 6
-             * childDepts : [{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":"admin","updateTime":"2019-11-14 14:51:00","remark":null,"params":{},"deptId":105,"parentId":101,"ancestors":"0,100,101","deptName":"白集村","orderNum":"3","leader":"若依","phone":"15888888888","email":"ry@qq.com","status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-14 14:51:16","updateBy":"","updateTime":null,"remark":null,"params":{},"deptId":116,"parentId":105,"ancestors":"0,100,101,105","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"amount":null,"childDepts":null,"amounts":6,"branchId":2,"chainsaw":"若依"}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2019-11-13 10:52:24","updateBy":"admin","updateTime":"2019-11-15 13:46:12","remark":null,"params":{},"deptId":112,"parentId":101,"ancestors":"0,100,101","deptName":"赵集村","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[{"searchValue":null,"createBy":"admin","createTime":"2019-11-13 10:53:47","updateBy":"admin","updateTime":"2019-11-15 13:46:12","remark":null,"params":{},"deptId":113,"parentId":112,"ancestors":"0,100,101,112","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}]
+             * type : 1
+             * amount : 1
+             * childDepts : [{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":109,"parentId":102,"ancestors":"0,100,102","deptName":"云池街办","orderNum":"2","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"2","amount":1,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:11:19","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":159,"parentId":109,"ancestors":"0,100,102,109","deptName":"黄龙寺居委会","orderNum":"2","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":1,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:38","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":183,"parentId":159,"ancestors":"0,100,102,109,159","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":1,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"type":null,"amount":null,"childDepts":null,"amounts":1,"branchId":418,"chainsaw":"佳美达油锯A"}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-22 14:12:22","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":128,"parentId":109,"ancestors":"0,100,102,109","deptName":"福善场村委会","orderNum":"1","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:13","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":182,"parentId":128,"ancestors":"0,100,102,109,128","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:11:42","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":160,"parentId":109,"ancestors":"0,100,102,109","deptName":"石板冲居委会","orderNum":"3","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:03","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":184,"parentId":160,"ancestors":"0,100,102,109,160","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:12:04","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":161,"parentId":109,"ancestors":"0,100,102,109","deptName":"下马槽居委会","orderNum":"4","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":185,"parentId":161,"ancestors":"0,100,102,109,161","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"admin","createTime":"2018-03-16 11:33:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":108,"parentId":102,"ancestors":"0,100,102","deptName":"虎牙街办","orderNum":"3","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"2","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-22 14:12:41","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":129,"parentId":108,"ancestors":"0,100,102,108","deptName":"高湖村委会","orderNum":"1","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:59","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":186,"parentId":129,"ancestors":"0,100,102,108,129","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:14:21","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":162,"parentId":108,"ancestors":"0,100,102,108","deptName":"高家店村委会","orderNum":"2","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:23:43","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":187,"parentId":162,"ancestors":"0,100,102,108,162","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:14:40","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":163,"parentId":108,"ancestors":"0,100,102,108","deptName":"虎牙居委会","orderNum":"3","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:24:16","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":188,"parentId":163,"ancestors":"0,100,102,108,163","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:00","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":164,"parentId":108,"ancestors":"0,100,102,108","deptName":"鸡山居委会","orderNum":"4","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:28:13","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":189,"parentId":164,"ancestors":"0,100,102,108,164","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:23","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":165,"parentId":108,"ancestors":"0,100,102,108","deptName":"六眼冲居委会","orderNum":"5","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:29:18","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":190,"parentId":165,"ancestors":"0,100,102,108,165","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:15:40","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":166,"parentId":108,"ancestors":"0,100,102,108","deptName":"磨盘居委会","orderNum":"6","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:29:42","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":191,"parentId":166,"ancestors":"0,100,102,108,166","deptName":"宜昌猇亭昌荣园林绿化工程部","orderNum":"81","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}]
              * amounts : null
              * branchId : null
              * chainsaw : null
@@ -307,8 +318,8 @@ public class TreeCountEntry {
             private Object searchValue;
             private String createBy;
             private String createTime;
-            private String updateBy;
-            private String updateTime;
+            private Object updateBy;
+            private Object updateTime;
             private Object remark;
             private ParamsBeanX params;
             private int deptId;
@@ -322,11 +333,12 @@ public class TreeCountEntry {
             private String status;
             private String delFlag;
             private Object parentName;
+            private String type;
             private int amount;
             private int amounts;
             private int branchId;
             private String chainsaw;
-            private List<ChildDeptsBeanXX> childDepts;
+            private List<ChildDeptsBeanXXX> childDepts;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -352,19 +364,19 @@ public class TreeCountEntry {
                 this.createTime = createTime;
             }
 
-            public String getUpdateBy() {
+            public Object getUpdateBy() {
                 return updateBy;
             }
 
-            public void setUpdateBy(String updateBy) {
+            public void setUpdateBy(Object updateBy) {
                 this.updateBy = updateBy;
             }
 
-            public String getUpdateTime() {
+            public Object getUpdateTime() {
                 return updateTime;
             }
 
-            public void setUpdateTime(String updateTime) {
+            public void setUpdateTime(Object updateTime) {
                 this.updateTime = updateTime;
             }
 
@@ -472,6 +484,14 @@ public class TreeCountEntry {
                 this.parentName = parentName;
             }
 
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
             public int getAmount() {
                 return amount;
             }
@@ -504,39 +524,40 @@ public class TreeCountEntry {
                 this.chainsaw = chainsaw;
             }
 
-            public List<ChildDeptsBeanXX> getChildDepts() {
+            public List<ChildDeptsBeanXXX> getChildDepts() {
                 return childDepts;
             }
 
-            public void setChildDepts(List<ChildDeptsBeanXX> childDepts) {
+            public void setChildDepts(List<ChildDeptsBeanXXX> childDepts) {
                 this.childDepts = childDepts;
             }
 
             public static class ParamsBeanX {
             }
 
-            public static class ChildDeptsBeanXX {
+            public static class ChildDeptsBeanXXX {
                 /**
                  * searchValue : null
                  * createBy : admin
                  * createTime : 2018-03-16 11:33:00
-                 * updateBy : admin
-                 * updateTime : 2019-11-14 14:51:00
+                 * updateBy : null
+                 * updateTime : null
                  * remark : null
                  * params : {}
-                 * deptId : 105
-                 * parentId : 101
-                 * ancestors : 0,100,101
-                 * deptName : 白集村
-                 * orderNum : 3
-                 * leader : 若依
-                 * phone : 15888888888
-                 * email : ry@qq.com
+                 * deptId : 109
+                 * parentId : 102
+                 * ancestors : 0,100,102
+                 * deptName : 云池街办
+                 * orderNum : 2
+                 * leader :
+                 * phone :
+                 * email :
                  * status : 0
                  * delFlag : 0
                  * parentName : null
-                 * amount : 6
-                 * childDepts : [{"searchValue":null,"createBy":"admin","createTime":"2019-11-14 14:51:16","updateBy":"","updateTime":null,"remark":null,"params":{},"deptId":116,"parentId":105,"ancestors":"0,100,101,105","deptName":"除治队","orderNum":"1","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"amount":6,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"amount":null,"childDepts":null,"amounts":6,"branchId":2,"chainsaw":"若依"}],"amounts":null,"branchId":null,"chainsaw":null}]
+                 * type : 2
+                 * amount : 1
+                 * childDepts : [{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:11:19","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":159,"parentId":109,"ancestors":"0,100,102,109","deptName":"黄龙寺居委会","orderNum":"2","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":1,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:38","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":183,"parentId":159,"ancestors":"0,100,102,109,159","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":1,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"type":null,"amount":null,"childDepts":null,"amounts":1,"branchId":418,"chainsaw":"佳美达油锯A"}],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-22 14:12:22","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":128,"parentId":109,"ancestors":"0,100,102,109","deptName":"福善场村委会","orderNum":"1","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:13","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":182,"parentId":128,"ancestors":"0,100,102,109,128","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:11:42","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":160,"parentId":109,"ancestors":"0,100,102,109","deptName":"石板冲居委会","orderNum":"3","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:03","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":184,"parentId":160,"ancestors":"0,100,102,109,160","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null},{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 14:12:04","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":161,"parentId":109,"ancestors":"0,100,102,109","deptName":"下马槽居委会","orderNum":"4","leader":null,"phone":null,"email":null,"status":"0","delFlag":"0","parentName":null,"type":"3","amount":0,"childDepts":[{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:21:24","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":185,"parentId":161,"ancestors":"0,100,102,109,161","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":0,"childDepts":[],"amounts":null,"branchId":null,"chainsaw":null}],"amounts":null,"branchId":null,"chainsaw":null}]
                  * amounts : null
                  * branchId : null
                  * chainsaw : null
@@ -545,8 +566,8 @@ public class TreeCountEntry {
                 private Object searchValue;
                 private String createBy;
                 private String createTime;
-                private String updateBy;
-                private String updateTime;
+                private Object updateBy;
+                private Object updateTime;
                 private Object remark;
                 private ParamsBeanXX params;
                 private int deptId;
@@ -560,11 +581,12 @@ public class TreeCountEntry {
                 private String status;
                 private String delFlag;
                 private Object parentName;
+                private String type;
                 private int amount;
                 private int amounts;
                 private int branchId;
                 private String chainsaw;
-                private List<ChildDeptsBeanX> childDepts;
+                private List<ChildDeptsBeanXX> childDepts;
 
                 public Object getSearchValue() {
                     return searchValue;
@@ -590,19 +612,19 @@ public class TreeCountEntry {
                     this.createTime = createTime;
                 }
 
-                public String getUpdateBy() {
+                public Object getUpdateBy() {
                     return updateBy;
                 }
 
-                public void setUpdateBy(String updateBy) {
+                public void setUpdateBy(Object updateBy) {
                     this.updateBy = updateBy;
                 }
 
-                public String getUpdateTime() {
+                public Object getUpdateTime() {
                     return updateTime;
                 }
 
-                public void setUpdateTime(String updateTime) {
+                public void setUpdateTime(Object updateTime) {
                     this.updateTime = updateTime;
                 }
 
@@ -710,6 +732,14 @@ public class TreeCountEntry {
                     this.parentName = parentName;
                 }
 
+                public String getType() {
+                    return type;
+                }
+
+                public void setType(String type) {
+                    this.type = type;
+                }
+
                 public int getAmount() {
                     return amount;
                 }
@@ -742,39 +772,40 @@ public class TreeCountEntry {
                     this.chainsaw = chainsaw;
                 }
 
-                public List<ChildDeptsBeanX> getChildDepts() {
+                public List<ChildDeptsBeanXX> getChildDepts() {
                     return childDepts;
                 }
 
-                public void setChildDepts(List<ChildDeptsBeanX> childDepts) {
+                public void setChildDepts(List<ChildDeptsBeanXX> childDepts) {
                     this.childDepts = childDepts;
                 }
 
                 public static class ParamsBeanXX {
                 }
 
-                public static class ChildDeptsBeanX {
+                public static class ChildDeptsBeanXX {
                     /**
                      * searchValue : null
-                     * createBy : admin
-                     * createTime : 2019-11-14 14:51:16
-                     * updateBy :
+                     * createBy : duchunhua
+                     * createTime : 2019-11-26 14:11:19
+                     * updateBy : null
                      * updateTime : null
                      * remark : null
                      * params : {}
-                     * deptId : 116
-                     * parentId : 105
-                     * ancestors : 0,100,101,105
-                     * deptName : 除治队
-                     * orderNum : 1
+                     * deptId : 159
+                     * parentId : 109
+                     * ancestors : 0,100,102,109
+                     * deptName : 黄龙寺居委会
+                     * orderNum : 2
                      * leader : null
                      * phone : null
                      * email : null
                      * status : 0
                      * delFlag : 0
                      * parentName : null
-                     * amount : 6
-                     * childDepts : [{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"amount":null,"childDepts":null,"amounts":6,"branchId":2,"chainsaw":"若依"}]
+                     * type : 3
+                     * amount : 1
+                     * childDepts : [{"searchValue":null,"createBy":"duchunhua","createTime":"2019-11-26 15:20:38","updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":183,"parentId":159,"ancestors":"0,100,102,109,159","deptName":"宜昌佳美达绿化劳务服务有限公司","orderNum":"80","leader":"","phone":"","email":"","status":"0","delFlag":"0","parentName":null,"type":"4","amount":1,"childDepts":[{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"type":null,"amount":null,"childDepts":null,"amounts":1,"branchId":418,"chainsaw":"佳美达油锯A"}],"amounts":null,"branchId":null,"chainsaw":null}]
                      * amounts : null
                      * branchId : null
                      * chainsaw : null
@@ -783,7 +814,7 @@ public class TreeCountEntry {
                     private Object searchValue;
                     private String createBy;
                     private String createTime;
-                    private String updateBy;
+                    private Object updateBy;
                     private Object updateTime;
                     private Object remark;
                     private ParamsBeanXXX params;
@@ -798,11 +829,12 @@ public class TreeCountEntry {
                     private String status;
                     private String delFlag;
                     private Object parentName;
+                    private String type;
                     private int amount;
-                    private int  amounts;
-                    private int  branchId;
+                    private int amounts;
+                    private int branchId;
                     private String chainsaw;
-                    private List<ChildDeptsBean> childDepts;
+                    private List<ChildDeptsBeanX> childDepts;
 
                     public Object getSearchValue() {
                         return searchValue;
@@ -828,11 +860,11 @@ public class TreeCountEntry {
                         this.createTime = createTime;
                     }
 
-                    public String getUpdateBy() {
+                    public Object getUpdateBy() {
                         return updateBy;
                     }
 
-                    public void setUpdateBy(String updateBy) {
+                    public void setUpdateBy(Object updateBy) {
                         this.updateBy = updateBy;
                     }
 
@@ -948,6 +980,14 @@ public class TreeCountEntry {
                         this.parentName = parentName;
                     }
 
+                    public String getType() {
+                        return type;
+                    }
+
+                    public void setType(String type) {
+                        this.type = type;
+                    }
+
                     public int getAmount() {
                         return amount;
                     }
@@ -956,7 +996,7 @@ public class TreeCountEntry {
                         this.amount = amount;
                     }
 
-                    public Object getAmounts() {
+                    public int getAmounts() {
                         return amounts;
                     }
 
@@ -980,67 +1020,69 @@ public class TreeCountEntry {
                         this.chainsaw = chainsaw;
                     }
 
-                    public List<ChildDeptsBean> getChildDepts() {
+                    public List<ChildDeptsBeanX> getChildDepts() {
                         return childDepts;
                     }
 
-                    public void setChildDepts(List<ChildDeptsBean> childDepts) {
+                    public void setChildDepts(List<ChildDeptsBeanX> childDepts) {
                         this.childDepts = childDepts;
                     }
 
                     public static class ParamsBeanXXX {
                     }
 
-                    public static class ChildDeptsBean {
+                    public static class ChildDeptsBeanX {
                         /**
                          * searchValue : null
-                         * createBy : null
-                         * createTime : null
+                         * createBy : duchunhua
+                         * createTime : 2019-11-26 15:20:38
                          * updateBy : null
                          * updateTime : null
                          * remark : null
                          * params : {}
-                         * deptId : null
-                         * parentId : null
-                         * ancestors : null
-                         * deptName : null
-                         * orderNum : null
-                         * leader : null
-                         * phone : null
-                         * email : null
-                         * status : null
-                         * delFlag : null
+                         * deptId : 183
+                         * parentId : 159
+                         * ancestors : 0,100,102,109,159
+                         * deptName : 宜昌佳美达绿化劳务服务有限公司
+                         * orderNum : 80
+                         * leader :
+                         * phone :
+                         * email :
+                         * status : 0
+                         * delFlag : 0
                          * parentName : null
-                         * amount : null
-                         * childDepts : null
-                         * amounts : 6
-                         * branchId : 2
-                         * chainsaw : 若依
+                         * type : 4
+                         * amount : 1
+                         * childDepts : [{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":null,"parentId":null,"ancestors":null,"deptName":null,"orderNum":null,"leader":null,"phone":null,"email":null,"status":null,"delFlag":null,"parentName":null,"type":null,"amount":null,"childDepts":null,"amounts":1,"branchId":418,"chainsaw":"佳美达油锯A"}]
+                         * amounts : null
+                         * branchId : null
+                         * chainsaw : null
                          */
 
                         private Object searchValue;
-                        private Object createBy;
-                        private Object createTime;
+                        private String createBy;
+                        private String createTime;
                         private Object updateBy;
                         private Object updateTime;
                         private Object remark;
                         private ParamsBeanXXXX params;
-                        private Object deptId;
-                        private Object parentId;
-                        private Object ancestors;
-                        private Object deptName;
-                        private Object orderNum;
-                        private Object leader;
-                        private Object phone;
-                        private Object email;
-                        private Object status;
-                        private Object delFlag;
+                        private int deptId;
+                        private int parentId;
+                        private String ancestors;
+                        private String deptName;
+                        private String orderNum;
+                        private String leader;
+                        private String phone;
+                        private String email;
+                        private String status;
+                        private String delFlag;
                         private Object parentName;
-                        private Object amount;
-                        private Object childDepts;
+                        private String type;
+                        private int amount;
                         private int amounts;
                         private int branchId;
                         private String chainsaw;
+                        private List<ChildDeptsBean> childDepts;
 
                         public Object getSearchValue() {
                             return searchValue;
@@ -1050,19 +1092,19 @@ public class TreeCountEntry {
                             this.searchValue = searchValue;
                         }
 
-                        public Object getCreateBy() {
+                        public String getCreateBy() {
                             return createBy;
                         }
 
-                        public void setCreateBy(Object createBy) {
+                        public void setCreateBy(String createBy) {
                             this.createBy = createBy;
                         }
 
-                        public Object getCreateTime() {
+                        public String getCreateTime() {
                             return createTime;
                         }
 
-                        public void setCreateTime(Object createTime) {
+                        public void setCreateTime(String createTime) {
                             this.createTime = createTime;
                         }
 
@@ -1098,83 +1140,83 @@ public class TreeCountEntry {
                             this.params = params;
                         }
 
-                        public Object getDeptId() {
+                        public int getDeptId() {
                             return deptId;
                         }
 
-                        public void setDeptId(Object deptId) {
+                        public void setDeptId(int deptId) {
                             this.deptId = deptId;
                         }
 
-                        public Object getParentId() {
+                        public int getParentId() {
                             return parentId;
                         }
 
-                        public void setParentId(Object parentId) {
+                        public void setParentId(int parentId) {
                             this.parentId = parentId;
                         }
 
-                        public Object getAncestors() {
+                        public String getAncestors() {
                             return ancestors;
                         }
 
-                        public void setAncestors(Object ancestors) {
+                        public void setAncestors(String ancestors) {
                             this.ancestors = ancestors;
                         }
 
-                        public Object getDeptName() {
+                        public String getDeptName() {
                             return deptName;
                         }
 
-                        public void setDeptName(Object deptName) {
+                        public void setDeptName(String deptName) {
                             this.deptName = deptName;
                         }
 
-                        public Object getOrderNum() {
+                        public String getOrderNum() {
                             return orderNum;
                         }
 
-                        public void setOrderNum(Object orderNum) {
+                        public void setOrderNum(String orderNum) {
                             this.orderNum = orderNum;
                         }
 
-                        public Object getLeader() {
+                        public String getLeader() {
                             return leader;
                         }
 
-                        public void setLeader(Object leader) {
+                        public void setLeader(String leader) {
                             this.leader = leader;
                         }
 
-                        public Object getPhone() {
+                        public String getPhone() {
                             return phone;
                         }
 
-                        public void setPhone(Object phone) {
+                        public void setPhone(String phone) {
                             this.phone = phone;
                         }
 
-                        public Object getEmail() {
+                        public String getEmail() {
                             return email;
                         }
 
-                        public void setEmail(Object email) {
+                        public void setEmail(String email) {
                             this.email = email;
                         }
 
-                        public Object getStatus() {
+                        public String getStatus() {
                             return status;
                         }
 
-                        public void setStatus(Object status) {
+                        public void setStatus(String status) {
                             this.status = status;
                         }
 
-                        public Object getDelFlag() {
+                        public String getDelFlag() {
                             return delFlag;
                         }
 
-                        public void setDelFlag(Object delFlag) {
+                        public void setDelFlag(String delFlag) {
                             this.delFlag = delFlag;
                         }
 
@@ -1186,20 +1228,20 @@ public class TreeCountEntry {
                             this.parentName = parentName;
                         }
 
-                        public Object getAmount() {
+                        public String getType() {
+                            return type;
+                        }
+
+                        public void setType(String type) {
+                            this.type = type;
+                        }
+
+                        public int getAmount() {
                             return amount;
                         }
 
-                        public void setAmount(Object amount) {
+                        public void setAmount(int amount) {
                             this.amount = amount;
-                        }
-
-                        public Object getChildDepts() {
-                            return childDepts;
-                        }
-
-                        public void setChildDepts(Object childDepts) {
-                            this.childDepts = childDepts;
                         }
 
                         public int getAmounts() {
@@ -1226,7 +1268,264 @@ public class TreeCountEntry {
                             this.chainsaw = chainsaw;
                         }
 
+                        public List<ChildDeptsBean> getChildDepts() {
+                            return childDepts;
+                        }
+
+                        public void setChildDepts(List<ChildDeptsBean> childDepts) {
+                            this.childDepts = childDepts;
+                        }
+
                         public static class ParamsBeanXXXX {
+                        }
+
+                        public static class ChildDeptsBean {
+                            /**
+                             * searchValue : null
+                             * createBy : null
+                             * createTime : null
+                             * updateBy : null
+                             * updateTime : null
+                             * remark : null
+                             * params : {}
+                             * deptId : null
+                             * parentId : null
+                             * ancestors : null
+                             * deptName : null
+                             * orderNum : null
+                             * leader : null
+                             * phone : null
+                             * email : null
+                             * status : null
+                             * delFlag : null
+                             * parentName : null
+                             * type : null
+                             * amount : null
+                             * childDepts : null
+                             * amounts : 1
+                             * branchId : 418
+                             * chainsaw : 佳美达油锯A
+                             */
+
+                            private Object searchValue;
+                            private Object createBy;
+                            private Object createTime;
+                            private Object updateBy;
+                            private Object updateTime;
+                            private Object remark;
+                            private ParamsBeanXXXXX params;
+                            private Object deptId;
+                            private Object parentId;
+                            private Object ancestors;
+                            private String deptName;
+                            private Object orderNum;
+                            private Object leader;
+                            private Object phone;
+                            private Object email;
+                            private Object status;
+                            private Object delFlag;
+                            private Object parentName;
+                            private Object type;
+                            private int amount;
+                            private Object childDepts;
+                            private int amounts;
+                            private int branchId;
+                            private String chainsaw;
+
+                            public Object getSearchValue() {
+                                return searchValue;
+                            }
+
+                            public void setSearchValue(Object searchValue) {
+                                this.searchValue = searchValue;
+                            }
+
+                            public Object getCreateBy() {
+                                return createBy;
+                            }
+
+                            public void setCreateBy(Object createBy) {
+                                this.createBy = createBy;
+                            }
+
+                            public Object getCreateTime() {
+                                return createTime;
+                            }
+
+                            public void setCreateTime(Object createTime) {
+                                this.createTime = createTime;
+                            }
+
+                            public Object getUpdateBy() {
+                                return updateBy;
+                            }
+
+                            public void setUpdateBy(Object updateBy) {
+                                this.updateBy = updateBy;
+                            }
+
+                            public Object getUpdateTime() {
+                                return updateTime;
+                            }
+
+                            public void setUpdateTime(Object updateTime) {
+                                this.updateTime = updateTime;
+                            }
+
+                            public Object getRemark() {
+                                return remark;
+                            }
+
+                            public void setRemark(Object remark) {
+                                this.remark = remark;
+                            }
+
+                            public ParamsBeanXXXXX getParams() {
+                                return params;
+                            }
+
+                            public void setParams(ParamsBeanXXXXX params) {
+                                this.params = params;
+                            }
+
+                            public Object getDeptId() {
+                                return deptId;
+                            }
+
+                            public void setDeptId(Object deptId) {
+                                this.deptId = deptId;
+                            }
+
+                            public Object getParentId() {
+                                return parentId;
+                            }
+
+                            public void setParentId(Object parentId) {
+                                this.parentId = parentId;
+                            }
+
+                            public Object getAncestors() {
+                                return ancestors;
+                            }
+
+                            public void setAncestors(Object ancestors) {
+                                this.ancestors = ancestors;
+                            }
+
+                            public String getDeptName() {
+                                return deptName;
+                            }
+
+                            public void setDeptName(String deptName) {
+                                this.deptName = deptName;
+                            }
+
+                            public Object getOrderNum() {
+                                return orderNum;
+                            }
+
+                            public void setOrderNum(Object orderNum) {
+                                this.orderNum = orderNum;
+                            }
+
+                            public Object getLeader() {
+                                return leader;
+                            }
+
+                            public void setLeader(Object leader) {
+                                this.leader = leader;
+                            }
+
+                            public Object getPhone() {
+                                return phone;
+                            }
+
+                            public void setPhone(Object phone) {
+                                this.phone = phone;
+                            }
+
+                            public Object getEmail() {
+                                return email;
+                            }
+
+                            public void setEmail(Object email) {
+                                this.email = email;
+                            }
+
+                            public Object getStatus() {
+                                return status;
+                            }
+
+                            public void setStatus(Object status) {
+                                this.status = status;
+                            }
+
+                            public Object getDelFlag() {
+                                return delFlag;
+                            }
+
+                            public void setDelFlag(Object delFlag) {
+                                this.delFlag = delFlag;
+                            }
+
+                            public Object getParentName() {
+                                return parentName;
+                            }
+
+                            public void setParentName(Object parentName) {
+                                this.parentName = parentName;
+                            }
+
+                            public Object getType() {
+                                return type;
+                            }
+
+                            public void setType(Object type) {
+                                this.type = type;
+                            }
+
+                            public int getAmount() {
+                                return amount;
+                            }
+
+                            public void setAmount(int amount) {
+                                this.amount = amount;
+                            }
+
+                            public Object getChildDepts() {
+                                return childDepts;
+                            }
+
+                            public void setChildDepts(Object childDepts) {
+                                this.childDepts = childDepts;
+                            }
+
+                            public int getAmounts() {
+                                return amounts;
+                            }
+
+                            public void setAmounts(int amounts) {
+                                this.amounts = amounts;
+                            }
+
+                            public int getBranchId() {
+                                return branchId;
+                            }
+
+                            public void setBranchId(int branchId) {
+                                this.branchId = branchId;
+                            }
+
+                            public String getChainsaw() {
+                                return chainsaw;
+                            }
+
+                            public void setChainsaw(String chainsaw) {
+                                this.chainsaw = chainsaw;
+                            }
+
+                            public static class ParamsBeanXXXXX {
+                            }
                         }
                     }
                 }

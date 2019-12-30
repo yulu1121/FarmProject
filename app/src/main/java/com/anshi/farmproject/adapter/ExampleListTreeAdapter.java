@@ -31,6 +31,7 @@ public class ExampleListTreeAdapter extends
         //描述
         private String detail;
         private int id;
+        private int total;
         public ContactInfo( String title, String detail) {
             //this.bitmap = bitmap;
             this.title = title;
@@ -55,6 +56,14 @@ public class ExampleListTreeAdapter extends
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
         }
     }
     private Context mContext;

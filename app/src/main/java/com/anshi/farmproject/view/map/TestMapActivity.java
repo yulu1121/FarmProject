@@ -1,5 +1,7 @@
 package com.anshi.farmproject.view.map;
 
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,7 +32,6 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.NetworkUtil;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -73,7 +74,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class MapActivity extends BaseActivity implements View.OnClickListener,MKOfflineMapListener,DatePickerDialog.OnDateSetListener {
+public class TestMapActivity extends BaseActivity implements View.OnClickListener,MKOfflineMapListener,DatePickerDialog.OnDateSetListener {
     private MapView mMapView;
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
@@ -204,7 +205,6 @@ public class MapActivity extends BaseActivity implements View.OnClickListener,MK
                         }
                         List<DetailQueryEntry.DataBean.FellingListBean> mapList = SharedPreferenceUtils.getList(mContext, "mapList");
                         if (null!=mapList&&mapList.size()>0){
-                            options.clear();
                             //构建Marker图标
                             BitmapDescriptor bitmap;
                             for (int i = 0; i <mapList.size(); i++) {
@@ -279,15 +279,15 @@ public class MapActivity extends BaseActivity implements View.OnClickListener,MK
         });
 
 
-//        String customStyleFilePath = getCustomStyleFilePath(this, CUSTOM_FILE_NAME_GRAY);
-//        // 设置个性化地图样式文件的路径和加载方式
-//        mMapView.setMapCustomStylePath(customStyleFilePath);
-//         //动态设置个性化地图样式是否生效
-//        mMapView.setMapCustomStyleEnable(true);
+        String customStyleFilePath = getCustomStyleFilePath(this, CUSTOM_FILE_NAME_GRAY);
+        // 设置个性化地图样式文件的路径和加载方式
+        mMapView.setMapCustomStylePath(customStyleFilePath);
+         //动态设置个性化地图样式是否生效
+        mMapView.setMapCustomStyleEnable(true);
         mBaiduMap = mMapView.getMap();
-        if (NetworkUtil.isNetworkAvailable(mContext)){
-            mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-        }
+//        if (NetworkUtil.isNetworkAvailable(mContext)){
+//            mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+//        }
         MapStatus mMapStatus = new MapStatus.Builder().zoom(15.0f).build();
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
@@ -295,7 +295,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener,MK
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(final Marker marker) {
-                LinearLayout mLinearLayout = (LinearLayout) LayoutInflater.from(MapActivity.this).inflate(R.layout.baidu_map_infowindow,null);
+                LinearLayout mLinearLayout = (LinearLayout) LayoutInflater.from(TestMapActivity.this).inflate(R.layout.baidu_map_infowindow,null);
                 TextView mText = mLinearLayout.findViewById(R.id.tv_name);
                 TextView phone = mLinearLayout.findViewById(R.id.tv_person);
                 TextView textView = mLinearLayout.findViewById(R.id.tv_fuze);
@@ -498,7 +498,7 @@ public class MapActivity extends BaseActivity implements View.OnClickListener,MK
         option.setOpenGps(true); // 打开gps
 
         option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(10000);
+        option.setScanSpan(0);
 
 //设置locationClientOption
         mLocationClient.setLocOption(option);

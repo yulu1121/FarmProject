@@ -1,11 +1,16 @@
+//private String userName;
+//private String townName;
+//private int townId;
+//private String villageName;
+//private int villageId;
 package com.anshi.farmproject.entry;
 
-public class LoginEntry {
+public class LoginEntry{
 
     /**
      * msg : 操作成功
      * code : 0
-     * data : {"loginName":"ry","dept":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":105,"parentId":101,"ancestors":null,"deptName":"白集村","orderNum":"3","leader":"若依","phone":null,"email":null,"status":"0","delFlag":null,"parentName":null,"amount":null,"childDepts":null},"userName":"若依","userId":2}
+     * data : {"role":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"roleId":7,"roleName":"监理公司","roleKey":"jianli","roleSort":"6","dataScope":"2","status":"0","delFlag":null,"flag":false,"menuIds":null,"deptIds":null,"admin":false},"loginName":"nieshixiong","dept":{"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":101,"parentId":100,"ancestors":"0,100","deptName":"点军区林水局","orderNum":"1","leader":"","phone":null,"email":null,"status":"0","delFlag":null,"parentName":null,"type":"1","amount":null,"childDepts":null,"amounts":null,"branchId":null,"chainsaw":null},"userName":"聂世雄","userId":446}
      */
 
     private String msg;
@@ -38,17 +43,37 @@ public class LoginEntry {
 
     public static class DataBean {
         /**
-         * loginName : ry
-         * dept : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":105,"parentId":101,"ancestors":null,"deptName":"白集村","orderNum":"3","leader":"若依","phone":null,"email":null,"status":"0","delFlag":null,"parentName":null,"amount":null,"childDepts":null}
-         * userName : 若依
-         * userId : 2
+         * role : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"roleId":7,"roleName":"监理公司","roleKey":"jianli","roleSort":"6","dataScope":"2","status":"0","delFlag":null,"flag":false,"menuIds":null,"deptIds":null,"admin":false}
+         * loginName : nieshixiong
+         * dept : {"searchValue":null,"createBy":null,"createTime":null,"updateBy":null,"updateTime":null,"remark":null,"params":{},"deptId":101,"parentId":100,"ancestors":"0,100","deptName":"点军区林水局","orderNum":"1","leader":"","phone":null,"email":null,"status":"0","delFlag":null,"parentName":null,"type":"1","amount":null,"childDepts":null,"amounts":null,"branchId":null,"chainsaw":null}
+         * userName : 聂世雄
+         * userId : 446
          */
 
+        private RoleBean role;
         private String loginName;
         private DeptBean dept;
         private String userName;
+        private int userId;
         private String townName;
         private int townId;
+        private String villageName;
+
+        public String getTownName() {
+            return townName;
+        }
+
+        public void setTownName(String townName) {
+            this.townName = townName;
+        }
+
+        public int getTownId() {
+            return townId;
+        }
+
+        public void setTownId(int townId) {
+            this.townId = townId;
+        }
 
         public String getVillageName() {
             return villageName;
@@ -66,25 +91,14 @@ public class LoginEntry {
             this.villageId = villageId;
         }
 
-        private String villageName;
         private int villageId;
-        public String getTownName() {
-            return townName;
+        public RoleBean getRole() {
+            return role;
         }
 
-        public void setTownName(String townName) {
-            this.townName = townName;
+        public void setRole(RoleBean role) {
+            this.role = role;
         }
-
-        public int getTownId() {
-            return townId;
-        }
-
-        public void setTownId(int townId) {
-            this.townId = townId;
-        }
-
-        private int userId;
 
         public String getLoginName() {
             return loginName;
@@ -118,7 +132,7 @@ public class LoginEntry {
             this.userId = userId;
         }
 
-        public static class DeptBean {
+        public static class RoleBean {
             /**
              * searchValue : null
              * createBy : null
@@ -127,19 +141,17 @@ public class LoginEntry {
              * updateTime : null
              * remark : null
              * params : {}
-             * deptId : 105
-             * parentId : 101
-             * ancestors : null
-             * deptName : 白集村
-             * orderNum : 3
-             * leader : 若依
-             * phone : null
-             * email : null
+             * roleId : 7
+             * roleName : 监理公司
+             * roleKey : jianli
+             * roleSort : 6
+             * dataScope : 2
              * status : 0
              * delFlag : null
-             * parentName : null
-             * amount : null
-             * childDepts : null
+             * flag : false
+             * menuIds : null
+             * deptIds : null
+             * admin : false
              */
 
             private Object searchValue;
@@ -149,20 +161,17 @@ public class LoginEntry {
             private Object updateTime;
             private Object remark;
             private ParamsBean params;
-            private int deptId;
-            private int parentId;
-            private Object ancestors;
-            private String deptName;
-            private String orderNum;
-            private String leader;
-            private Object phone;
-            private Object email;
+            private int roleId;
+            private String roleName;
+            private String roleKey;
+            private String roleSort;
+            private String dataScope;
             private String status;
             private Object delFlag;
-            private Object parentName;
-            private Object amount;
-            private Object childDepts;
-            private String type;
+            private boolean flag;
+            private Object menuIds;
+            private Object deptIds;
+            private boolean admin;
 
             public Object getSearchValue() {
                 return searchValue;
@@ -220,6 +229,207 @@ public class LoginEntry {
                 this.params = params;
             }
 
+            public int getRoleId() {
+                return roleId;
+            }
+
+            public void setRoleId(int roleId) {
+                this.roleId = roleId;
+            }
+
+            public String getRoleName() {
+                return roleName;
+            }
+
+            public void setRoleName(String roleName) {
+                this.roleName = roleName;
+            }
+
+            public String getRoleKey() {
+                return roleKey;
+            }
+
+            public void setRoleKey(String roleKey) {
+                this.roleKey = roleKey;
+            }
+
+            public String getRoleSort() {
+                return roleSort;
+            }
+
+            public void setRoleSort(String roleSort) {
+                this.roleSort = roleSort;
+            }
+
+            public String getDataScope() {
+                return dataScope;
+            }
+
+            public void setDataScope(String dataScope) {
+                this.dataScope = dataScope;
+            }
+
+            public String getStatus() {
+                return status;
+            }
+
+            public void setStatus(String status) {
+                this.status = status;
+            }
+
+            public Object getDelFlag() {
+                return delFlag;
+            }
+
+            public void setDelFlag(Object delFlag) {
+                this.delFlag = delFlag;
+            }
+
+            public boolean isFlag() {
+                return flag;
+            }
+
+            public void setFlag(boolean flag) {
+                this.flag = flag;
+            }
+
+            public Object getMenuIds() {
+                return menuIds;
+            }
+
+            public void setMenuIds(Object menuIds) {
+                this.menuIds = menuIds;
+            }
+
+            public Object getDeptIds() {
+                return deptIds;
+            }
+
+            public void setDeptIds(Object deptIds) {
+                this.deptIds = deptIds;
+            }
+
+            public boolean isAdmin() {
+                return admin;
+            }
+
+            public void setAdmin(boolean admin) {
+                this.admin = admin;
+            }
+
+            public static class ParamsBean {
+            }
+        }
+
+        public static class DeptBean {
+            /**
+             * searchValue : null
+             * createBy : null
+             * createTime : null
+             * updateBy : null
+             * updateTime : null
+             * remark : null
+             * params : {}
+             * deptId : 101
+             * parentId : 100
+             * ancestors : 0,100
+             * deptName : 点军区林水局
+             * orderNum : 1
+             * leader :
+             * phone : null
+             * email : null
+             * status : 0
+             * delFlag : null
+             * parentName : null
+             * type : 1
+             * amount : null
+             * childDepts : null
+             * amounts : null
+             * branchId : null
+             * chainsaw : null
+             */
+
+            private Object searchValue;
+            private Object createBy;
+            private Object createTime;
+            private Object updateBy;
+            private Object updateTime;
+            private Object remark;
+            private ParamsBeanX params;
+            private int deptId;
+            private int parentId;
+            private String ancestors;
+            private String deptName;
+            private String orderNum;
+            private String leader;
+            private Object phone;
+            private Object email;
+            private String status;
+            private Object delFlag;
+            private Object parentName;
+            private String type;
+            private Object amount;
+            private Object childDepts;
+            private Object amounts;
+            private Object branchId;
+            private Object chainsaw;
+
+            public Object getSearchValue() {
+                return searchValue;
+            }
+
+            public void setSearchValue(Object searchValue) {
+                this.searchValue = searchValue;
+            }
+
+            public Object getCreateBy() {
+                return createBy;
+            }
+
+            public void setCreateBy(Object createBy) {
+                this.createBy = createBy;
+            }
+
+            public Object getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(Object createTime) {
+                this.createTime = createTime;
+            }
+
+            public Object getUpdateBy() {
+                return updateBy;
+            }
+
+            public void setUpdateBy(Object updateBy) {
+                this.updateBy = updateBy;
+            }
+
+            public Object getUpdateTime() {
+                return updateTime;
+            }
+
+            public void setUpdateTime(Object updateTime) {
+                this.updateTime = updateTime;
+            }
+
+            public Object getRemark() {
+                return remark;
+            }
+
+            public void setRemark(Object remark) {
+                this.remark = remark;
+            }
+
+            public ParamsBeanX getParams() {
+                return params;
+            }
+
+            public void setParams(ParamsBeanX params) {
+                this.params = params;
+            }
+
             public int getDeptId() {
                 return deptId;
             }
@@ -236,11 +446,11 @@ public class LoginEntry {
                 this.parentId = parentId;
             }
 
-            public Object getAncestors() {
+            public String getAncestors() {
                 return ancestors;
             }
 
-            public void setAncestors(Object ancestors) {
+            public void setAncestors(String ancestors) {
                 this.ancestors = ancestors;
             }
 
@@ -308,6 +518,14 @@ public class LoginEntry {
                 this.parentName = parentName;
             }
 
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
             public Object getAmount() {
                 return amount;
             }
@@ -324,15 +542,31 @@ public class LoginEntry {
                 this.childDepts = childDepts;
             }
 
-            public String getType() {
-                return type;
+            public Object getAmounts() {
+                return amounts;
             }
 
-            public void setType(String type) {
-                this.type = type;
+            public void setAmounts(Object amounts) {
+                this.amounts = amounts;
             }
 
-            public static class ParamsBean {
+            public Object getBranchId() {
+                return branchId;
+            }
+
+            public void setBranchId(Object branchId) {
+                this.branchId = branchId;
+            }
+
+            public Object getChainsaw() {
+                return chainsaw;
+            }
+
+            public void setChainsaw(Object chainsaw) {
+                this.chainsaw = chainsaw;
+            }
+
+            public static class ParamsBeanX {
             }
         }
     }

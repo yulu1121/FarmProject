@@ -29,8 +29,8 @@ public class OkHttpUtils {
         int cacheSize = 10 * 1024 * 1024;
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS);
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS);
         if (sdcache!=null&&sdcache.exists()){
             builder.cache(new Cache(sdcache.getAbsoluteFile(), cacheSize));
         }

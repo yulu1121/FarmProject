@@ -119,35 +119,5 @@
             android:id="@+id/zhiwu_spinner"
             />
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/bottom_line"
-        tools:ignore="UselessParent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:textColor="@color/colorTextDeep"
-            android:text="@string/location"
-            android:textSize="@dimen/large_txt"
-            android:id="@+id/second_number_tv_four"
-            android:layout_marginStart="10dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:paddingStart="0dp"
-            android:paddingEnd="15dp"
-            android:maxLines="2"
-            android:gravity="end"
-            android:textSize="@dimen/large_txt"
-            android:ellipsize="end"
-            android:id="@+id/location_tv"
-            android:layout_toEndOf="@+id/second_number_tv_four"
-            android:textColor="@color/colorTextDeep"
-            />
-    </RelativeLayout>
+
 </LinearLayout>

@@ -113,6 +113,10 @@ public class LoginActivity extends BaseActivity {
                                     SharedPreferenceUtils.saveString(mContext,"loginName" ,loginEntry.getData().getLoginName());
                                     SharedPreferenceUtils.saveString(mContext,"deptName",loginEntry.getData().getDept().getDeptName());
                                     SharedPreferenceUtils.saveString(mContext,"townName",loginEntry.getData().getTownName());
+                                    if (loginEntry.getData().getRole()!=null){
+                                        SharedPreferenceUtils.saveInt(mContext,"roleId",loginEntry.getData().getRole().getRoleId());
+                                        SharedPreferenceUtils.saveString(mContext,"dataScope",loginEntry.getData().getRole().getDataScope());
+                                    }
                                     SharedPreferenceUtils.saveString(mContext,"type",loginEntry.getData().getDept().getType());
                                     SharedPreferenceUtils.saveString(mContext,"orderNum",loginEntry.getData().getDept().getOrderNum());
                                     SharedPreferenceUtils.saveInt(mContext,"townId",loginEntry.getData().getTownId());

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.anshi.farmproject.R;
 import com.anshi.farmproject.adapter.ExampleListTreeAdapter;
 import com.anshi.farmproject.base.BaseActivity;
+import com.anshi.farmproject.entry.DetailQueryEntry;
 import com.anshi.farmproject.entry.TreeCountEntry;
 import com.anshi.farmproject.utils.Constants;
 import com.anshi.farmproject.utils.DialogBuild;
@@ -48,7 +50,12 @@ public class QueryActivity extends BaseActivity {
         setContentView(R.layout.activity_query);
         initView();
         initData();
-        getTreeCount();
+        String dataScope = SharedPreferenceUtils.getString(this, "dataScope");
+        if (dataScope.equals("5")){
+            getFellingList();
+        }else {
+            getTreeCount();
+        }
     }
 
     private void initView() {
@@ -59,6 +66,76 @@ public class QueryActivity extends BaseActivity {
         mListView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
     }
 
+    private void getFellingList(){
+        if (!isFinishing()){
+            commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(this,"正在加载中");
+        }
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userId", SharedPreferenceUtils.getInt(mContext,"userId"));
+            jsonObject.put("branchId",SharedPreferenceUtils.getInt(mContext,"userId"));
+            jsonObject.put("pageSize",10);
+            jsonObject.put("pageNum",1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("xxx",jsonObject.toString());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+        mService.getFelingList(requestBody)
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+                        try {
+                            String string = responseBody.string();
+                            if (Utils.isGoodJson(string)){
+                                Gson gson = new Gson();
+                                DetailQueryEntry detailQueryEntry = gson.fromJson(string, DetailQueryEntry.class);
+                                if (detailQueryEntry.getCode()== Constants.SUCCESS_CODE){
+                                    int total = detailQueryEntry.getData().getTotal();
+                                    String userName = SharedPreferenceUtils.getString(mContext, "userName");
+                                    ExampleListTreeAdapter.ContactInfo contact = new ExampleListTreeAdapter.ContactInfo(SharedPreferenceUtils.getString(mContext,"deptName")," ");
+                                    //创建后台数据：一棵树
+                                    //创建组们，是root node，所有parent为null
+                                    ListTree.TreeNode groupNode = tree.addNode(null, contact, R.layout.contacts_group_item);
+                                    ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(userName,"数量:"+total);
+                                    contactTwo.setId(SharedPreferenceUtils.getInt(mContext,"userId"));
+                                    contactTwo.setTotal(total);
+                                    //创建后台数据：一棵树
+                                    //创建组们，是root node，所有parent为null
+                                    ListTree.TreeNode treeNode = tree.addNode(groupNode, contactTwo, R.layout.contacts_contact_item);
+                                    treeNode.setShowExpandIcon(false);
+                                    adapter.notifyDataSetChanged();
+                                } else{
+                                    Toast.makeText(mContext, detailQueryEntry.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (null!=commonLoadDialog){
+                            commonLoadDialog.dismiss();
+                        }
+
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -66,34 +143,6 @@ public class QueryActivity extends BaseActivity {
         StatusBarUtils.setStatusTextColor(true,this);
     }
     private void initData(){
-//        ExampleListTreeAdapter.ContactInfo contact;
-//        contact = new ExampleListTreeAdapter.ContactInfo("林业局","数量:3000");
-//        //创建后台数据：一棵树
-//        //创建组们，是root node，所有parent为null
-//        ListTree.TreeNode groupNode1 = tree.addNode(null, contact, R.layout.contacts_group_item);
-//        //第二层
-//        contact = new ExampleListTreeAdapter.ContactInfo( "点军街办", "数量:1000");
-//        ListTree.TreeNode contactNode1 = tree.addNode(groupNode1, contact, R.layout.contacts_group_item);
-//        //再添加一个
-//        contact = new ExampleListTreeAdapter.ContactInfo( "土城乡", "数量:1000");
-//        ListTree.TreeNode contactNode2 = tree.addNode(groupNode1, contact, R.layout.contacts_group_item);
-//        //再添加一个
-//        contact = new ExampleListTreeAdapter.ContactInfo( "桥边镇", "数量:1000");
-//        ListTree.TreeNode contactNode3 = tree.addNode(groupNode1, contact, R.layout.contacts_group_item);
-//        //第三层
-//        contact = new ExampleListTreeAdapter.ContactInfo("牛扎坪村", "数量:1000");
-//        ListTree.TreeNode n = tree.addNode(contactNode1, contact, R.layout.contacts_group_item);
-//        //第4层
-//        contact = new ExampleListTreeAdapter.ContactInfo("思路除治队", "数量:1000");
-//        ListTree.TreeNode n1 = tree.addNode(n, contact, R.layout.contacts_group_item);
-//        //第5层
-//        contact = new ExampleListTreeAdapter.ContactInfo("油锯1", "数量:500");
-//        ListTree.TreeNode n2 = tree.addNode(n1, contact, R.layout.contacts_contact_item);
-//        n2.setShowExpandIcon(false);
-//        contact = new ExampleListTreeAdapter.ContactInfo("油锯2", "数量:500");
-//        ListTree.TreeNode n3 = tree.addNode(n1, contact, R.layout.contacts_contact_item);
-//        n3.setShowExpandIcon(false);
-
         adapter = new ExampleListTreeAdapter(this, tree, new ListTreeAdapter.ChildClick() {
             @Override
             public void childClick(int position) {
@@ -103,15 +152,19 @@ public class QueryActivity extends BaseActivity {
                 Intent intent = new Intent(mContext, QueryListActivity.class);
                 intent.putExtra("title",contactInfo.getTitle());
                 intent.putExtra("id",contactInfo.getId());
+                intent.putExtra("total",contactInfo.getTotal());
                 mContext.startActivity(intent);
             }
         });
         mListView.setAdapter(adapter);
+
     }
     private KProgressHUD commonLoadDialog;
     private void getTreeCount(){
         int deptId = SharedPreferenceUtils.getInt(this, "deptId");
-       // String type = SharedPreferenceUtils.getString(this, "type");
+        int roleId = SharedPreferenceUtils.getInt(this, "roleId");
+        String dataScope = SharedPreferenceUtils.getString(this, "dataScope");
+        // String type = SharedPreferenceUtils.getString(this, "type");
         if (!isFinishing()){
             commonLoadDialog = DialogBuild.getBuild().createCommonLoadDialog(this,"正在加载");
         }
@@ -121,6 +174,11 @@ public class QueryActivity extends BaseActivity {
 //                jsonObject.put("branchId",SharedPreferenceUtils.getInt(this,"userId"));
 //            }else {
                 jsonObject.put("deptId",deptId);
+                jsonObject.put("userId",SharedPreferenceUtils.getInt(mContext,"userId"));
+                if (!TextUtils.isEmpty(dataScope)){
+                    jsonObject.put("roleId",roleId);
+                    jsonObject.put("dataScope",dataScope);
+                }
           //  }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -144,7 +202,6 @@ public class QueryActivity extends BaseActivity {
                         }
                         try {
                             String string = responseBody.string();
-                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 Gson gson = new Gson();
                                 TreeCountEntry treeCountEntry = gson.fromJson(string, TreeCountEntry.class);
@@ -158,55 +215,80 @@ public class QueryActivity extends BaseActivity {
                                             ListTree.TreeNode groupNode = tree.addNode(null, contact, R.layout.contacts_group_item);
                                             if (dataBean.getChildDepts()!=null&&dataBean.getChildDepts().size()>0){
                                                 for (int j = 0; j <dataBean.getChildDepts().size() ; j++) {
-                                                    TreeCountEntry.DataBean.ChildDeptsBeanXXX childDeptsBean = dataBean.getChildDepts().get(j);
+                                                    TreeCountEntry.DataBean.ChildDeptsBeanXXXX childDeptsBeanXXXX = dataBean.getChildDepts().get(j);
                                                     ListTree.TreeNode groupNodeOne;
-                                                    if (childDeptsBean.getChainsaw()!=null){
-                                                        ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getChainsaw(),"数量:"+childDeptsBean.getAmounts());
-                                                        contactTwo.setId(childDeptsBean.getBranchId());
+                                                    if (childDeptsBeanXXXX.getChainsaw()!=null){
+                                                        ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanXXXX.getChainsaw(),"数量:"+childDeptsBeanXXXX.getAmounts());
+                                                        contactTwo.setId(childDeptsBeanXXXX.getBranchId());
+                                                        contactTwo.setTotal(childDeptsBeanXXXX.getAmounts());
                                                         groupNodeOne = tree.addNode(groupNode, contactTwo, R.layout.contacts_group_item);
                                                         groupNodeOne.setShowExpandIcon(false);
                                                         continue;
                                                     }else {
-                                                        ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getDeptName(),"数量:"+childDeptsBean.getAmount());
+                                                        ExampleListTreeAdapter.ContactInfo contactTwo = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanXXXX.getDeptName(),"数量:"+childDeptsBeanXXXX.getAmount());
                                                         groupNodeOne = tree.addNode(groupNode, contactTwo, R.layout.contacts_group_item);
                                                     }
-                                                    if (childDeptsBean.getChildDepts()!=null&&childDeptsBean.getChildDepts().size()>0){
-                                                        for (int k = 0; k <childDeptsBean.getChildDepts().size() ; k++) {
-                                                            TreeCountEntry.DataBean.ChildDeptsBeanXXX.ChildDeptsBeanXX childDeptsBeanX = childDeptsBean.getChildDepts().get(k);
+                                                    if (childDeptsBeanXXXX.getChildDepts()!=null&&childDeptsBeanXXXX.getChildDepts().size()>0){
+                                                        for (int k = 0; k <childDeptsBeanXXXX.getChildDepts().size() ; k++) {
+                                                            TreeCountEntry.DataBean.ChildDeptsBeanXXXX.ChildDeptsBeanXXX childDeptsBeanXXX = childDeptsBeanXXXX.getChildDepts().get(k);
                                                             ListTree.TreeNode groupNodeTwo;
-                                                            if (childDeptsBeanX.getChainsaw()!=null){
-                                                                ExampleListTreeAdapter.ContactInfo contactFour = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanX.getChainsaw(),"数量:"+childDeptsBeanX.getAmounts());
-                                                                contactFour.setId(childDeptsBeanX.getBranchId());
+                                                            if (childDeptsBeanXXX.getChainsaw()!=null){
+                                                                ExampleListTreeAdapter.ContactInfo contactFour = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanXXX.getChainsaw(),"数量:"+childDeptsBeanXXX.getAmounts());
+                                                                contactFour.setId(childDeptsBeanXXX.getBranchId());
+                                                                contactFour.setTotal(childDeptsBeanXXX.getAmounts());
                                                                 groupNodeTwo = tree.addNode(groupNodeOne, contactFour, R.layout.contacts_group_item);
                                                                 groupNodeTwo.setShowExpandIcon(false);
                                                                 continue;
                                                             }else {
-                                                                ExampleListTreeAdapter.ContactInfo contactThree = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanX.getDeptName(),"数量:"+childDeptsBeanX.getAmount());
+                                                                ExampleListTreeAdapter.ContactInfo contactThree = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanXXX.getDeptName(),"数量:"+childDeptsBeanXXX.getAmount());
                                                                 groupNodeTwo = tree.addNode(groupNodeOne, contactThree, R.layout.contacts_group_item);
                                                             }
 
-                                                            if (childDeptsBeanX.getChildDepts()!=null&&childDeptsBeanX.getChildDepts().size()>0){
-                                                                for (int l = 0; l <childDeptsBeanX.getChildDepts().size(); l++) {
+                                                            if (childDeptsBeanXXX.getChildDepts()!=null&&childDeptsBeanXXX.getChildDepts().size()>0){
+                                                                for (int l = 0; l <childDeptsBeanXXX.getChildDepts().size(); l++) {
                                                                     ListTree.TreeNode groupNodeThree;
-                                                                    TreeCountEntry.DataBean.ChildDeptsBeanXXX.ChildDeptsBeanXX.ChildDeptsBeanX childDeptsBean1 = childDeptsBeanX.getChildDepts().get(l);
-                                                                    if (childDeptsBean1.getChainsaw()!=null){
-                                                                        ExampleListTreeAdapter.ContactInfo contactFour = new ExampleListTreeAdapter.ContactInfo(childDeptsBean1.getChainsaw(),"数量:"+childDeptsBean1.getAmounts());
-                                                                        contactFour.setId(childDeptsBean1.getBranchId());
+                                                                    TreeCountEntry.DataBean.ChildDeptsBeanXXXX.ChildDeptsBeanXXX.ChildDeptsBeanXX childDeptsBeanXX = childDeptsBeanXXX.getChildDepts().get(l);
+                                                                    if (childDeptsBeanXX.getChainsaw()!=null){
+                                                                        ExampleListTreeAdapter.ContactInfo contactFour = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanXX.getChainsaw(),"数量:"+childDeptsBeanXX.getAmounts());
+                                                                        contactFour.setId(childDeptsBeanXX.getBranchId());
+                                                                        contactFour.setTotal(childDeptsBeanXX.getAmounts());
                                                                         groupNodeThree = tree.addNode(groupNodeTwo, contactFour, R.layout.contacts_group_item);
                                                                         groupNodeThree.setShowExpandIcon(false);
                                                                         continue;
                                                                     }else {
-                                                                        ExampleListTreeAdapter.ContactInfo contactFour = new ExampleListTreeAdapter.ContactInfo(childDeptsBean1.getDeptName(),"数量:"+childDeptsBean1.getAmount());
+                                                                        ExampleListTreeAdapter.ContactInfo contactFour = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanXX.getDeptName(),"数量:"+childDeptsBeanXX.getAmount());
                                                                         groupNodeThree = tree.addNode(groupNodeTwo, contactFour, R.layout.contacts_group_item);
                                                                     }
-                                                                    if (childDeptsBean1.getChildDepts()!=null&&childDeptsBean1.getChildDepts().size()>0){
-                                                                        for (int m = 0; m <childDeptsBean1.getChildDepts().size() ; m++) {
-                                                                            TreeCountEntry.DataBean.ChildDeptsBeanXXX.ChildDeptsBeanXX.ChildDeptsBeanX.ChildDeptsBean countListBean = childDeptsBean1.getChildDepts().get(m);
-                                                                            Log.e("xxx",countListBean.getChainsaw());
-                                                                            ExampleListTreeAdapter.ContactInfo contactFive = new ExampleListTreeAdapter.ContactInfo(countListBean.getChainsaw(),"数量:"+countListBean.getAmounts());
-                                                                            contactFive.setId(countListBean.getBranchId());
-                                                                            ListTree.TreeNode groupNodeFour = tree.addNode(groupNodeThree, contactFive, R.layout.contacts_group_item);
-                                                                            groupNodeFour.setShowExpandIcon(false);
+                                                                    if (childDeptsBeanXX.getChildDepts()!=null&&childDeptsBeanXX.getChildDepts().size()>0){
+                                                                        for (int m = 0; m <childDeptsBeanXX.getChildDepts().size() ; m++) {
+                                                                            TreeCountEntry.DataBean.ChildDeptsBeanXXXX.ChildDeptsBeanXXX.ChildDeptsBeanXX.ChildDeptsBeanX childDeptsBeanX = childDeptsBeanXX.getChildDepts().get(m);
+                                                                            ListTree.TreeNode groupNodeFour;
+                                                                            if (childDeptsBeanX .getChainsaw()!=null){
+                                                                                ExampleListTreeAdapter.ContactInfo contactFive = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanX.getChainsaw(),"数量:"+childDeptsBeanX.getAmounts());
+                                                                                contactFive.setId(childDeptsBeanX.getBranchId());
+                                                                                contactFive.setTotal(childDeptsBeanX.getAmounts());
+                                                                                groupNodeFour = tree.addNode(groupNodeThree, contactFive, R.layout.contacts_group_item);
+                                                                                groupNodeFour.setShowExpandIcon(false);
+                                                                                continue;
+                                                                            }else {
+                                                                                ExampleListTreeAdapter.ContactInfo contactFive = new ExampleListTreeAdapter.ContactInfo(childDeptsBeanX.getDeptName(),"数量:"+childDeptsBeanX.getAmount());
+                                                                                groupNodeFour = tree.addNode(groupNodeThree, contactFive, R.layout.contacts_group_item);
+                                                                            }
+                                                                            if ( childDeptsBeanX .getChildDepts()!=null&& childDeptsBeanX.getChildDepts().size()>0){
+                                                                                for (int n = 0; n <childDeptsBeanX.getChildDepts().size() ; n++) {
+                                                                                    TreeCountEntry.DataBean.ChildDeptsBeanXXXX.ChildDeptsBeanXXX.ChildDeptsBeanXX.ChildDeptsBeanX.ChildDeptsBean childDeptsBean = childDeptsBeanX.getChildDepts().get(n);
+                                                                                    if (childDeptsBean.getChainsaw()!=null){
+                                                                                        ExampleListTreeAdapter.ContactInfo contactFive = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getChainsaw(),"数量:"+childDeptsBean.getAmounts());
+                                                                                        contactFive.setId(childDeptsBean.getBranchId());
+                                                                                        contactFive.setTotal(childDeptsBean.getAmounts());
+                                                                                        ListTree.TreeNode groupNodeFive = tree.addNode(groupNodeFour, contactFive, R.layout.contacts_group_item);
+                                                                                        groupNodeFive.setShowExpandIcon(false);
+                                                                                    } else {
+                                                                                        ExampleListTreeAdapter.ContactInfo contactFive = new ExampleListTreeAdapter.ContactInfo(childDeptsBean.getDeptName(),"数量:"+childDeptsBean.getAmount());
+                                                                                        tree.addNode(groupNodeFour, contactFive, R.layout.contacts_group_item);
+                                                                                    }
+                                                                                }
+                                                                            }
                                                                         }
                                                                     }
                                                                 }

@@ -5,10 +5,15 @@
     android:fitsSystemWindows="true"
     >
     <include layout="@layout/common_toolbar_layout"/>
-    <ExpandableListView
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:id="@+id/detail_recycler"
-        />
+        android:id="@+id/smart_refresh"
+        android:layout_height="match_parent">
+        <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:id="@+id/detail_recycler"
+            />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </LinearLayout>

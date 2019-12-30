@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity implements INotifyListener{
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
             stringBuilder.append("GPS坐标 纬度").append(latitude).append("\t"+"经度:").append(longitude).append("\n");
-            //String addressStr = GPSUtils.getAddressStr();
+            String addressStr = GPSUtils.getAddressStr();
             Gps gps84_to_gcj02 = PositionUtil.gps84_To_Gcj02(latitude, longitude);
             if (null!=gps84_to_gcj02){
                 Gps gps = PositionUtil.gcj02_To_Bd09(gps84_to_gcj02.getWgLat(), gps84_to_gcj02.getWgLon());

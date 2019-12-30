@@ -4,11 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +52,7 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
     private String saveToSdCardOne;
     private String saveToSdCardTwo;
     private boolean hasData;
+    private Button mCommitBtn;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +89,7 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
         mLatTv = findViewById(R.id.lat_tv);
         mMapIv = findViewById(R.id.map_iv);
         mLonTv = findViewById(R.id.lon_tv);
+        mCommitBtn = findViewById(R.id.commit_btn);
         mRealGroupTv = findViewById(R.id.real_group_tv);
         mArroundIv.setOnClickListener(this);
         mNumberIv.setOnClickListener(this);
@@ -299,9 +300,13 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void uploadFormation(){
-
+        if (saveToSdCardOne.contains("农场伐木")||saveToSdCardTwo.contains("农场伐木")){
+            Toast.makeText(mContext, "图片上传失败,请在网络流畅时上传", Toast.LENGTH_LONG).show();
+            return;
+        }
+        mCommitBtn.setClickable(false);
+        mCommitBtn.setBackgroundColor(getResources().getColor(R.color.grey));
         final KProgressHUD commonLoadDialog  = DialogBuild.getBuild().createCommonLoadDialog(this,"正在上传");
-
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("number",uploadLocationEntry.getRealNumber());
@@ -345,7 +350,6 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
                         }
                         try {
                             String string = responseBody.string();
-                            Log.e("xxx",string);
                             if (Utils.isGoodJson(string)){
                                 try {
                                     JSONObject jsonObject1 = new JSONObject(string);
@@ -353,16 +357,14 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
                                     String msg = jsonObject1.getString("msg");
                                     if (code==Constants.SUCCESS_CODE){
                                         Toast.makeText(mContext, "提交成功", Toast.LENGTH_SHORT).show();
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                BaseApplication.getInstances().getDaoSession().getUploadLocationEntryDao().deleteByKey(uploadLocationEntry.getUploadNumber());
-                                                NotifyListenerMangager.getInstance().nofityContext("成功",Constants.NET_STATE);
-                                                setResult(RESULT_OK);
-                                                finish();
-                                            }
-                                        },1000);
+                                        BaseApplication.getInstances().getDaoSession().getUploadLocationEntryDao().deleteByKey(uploadLocationEntry.getUploadNumber());
+                                        NotifyListenerMangager.getInstance().nofityContext("成功",Constants.NET_STATE);
+                                        setResult(RESULT_OK);
+                                        finish();
                                     }else {
+                                        commitIndex = 0;
+                                        mCommitBtn.setClickable(true);
+                                        mCommitBtn.setBackgroundResource(R.drawable.common_selector);
                                         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                                     }
                                 } catch (JSONException e) {
@@ -379,13 +381,26 @@ public class QueryDetailActivity extends BaseActivity implements View.OnClickLis
                         if (null!=commonLoadDialog){
                             commonLoadDialog.dismiss();
                         }
+                        commitIndex = 0;
+                        mCommitBtn.setClickable(true);
+                        mCommitBtn.setBackgroundResource(R.drawable.common_selector);
+                        Toast.makeText(mContext, "上传失败", Toast.LENGTH_SHORT).show();
                         throwable.printStackTrace();
                     }
                 });
 
     }
 
+    private int commitIndex = 0;
+
     public void commit(View view) {
-        uploadOneIv(uploadLocationEntry.getAroundIvPath());
+        if (NetworkUtil.isNetworkAvailable(this)){
+            commitIndex++;
+            if (commitIndex==1){
+                uploadOneIv(uploadLocationEntry.getAroundIvPath());
+            }
+        }else {
+            Toast.makeText(mContext, "网络未连接", Toast.LENGTH_SHORT).show();
+        }
     }
 }

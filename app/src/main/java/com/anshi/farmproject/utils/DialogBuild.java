@@ -48,7 +48,15 @@ public class DialogBuild {
 
 
 
+    public KProgressHUD createCommonProgressDialog(Activity activity){
+        return KProgressHUD.create(activity)
+                .setCancellable(true)
+                .setStyle(KProgressHUD.Style.PIE_DETERMINATE)
+                .setMaxProgress(100)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
 
+    }
 
 
     public AlertDialog createOneButtonNoFinishDialog(final Activity context, final String title, String message){

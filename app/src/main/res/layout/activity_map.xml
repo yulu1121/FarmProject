@@ -19,15 +19,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/time_layout"
+            android:layout_centerVertical="true"
             tools:ignore="UseCompoundDrawables">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时间查询"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:id="@+id/cost_money_history"
                 tools:ignore="RelativeOverlap" />
             <ImageView
@@ -48,11 +48,157 @@
                 android:id="@+id/cost_time_tv"
                 android:paddingEnd="10dp"
                 tools:ignore="SpUsage" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/time_layout"
+            android:layout_toStartOf="@id/area_tv"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:id="@+id/tree_et"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:hint="请输入采伐编号"
+            android:textSize="@dimen/low_txt"
+            android:background="@drawable/search_shape"
+            />
 
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentEnd="true"
+           android:layout_centerVertical="true"
+           android:text="请选择区域"
+           android:id="@+id/area_tv"
+           android:onClick="selectArea"
+           android:textColor="@color/black"
+           android:layout_marginEnd="10dp"
+           />
     </RelativeLayout>
-    <com.baidu.mapapi.map.MapView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/mapview"
-        />
+        android:layout_height="match_parent">
+        <com.baidu.mapapi.map.MapView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/mapview"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent_half"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+                <ImageView
+                    android:contentDescription="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/red_dot"
+                    android:layout_gravity="center_vertical"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="风倒木"
+                    android:layout_marginStart="10dp"
+                    android:textSize="@dimen/low_txt"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables,UselessParent">
+                <ImageView
+                    android:contentDescription="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/blue_dot"
+                    android:layout_gravity="center_vertical"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="电力采伐"
+                    android:layout_marginStart="10dp"
+                    android:textSize="@dimen/low_txt"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+                <ImageView
+                    android:contentDescription="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/yellow_dot"
+                    android:layout_gravity="center_vertical"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="农民自用材"
+                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:textSize="@dimen/low_txt"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+                <ImageView
+                    android:contentDescription="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/gray_dot"
+                    android:layout_gravity="center_vertical"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="枯死木"
+                    android:layout_marginStart="10dp"
+                    android:textSize="@dimen/low_txt"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+                <ImageView
+                    android:contentDescription="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/green_dot"
+                    android:layout_gravity="center_vertical"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="其他"
+                    android:layout_marginStart="10dp"
+                    android:textSize="@dimen/low_txt"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

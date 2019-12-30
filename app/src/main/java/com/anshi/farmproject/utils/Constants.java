@@ -2,7 +2,7 @@ package com.anshi.farmproject.utils;
 
 public class Constants {
     public static final String NET_STATE = "net_state";
-    //http://119.96.208.213:8099
+    //http://119.96.208.213:8099  192.168.0.86
     public static final String COMMON_URL_HEADER="http://119.96.208.213:8099/treeCheck/app/";
     public static final String IMAGE_HEADER = "http://119.96.208.213:8099/treeCheck";
     public static final String LONGTITUDE = "longtitude";

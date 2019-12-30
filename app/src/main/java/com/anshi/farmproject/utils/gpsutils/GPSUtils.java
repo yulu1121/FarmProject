@@ -45,7 +45,7 @@ public class GPSUtils {
         mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         // 判断GPS是否正常启动
-        if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (mLocationManager != null && !mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(context, "请开启GPS导航...", Toast.LENGTH_SHORT).show();
             // 返回开启GPS导航设置界面
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -71,7 +71,7 @@ public class GPSUtils {
 
         // 1秒更新一次，或最小位移变化超过1米更新一次；
         // 注意：此处更新准确度非常低，推荐在service里面启动一个Thread，在run中sleep(10000);然后执行handler.sendMessage(),更新位置
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 20, locationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 20, locationListener);
     }
 
     /**

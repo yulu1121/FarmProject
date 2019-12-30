@@ -23,4 +23,6 @@ public interface AppHttpService {
     Observable<ResponseBody> getTreeDeptCount(@Body RequestBody requestBody);//获取采伐统计数量
     @POST("felingList")
     Observable<ResponseBody> getFelingList(@Body RequestBody requestBody);//获取油锯采伐列表
+    @POST("getCureTimeCount")
+    Observable<ResponseBody> getCureTimeCount(@Body RequestBody requestBody);//获取每天采伐数量
 }
